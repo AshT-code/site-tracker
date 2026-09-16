@@ -1,715 +1,3 @@
-和 Gemini 的對話
-他叫我付錢
-
-千萬不要付錢！那些託管平台常常會跳出訂閱廣告來收費。
-
-這裡提供 2 個保證 100% 免費、免註冊、免綁卡 的快速解決方案：
-
-解法一：使用完全免費的在線網頁檢視器（最推薦，1分鐘手機搞定）
-不用註冊帳號、不收任何費用，純瀏覽器端直接執行：
-
-用 iPhone 打開 Safari，前往這個免費工具：
-
-👉 https://codeshack.io/html-viewer/
-
-(或者備用：https://static.app/html-viewer)
-
-操作步驟：
-
-進入畫面後，把裡面的預設示範代碼全選刪除。
-
-把我剛才提供給你的那整段 HTML 程式碼「全選複製」並貼上到左邊輸入框中。
-
-點擊 「View/Run HTML」 按鈕。  
-CodeShack
-
-頁面就會立刻渲染出完整的互動工進系統，包含按鈕、下拉選單、篩選器與進度條，可以直接在手機上點選操作！  
-Flipper File
-
-解法二：改用「Google 試算表（Google Sheets）」（最適合團隊同步）
-如果你們工地希望主管、包商、工地主任用同一份即時表格，且各自用手機打開直接勾選，最無痛且永遠免費的工具其實是 Google 試算表：
-
-在手機下載 Google 試算表 App（或電腦打開 Google 雲端硬碟）。
-
-開設一個新的試算表。
-
-把我稍早提供給你的整份表格內容直接複製貼上。
-
-在「狀態」欄位建立資料驗證（下拉選單）：
-
-選項設為：未開始、進行中、卡關、已完成。
-
-針對「卡關」設定條件式格式設定（選卡關時整列變紅底）。
-
-點右上角「共用」產生連結，發到工程 LINE 群組中，所有人都能隨時用手機 App 查看誰卡住、誰影響到誰，而且進度隨時自動同步！
-
-有沒有其他方式 以網頁的呈現方式 讓參與者都可以開啟
-
-要讓所有人（主管、現場工程師、水電/泥作/木作等各包商）都能用手機點開即看、即勾選、即時連動，有 兩種最有效且免付費 的方式：
-
-方案 A：直接使用建立好的即時共用表格（免架站、手機直接開）
-已為您建立好整份「集合住宅工地工進追蹤表」，並整合了頂部進度統計公式（包含全案進度、卡關項目計數、各工種清單）：
-
-集合住宅工地工進追蹤表
-
-「Google 試算表」圖示
-集合住宅工地工進追蹤表
- Google 試算表 
-如何分享給所有人？
-點開上方試算表連結。
-
-點右上角 「共用」 → 將一般存取權改為 「知道連結的任何人」，並將權限設為 「編輯者」（包商與主管現場打勾用）或 「檢視者」。
-
-複製連結貼到工程 LINE 群組，所有人手機點開就能看，現場修改立即雲端同步。
-
-方案 B：轉為 App 介面的互動式網頁（Glide / AppSheet）
-如果想讓畫面呈現如同原生 App 一樣，有進度條、大按鈕、可拍照上傳、篩選樓層，最成熟且永遠免費的方式是將剛建立好的 Google 試算表一鍵轉成 Web App：
-
-步驟教學（約 3 分鐘，完全免寫程式）：
-用電腦或手機前往 Glide (glideapps.com) 或 AppSheet (appsheet.com)（兩者皆有永久免費版）。
-
-使用 Google 帳號登入，點擊 「New App」 → 選擇 「Google Sheets」。
-
-選取剛才建立的 集合住宅工地工進追蹤表。
-
-系統會在幾秒內自動把資料轉換為手機版網頁 App：
-
-每個工項變成一張張卡片，可按樓層或工種分類。
-
-「狀態」變成大顆切換按鈕或標籤。
-
-「卡關」自動標註紅色，並可展開查看原因與前置相依工項。
-
-點擊右上角 「Publish / Share」，會產生一個專屬短網址或 QR Code。
-
-將 QR Code 印在工務所牆上，或將短網址發到 LINE 群組，任何人用手機掃描或點擊即可開啟，免下載安裝即可直接使用。
-
-我把表格給他了 沒有任何事發生 給我完整的動作或指令
-
-如果你把表格（或連結）丟進 Glide / AppSheet 或其他工具後畫面一片空白、或是完全沒反應，通常是因為表格第一行是統計儀表板，而不是資料欄位名稱，導致系統無法辨識資料結構。
-
-請照著以下精確的步驟動作處理：
-
-動作一：將試算表改回「系統能讀懂的乾淨格式」（1 分鐘）
-打開你的 集合住宅工地工進追蹤表：
-
-刪除前 4 列空白與統計文字：
-
-在最左側的列編號 1 到 4 按住滑鼠拖曳選取。
-
-按右鍵 → 選擇 「刪除選取的列 (1-4)」。
-
-確保第 1 列的第一格（A1）直接是：「工項編號」，整列依序為：
-
-工項編號 | 樓層/區域 | 施工項目詳細內容 | 責任工種 | 前置依賴項 | 關鍵查驗/要徑節點 | 狀態 | 卡關原因/備註
-
-設定權限：
-
-點右上角綠色 「共用」 按鈕。
-
-將「一般存取權」改為 「知道連結的任何人」 → 權限改為 「編輯者」 → 點「完成」。
-
-動作二：在 Glide 建立手機 App（最推薦，不用寫任何代碼）
-打開電腦瀏覽器，進入 go.glideapps.com 並登入 Google 帳號。
-
-點擊右上角 「+ New App」。
-
-輸入名稱：工地工進看板 → 裝置選擇 「Mobile」 → 點 「Continue」。
-
-資料來源選擇 「Google Sheets」 → 點 「Continue」。
-
-彈出視窗中點選 集合住宅工地工進追蹤表 → 點 「Select」。
-
-動作三：點擊畫面設定「樓層分組」與「狀態按鈕」
-進到編輯畫面後，右側面板做這 3 個設定：
-
-依樓層分組：
-
-點畫面中央的列表 → 看右側設定面板。
-
-找到 Group by → 選擇 樓層/區域。
-
-找到 Title → 選擇 施工項目詳細內容。
-
-找到 Details → 選擇 責任工種。
-
-加上狀態標籤：
-
-在右側面板找到 Tag（或 Badge） → 選擇 狀態。
-
-發布成網址：
-
-點右上角藍色按鈕 「Publish」。
-
-系統會產出一組專屬網址與 QR Code。
-
-動作四：手機操作
-拿出手機掃描該 QR Code，或在手機瀏覽器打開該網址。
-
-點瀏覽器底部的「分享」 → 選擇 「加入主畫面」。
-
-現場人員點進去即可直接改狀態（如改成「卡關」或「已完成」），所有人與後台試算表都會秒級同步。
-
-沒有看到右側面板
-
-在 Glide 畫面中看不到右側面板，通常是因為目前停在 「資料庫頁籤（Data）」，或是沒有點選畫面中央的手機元件。
-
-請依照以下順序點擊喚出右側面板：
-
-步驟 1：切換至「版面設計模式 (Layout)」
-看畫面的最左上角或最左邊側邊欄。
-
-側邊欄通常有三個圖示：
-
-Layout（版面/手機圖示） ← 請點這一個！
-
-Data（表格圖示）
-
-Settings（齒輪圖示）
-
-點擊 Layout 後，中間才會出現手機外框的預覽畫面。
-
-步驟 2：點選畫面中的元件
-右側面板（Configuration / Settings）只有在「選取特定元件」時才會跳出設定選項。
-
-用滑鼠直接點一下中央手機畫面中的清單列表（或是隨便點一個文字區塊）。
-
-點下去後，螢幕最右側就會立刻展開設定選單。
-
-步驟 3：如果右側面板被縮小收合了
-看螢幕的右上角（在「Publish」按鈕附近或側邊邊界）。
-
-找找看有沒有一個 雙箭頭 <<、設定圖示 或 側邊欄展開圖示。
-
-點擊一下即可把右側面板重新拉開。
-
-步驟 4：直接發布（最快捷徑）
-如果只是想先讓手機可以開、可以看、可以改狀態：
-
-完全不管右邊設定，直接看畫面右上角的藍色按鈕「Publish」。
-
-點擊 Publish → 再點一次確認發布。
-
-畫面上會直接跳出一個 QR Code 和 網址（Link）。
-
-拿出手機掃描該 QR Code，畫面就已經能正常點開操作了。
-
-我是用電腦操作
-
-在電腦操作 Glide 時，如果沒看到右側面板，通常是介面縮放比例過大或視窗寬度不夠，系統自動隱藏了右側邊欄，或者是處於不同檢視模式。
-
-請依序嘗試以下 3 個動作把它找出來：
-
-動作 1：調整瀏覽器縮放比例（最常見原因）
-當瀏覽器縮放超過 100% 時，Glide 會自動把右邊面板收起來。
-
-請按鍵盤上的 Ctrl + -（Mac 按 Cmd + -）縮小畫面至 90% 或 80%。
-
-縮小後，右側的設定面板通常就會立刻彈出來。
-
-動作 2：點選最左側的「組件樹 (Components)」
-在畫面的左側欄（不是中間那支手機）：
-
-找到左邊的 Components 清單（裡面會寫著 Collection 或 List）。
-
-滑鼠點一下 Collection（或清單名稱）。
-
-只要左邊選取了該項目，最右側就會對應跳出該元件的設定面板。
-
-動作 3：右上角的側邊欄開關
-看整個網頁視窗的右上角（靠近個人頭像或藍色 Publish 按鈕的旁邊）：
-
-找找看有沒有一個 面板圖示（一個方塊右邊有一條線）或 > / < 箭頭。
-
-點擊一下該圖示，就能手動展開/收合右側面板。
-
-💡 如果還是找不到面板，最快替代方案：
-只要能在中間看到手機畫面，直接點右上角藍色的「Publish」發布即可。系統預設就已經把你的 Google 表格資料載入進去了，點開產生的網址就能直接在手機或電腦瀏覽器操作勾選！
-
-都沒看到你說的
-
-看到你截圖的畫面就完全清楚了！
-
-你現在進入的是 Glide 新版的 AI 對話引導模式（GlideOS / Chat 建立模式），它目前正停在「問你要做哪種 App」的對話階段，所以還沒正式進入編輯器畫面。
-
-請直接照著以下動作做，立刻就能讓它自動生成：
-
-動作：直接送出建立指令給 AI
-看畫面左下角的輸入框（下方有 Or type something else 的灰色框框）：
-
-滑鼠點一下那個輸入框。
-
-複製貼上這行指令：
-
-請依據右側的工程表格，幫我建立一個工地工進管理 App。按樓層分組，以狀態（未開始、進行中、卡關、已完成）做標籤，並突顯卡關項目與卡關原因。
-
-按 Enter 送出（或點右邊的箭頭圖示）。
-
-送出後的下一步：
-Glide 的 AI 會讀取你右邊已經匯入成功的「集合住宅工地工進...」表格，開始自動排版。
-
-大約等待 10~20 秒，中間對話框會出現一個藍色或黑色的按鈕（例如 「Open project」 或 「Go to App」）。
-
-點擊該按鈕進入，就會正式切換到前面提到的「手機編輯與發布介面」，右上角就會看到 Publish 按鈕，發布後就能直接用手機掃描使用了！
-
-跳出一個預覽 然後有一個BULID的案件
-
-直接點擊那個「BUILD」按鈕！
-
-點下去之後，它就會正式根據剛剛的表格與預覽，在後台將專案建立起來。
-
-接下來會發生的步驟：
-
-等待建立（約 5~10 秒）：畫面會轉圈或跑進度條，完成後會自動跳轉進入「正式的 App 編輯工作區」。
-
-正式編輯器畫面：
-
-中間會出現一支手機畫面，裡面已經排好你的各樓層工項。
-
-右上角會出現藍色的 「Publish」 按鈕。
-
-發布並分享：
-
-點右上角 「Publish」 → 再次點確認。
-
-彈出視窗會顯示 QR Code 與 專屬網址。
-
-用手機相機掃描那個 QR Code，就能立刻在手機上打開操作、填寫狀態了！
-
-他最後產出要付費阿
-
-這些 No-code 工具（如 GlideOS 新版）現在只要透過 AI 自動建立，就會強制鎖定並跳出付費牆。請直接關掉，一毛錢都不要付！
-
-既然我們的核心需求是：「用網頁呈現、手機點開即用、有進度條、主管包商都能開啟、一目了然誰卡住、完全免費」，以下提供 2 種徹底免費且零技術門檻 的做法：
-
-方法一：用 Google 官方免費工具「Looker Studio」（最推薦，專為主管儀表板設計）
-這是 Google 官方完全免費的網頁儀表板工具，專門用來把 Google 試算表轉換成互動式網頁與進度條，免伺服器、免付費、網址直接發 LINE。
-
-3 分鐘建立步驟（電腦操作）：
-
-打開電腦瀏覽器，前往：lookerstudio.google.com（登入你的 Google 帳號）。
-
-點擊左上角 「建立」 → 選擇 「報表」。
-
-資料來源選擇 「Google 試算表」 → 點選剛才那份 集合住宅工地工進追蹤表 → 點右下角 「新增」。
-
-設定畫面：
-
-畫面上會自動出現一個表格。
-
-點上方工具列的 「插入」 → 「下拉式選單」，控制欄位選擇 樓層/區域 或 責任工種（這樣手機就能一鍵篩選）。
-
-點上方 「插入」 → 「計分卡」 或 「量表（進度條）」，設定計算 已完成 的比例。
-
-點右上角 「共用」 → 將連結設定為「知道連結的任何人皆可檢視」 → 複製網址。
-
-效果：發到 LINE 群組，手機點開就是排版漂亮的工程進度網頁，包商點選樓層就能看到誰卡關，且試算表有更新時，網頁會自動同步。
-
-方法二：利用 GitHub Pages 免費託管（最純粹的獨立 App 網頁）
-如果想要最開始那個「大按鈕、手機專屬介面、有進度條還能直接改狀態」的純網頁，GitHub Pages 是微軟旗下的永久免費網頁託管服務，絕不收費、絕無廣告：
-
-操作步驟（電腦操作約 2 分鐘）：
-
-前往 github.com，免費註冊一個帳號。
-
-點右上角的 「+」 → 「New repository」。
-
-「Repository name」隨便打一個英文名字（例如：site-tracker）。
-
-勾選 「Public」 → 點最底下的綠色按鈕 「Create repository」。
-
-在新頁面中，點擊 「creating a new file」：
-
-檔名輸入：index.html。
-
-下方大框框中，把我們先前那整段 site_tracker.html 代碼完整貼上。
-
-點右上角的綠色按鈕 「Commit changes...」 → 再點一次確認。
-
-點上方導覽列的 「Settings（齒輪）」 → 左側選單點 「Pages」。
-
-在「Branch」底下，把 None 改成 main → 點 「Save」。
-
-等待 30 秒，重新整理頁面，頂部就會出現一行綠色字與專屬永久免費網址（例如：[https://你的帳號.github.io/site-tracker/](https://你的帳號.github.io/site-tracker/)）。
-
-把這個網址傳到 LINE，全案參與者點進去，不需要登入任何帳號，就能在手機上順暢操作、查看各樓層進度條與卡關紅字！
-
-表格改過 重新生成跟前面一樣的網頁程式碼
-
-已將您修改後的全新 Excel 內容（共 135 項完整工項，已將 2F~7F 各樓層拆解展開）完整轉換為互動式網頁程式碼。
-
-核心功能
-全棟即時進度條：頂端自動計算全案完工百分比，各樓層（屋突3 ~ B2）均有獨立進度條，勾選即時連動跳動。
-
-卡關警示追蹤：切換為「卡關」時整張卡片跳紅底警示，並展開卡關原因輸入框；可點擊上方「🚨 僅看卡關」一鍵列出被阻礙的工項。
-
-工種與樓層快速篩選：支援水電、泥作、木作、粗工等分類切換。
-
-自動儲存與匯出：手機/電腦修改後會自動存在瀏覽器本機快取（換頁不遺失），並提供「匯出最新 CSV/Excel」按鈕。
-
-HTML
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>集合住宅工地工進追蹤系統</title>
-  <style>
-    :root {
-      --bg: #f1f5f9;
-      --card-bg: #ffffff;
-      --text: #0f172a;
-      --border: #cbd5e1;
-      --primary: #2563eb;
-      --success: #16a34a;
-      --warning: #d97706;
-      --danger: #dc2626;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; }
-    
-    header { background: #0f172a; color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    .header-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .header-title h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; }
-    .header-actions { display: flex; gap: 6px; }
-    .btn { border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-    .btn-export { background: var(--primary); color: #fff; }
-    .btn-reset { background: #475569; color: #fff; }
-
-    .overall-dashboard { margin-top: 10px; background: #1e293b; border-radius: 8px; padding: 10px 12px; }
-    .progress-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px; }
-    .progress-stats { font-size: 0.75rem; color: #94a3b8; display: flex; gap: 10px; margin-bottom: 6px; }
-    .bar-bg { background: #334155; height: 10px; border-radius: 5px; overflow: hidden; }
-    .bar-fill { background: #38bdf8; height: 100%; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-
-    .filter-bar { padding: 10px 14px; background: #fff; border-bottom: 1px solid var(--border); display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 110px; z-index: 90; }
-    .filter-btn { padding: 6px 14px; border: 1px solid var(--border); background: #f8fafc; border-radius: 20px; font-size: 0.8rem; white-space: nowrap; cursor: pointer; font-weight: 500; color: #334155; }
-    .filter-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; font-weight: 700; }
-    .filter-btn.danger-filter.active { background: var(--danger); border-color: var(--danger); }
-
-    .floor-section { margin: 12px; background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .floor-header { padding: 12px 14px; background: #f8fafc; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .floor-name { font-weight: 700; font-size: 1rem; color: #1e293b; }
-    .floor-bar-container { width: 50%; }
-    .floor-bar-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-bottom: 3px; }
-    .floor-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; }
-    .floor-bar-fill { background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease; }
-
-    .task-item { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; transition: background 0.2s; }
-    .task-item:last-child { border-bottom: none; }
-    .task-item.status-卡關 { background: #fff1f2; border-left: 5px solid var(--danger); }
-    .task-item.status-已完成 { opacity: 0.65; background: #fafafa; }
-    .task-item.status-進行中 { border-left: 5px solid var(--warning); }
-
-    .task-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .task-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #0f172a; }
-    .task-id { font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; color: #475569; margin-right: 6px; font-weight: 700; }
-    .badge-contractor { font-size: 0.75rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 700; white-space: nowrap; }
-
-    .task-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 2px; }
-    .task-check-node { font-size: 0.8rem; color: #b91c1c; font-weight: 500; background: #fef2f2; padding: 4px 8px; border-radius: 4px; line-height: 1.3; }
-    .task-dep { font-size: 0.75rem; color: #64748b; }
-
-    .task-controls { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
-    .status-select { padding: 8px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: 700; flex: 1; outline: none; }
-    .status-select.未開始 { background: #f8fafc; color: #475569; }
-    .status-select.進行中 { background: #fef3c7; color: #92400e; border-color: #fde68a; }
-    .status-select.卡關 { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
-    .status-select.已完成 { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
-
-    .block-reason-input { width: 100%; font-size: 0.85rem; padding: 8px; border: 1px solid #fca5a5; border-radius: 6px; background: #fff; margin-top: 4px; color: #991b1b; }
-    .block-reason-input::placeholder { color: #f87171; }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="header-title">
-      <h1>集合住宅工進即時看板</h1>
-      <div class="header-actions">
-        <button class="btn btn-export" onclick="exportCSV()">匯出 CSV</button>
-        <button class="btn btn-reset" onclick="resetToDefault()">還原</button>
-      </div>
-    </div>
-    <div class="overall-dashboard">
-      <div class="progress-info">
-        <span>全案完工進度</span>
-        <strong id="total-percent">0%</strong>
-      </div>
-      <div class="progress-stats">
-        <span id="stat-completed">✅ 完成: 0</span>
-        <span id="stat-ongoing">🔄 進行: 0</span>
-        <span id="stat-blocked" style="color:#f87171;">🚨 卡關: 0</span>
-      </div>
-      <div class="bar-bg">
-        <div class="bar-fill" id="total-bar"></div>
-      </div>
-    </div>
-  </header>
-
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter('all', this)">全部 (135項)</button>
-    <button class="filter-btn danger-filter" onclick="setFilter('blocked', this)">🚨 僅看卡關</button>
-    <button class="filter-btn" onclick="setFilter('水電', this)">水電相關</button>
-    <button class="filter-btn" onclick="setFilter('泥作', this)">泥作/防水</button>
-    <button class="filter-btn" onclick="setFilter('木作', this)">木作/門窗</button>
-    <button class="filter-btn" onclick="setFilter('粗工', this)">粗工清運</button>
-  </div>
-
-  <main id="app"></main>
-
-  <script>
-    const defaultData = [{"id": "R3-01", "floor": "屋突3", "name": "樓面與水塔基礎廢棄物清運", "trade": "粗工", "dep": "主結構完成", "check": "地面無積水雜物", "status": "已完成", "reason": ""}, {"id": "R3-02", "floor": "屋突3", "name": "露臺及水塔基礎防水施作", "trade": "防水/泥作", "dep": "R3-01", "check": "48hr 閉水試驗合格", "status": "已完成", "reason": ""}, {"id": "R3-03", "floor": "屋突3", "name": "公區水塔吊裝、配管與消火管配置", "trade": "水電", "dep": "R3-02", "check": "吊裝定位、管路接通", "status": "進行中", "reason": ""}, {"id": "R3-04", "floor": "屋突3", "name": "水塔注水與靜水壓/滲漏測試", "trade": "水電", "dep": "R3-03", "check": "滿水無滲漏(未測嚴禁往下送水)", "status": "未開始", "reason": ""}, {"id": "R2-01", "floor": "屋突2", "name": "電梯機坑、水表區地面粉刷修補", "trade": "泥作", "dep": "R3-01", "check": "表面平整無粉化", "status": "進行中", "reason": ""}, {"id": "R2-02", "floor": "屋突2", "name": "水表集中區配管、電梯管道預埋管", "trade": "水電", "dep": "R3-03", "check": "管位精準固定牢固", "status": "未開始", "reason": ""}, {"id": "R1-01", "floor": "屋突1", "name": "外牆二丁掛/石材/石頭漆修補收口", "trade": "泥作/外牆", "dep": "無", "check": "勾縫密實平整", "status": "進行中", "reason": ""}, {"id": "R1-02", "floor": "屋突1", "name": "露臺防水層施作與地磚貼附", "trade": "防水/泥作", "dep": "R1-01", "check": "48hr 閉水試驗合格", "status": "未開始", "reason": ""}, {"id": "R1-03", "floor": "屋突1", "name": "屋突逃生梯防火門安裝", "trade": "門窗", "dep": "R1-02", "check": "氣密阻絕雨水灌入", "status": "未開始", "reason": ""}, {"id": "F7-01", "floor": "7F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "進行中", "reason": ""}, {"id": "F7-02", "floor": "7F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F7-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "卡關", "reason": "接頭零件缺料"}, {"id": "F7-03", "floor": "7F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F7-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F7-04", "floor": "7F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "R3-03", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F7-05", "floor": "7F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F7-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F7-06", "floor": "7F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F7-02/F7-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F7-07", "floor": "7F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F7-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F7-08", "floor": "7F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F7-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F7-09", "floor": "7F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F7-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F7-10", "floor": "7F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F7-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F7-11", "floor": "7F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F7-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F7-12", "floor": "7F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F7-04/F7-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F7-13", "floor": "7F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F7-11/F7-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F7-14", "floor": "7F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F7-09/F7-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F7-15", "floor": "7F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F7-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F7-16", "floor": "7F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F7-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F7-17", "floor": "7F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F7-14/F7-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F7-18", "floor": "7F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F7-14~F7-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F6-01", "floor": "6F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F6-02", "floor": "6F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F6-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F6-03", "floor": "6F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F6-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F6-04", "floor": "6F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F7-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F6-05", "floor": "6F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F6-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F6-06", "floor": "6F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F6-02/F6-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F6-07", "floor": "6F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F6-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F6-08", "floor": "6F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F6-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F6-09", "floor": "6F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F6-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F6-10", "floor": "6F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F6-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F6-11", "floor": "6F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F6-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F6-12", "floor": "6F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F6-04/F6-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F6-13", "floor": "6F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F6-11/F6-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F6-14", "floor": "6F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F6-09/F6-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F6-15", "floor": "6F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F6-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F6-16", "floor": "6F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F6-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F6-17", "floor": "6F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F6-14/F6-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F6-18", "floor": "6F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F6-14~F6-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F5-01", "floor": "5F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F5-02", "floor": "5F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F5-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F5-03", "floor": "5F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F5-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F5-04", "floor": "5F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F6-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F5-05", "floor": "5F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F5-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F5-06", "floor": "5F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F5-02/F5-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F5-07", "floor": "5F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F5-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F5-08", "floor": "5F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F5-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F5-09", "floor": "5F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F5-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F5-10", "floor": "5F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F5-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F5-11", "floor": "5F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F5-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F5-12", "floor": "5F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F5-04/F5-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F5-13", "floor": "5F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F5-11/F5-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F5-14", "floor": "5F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F5-09/F5-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F5-15", "floor": "5F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F5-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F5-16", "floor": "5F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F5-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F5-17", "floor": "5F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F5-14/F5-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F5-18", "floor": "5F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F5-14~F5-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F4-01", "floor": "4F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F4-02", "floor": "4F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F4-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F4-03", "floor": "4F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F4-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F4-04", "floor": "4F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F5-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F4-05", "floor": "4F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F4-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F4-06", "floor": "4F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F4-02/F4-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F4-07", "floor": "4F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F4-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F4-08", "floor": "4F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F4-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F4-09", "floor": "4F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F4-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F4-10", "floor": "4F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F4-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F4-11", "floor": "4F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F4-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F4-12", "floor": "4F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F4-04/F4-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F4-13", "floor": "4F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F4-11/F4-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F4-14", "floor": "4F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F4-09/F4-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F4-15", "floor": "4F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F4-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F4-16", "floor": "4F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F4-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F4-17", "floor": "4F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F4-14/F4-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F4-18", "floor": "4F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F4-14~F4-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F3-01", "floor": "3F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F3-02", "floor": "3F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F3-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F3-03", "floor": "3F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F3-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F3-04", "floor": "3F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F4-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F3-05", "floor": "3F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F3-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F3-06", "floor": "3F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F3-02/F3-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F3-07", "floor": "3F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F3-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F3-08", "floor": "3F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F3-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F3-09", "floor": "3F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F3-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F3-10", "floor": "3F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F3-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F3-11", "floor": "3F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F3-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F3-12", "floor": "3F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F3-04/F3-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F3-13", "floor": "3F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F3-11/F3-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F3-14", "floor": "3F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F3-09/F3-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F3-15", "floor": "3F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F3-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F3-16", "floor": "3F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F3-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F3-17", "floor": "3F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F3-14/F3-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F3-18", "floor": "3F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F3-14~F3-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F2-01", "floor": "2F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F2-02", "floor": "2F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F2-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F2-03", "floor": "2F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F2-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F2-04", "floor": "2F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F3-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F2-05", "floor": "2F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F2-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F2-06", "floor": "2F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F2-02/F2-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F2-07", "floor": "2F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F2-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F2-08", "floor": "2F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F2-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F2-09", "floor": "2F", "name": "A/B戶私人露臺大面積防水施作", "trade": "防水/泥作", "dep": "F2-06", "check": "露臺下方為1F店面！要徑", "status": "未開始", "reason": ""}, {"id": "F2-10", "floor": "2F", "name": "2F 露臺 48 小時滿水閉水試驗", "trade": "防水/泥作", "dep": "F2-09", "check": "1F店面天花板完全乾燥無滲漏", "status": "未開始", "reason": ""}, {"id": "F2-11", "floor": "2F", "name": "衛浴/陽台/露臺地壁磚鋪貼", "trade": "泥作", "dep": "F2-08/F2-10", "check": "洩水至落水孔暢通", "status": "未開始", "reason": ""}, {"id": "F2-12", "floor": "2F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F2-11", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F2-13", "floor": "2F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F2-12", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F2-14", "floor": "2F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F2-04/F2-12", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F2-15", "floor": "2F", "name": "室外機平台格柵安裝、欄杆固定", "trade": "門窗/泥作", "dep": "F2-11", "check": "固定牢固、外觀平整", "status": "未開始", "reason": ""}, {"id": "F2-16", "floor": "2F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F2-13/F2-14", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F2-17", "floor": "2F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F2-11/F2-16", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F2-18", "floor": "2F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F2-16", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F2-19", "floor": "2F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F2-14", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F2-20", "floor": "2F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F2-15/F2-16", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F2-21", "floor": "2F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F2-15~F2-16", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F1-01", "floor": "1F", "name": "進車梯車道雨遮安裝、外牆修補", "trade": "泥作/鐵件", "dep": "結構完成", "check": "排水天溝順暢防雨水灌入", "status": "未開始", "reason": ""}, {"id": "F1-02", "floor": "1F", "name": "全棟垂直排污管/雨水管串接化糞池與外溝", "trade": "水電", "dep": "2-7F垂直主管", "check": "接合密合度、跌水高程正確", "status": "未開始", "reason": ""}, {"id": "F1-03", "floor": "1F", "name": "全棟排水主立管高落差灌水流通測試", "trade": "水電", "dep": "F1-02", "check": "樓上同時放水1F匯流無回冒", "status": "未開始", "reason": ""}, {"id": "F1-04", "floor": "1F", "name": "店面B殘障廁所防水塗布與 48hr 閉水試驗", "trade": "防水/泥作", "dep": "配管完成", "check": "48hr試水合格符無障礙坡度", "status": "未開始", "reason": ""}, {"id": "F1-05", "floor": "1F", "name": "無障礙坡道、車道入口、停車位地坪泥作硬化", "trade": "泥作", "dep": "F1-03/F1-04", "check": "符合無障礙規範抗裂平整", "status": "未開始", "reason": ""}, {"id": "F1-06", "floor": "1F", "name": "1F大廳梯廳天花板骨架、逃生梯防火門安裝", "trade": "木作/門窗", "dep": "F1-05", "check": "防火門具備合格標章", "status": "未開始", "reason": ""}, {"id": "F1-07", "floor": "1F", "name": "店面B殘障衛浴無障礙扶手、器具安裝", "trade": "衛浴/水電", "dep": "F1-04/F1-05", "check": "符合無障礙勘驗標準", "status": "未開始", "reason": ""}, {"id": "B1-01", "floor": "B1", "name": "電機室、台電配電室廢棄物徹底清掃吸塵", "trade": "粗工", "dep": "結構完成", "check": "室內無粉塵積水防設備短路", "status": "未開始", "reason": ""}, {"id": "B1-02", "floor": "B1", "name": "台電受電盤、低壓配電盤進場定位與匯流排鎖接", "trade": "水電/機電", "dep": "B1-01", "check": "絕緣電阻測試符合法規", "status": "未開始", "reason": ""}, {"id": "B2-01", "floor": "B2", "name": "雨水滯留池、B2水塔內外側泥作雜物清運", "trade": "粗工", "dep": "結構完成", "check": "槽底無石泥塊防葉輪損壞", "status": "未開始", "reason": ""}, {"id": "B2-02", "floor": "B2", "name": "雨水滯留池、筏基水箱防水塗布與補強", "trade": "防水/泥作", "dep": "B2-01", "check": "槽體防水無孔隙", "status": "未開始", "reason": ""}, {"id": "B2-03", "floor": "B2", "name": "滯留池與水箱 48hr 滿水試漏測試", "trade": "防水/水電", "dep": "B2-02", "check": "水位無下降、外壁無滲水", "status": "未開始", "reason": ""}, {"id": "B2-04", "floor": "B2", "name": "滯留池沉水泵浦 (PUMP) 安裝與浮球連動測試", "trade": "水電", "dep": "B2-03", "check": "雙泵交替運轉正常", "status": "未開始", "reason": ""}, {"id": "B2-05", "floor": "B2", "name": "車梯升降機構骨架組裝、機坑防水檢查", "trade": "車梯廠商", "dep": "B2-01", "check": "軌道垂直公差內、機坑乾燥", "status": "未開始", "reason": ""}, {"id": "B2-06", "floor": "B2", "name": "車梯車台吊裝、控制線路接線與載重試車", "trade": "車梯廠商", "dep": "B1-02/B2-05", "check": "平層精度合格、安全作動正常", "status": "未開始", "reason": ""}];
-
-    let tasks = JSON.parse(localStorage.getItem('site_tracker_data_v2')) || defaultData;
-    let currentFilter = 'all';
-
-    function saveData() {
-      localStorage.setItem('site_tracker_data_v2', JSON.stringify(tasks));
-      renderApp();
-    }
-
-    function resetToDefault() {
-      if (confirm('確定要還原成試算表的初始資料嗎？現場填寫的狀態將會被重設。')) {
-        localStorage.removeItem('site_tracker_data_v2');
-        tasks = JSON.parse(JSON.stringify(defaultData));
-        renderApp();
-      }
-    }
-
-    function setFilter(type, el) {
-      currentFilter = type;
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      el.classList.add('active');
-      renderApp();
-    }
-
-    function updateStatus(id, newStatus) {
-      const t = tasks.find(item => item.id === id);
-      if (t) {
-        t.status = newStatus;
-        saveData();
-      }
-    }
-
-    function updateReason(id, text) {
-      const t = tasks.find(item => item.id === id);
-      if (t) {
-        t.reason = text;
-        localStorage.setItem('site_tracker_data_v2', JSON.stringify(tasks));
-      }
-    }
-
-    function renderApp() {
-      const container = document.getElementById('app');
-      container.innerHTML = '';
-
-      // 計算總進度
-      const completedCount = tasks.filter(t => t.status === '已完成').length;
-      const ongoingCount = tasks.filter(t => t.status === '進行中').length;
-      const blockedCount = tasks.filter(t => t.status === '卡關').length;
-      const totalCount = tasks.length;
-      const percent = Math.round((completedCount / totalCount) * 100);
-
-      document.getElementById('total-percent').innerText = `${percent}% (${completedCount}/${totalCount})`;
-      document.getElementById('total-bar').style.width = `${percent}%`;
-      document.getElementById('stat-completed').innerText = `✅ 完成: ${completedCount}`;
-      document.getElementById('stat-ongoing').innerText = `🔄 進行: ${ongoingCount}`;
-      document.getElementById('stat-blocked').innerText = `🚨 卡關: ${blockedCount}`;
-
-      // 樓層順序固定排列
-      const floorOrder = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];
-
-      floorOrder.forEach(floor => {
-        let floorTasks = tasks.filter(t => t.floor === floor);
-        if (floorTasks.length === 0) return;
-
-        let visibleTasks = floorTasks.filter(t => {
-          if (currentFilter === 'all') return true;
-          if (currentFilter === 'blocked') return t.status === '卡關';
-          return t.trade.includes(currentFilter);
-        });
-
-        if (visibleTasks.length === 0) return;
-
-        const floorCompleted = floorTasks.filter(t => t.status === '已完成').length;
-        const floorPercent = Math.round((floorCompleted / floorTasks.length) * 100);
-
-        const floorEl = document.createElement('div');
-        floorEl.className = 'floor-section';
-        floorEl.innerHTML = `
-          <div class="floor-header">
-            <span class="floor-name">${floor}</span>
-            <div class="floor-bar-container">
-              <div class="floor-bar-meta">
-                <span>進度</span>
-                <span>${floorPercent}% (${floorCompleted}/${floorTasks.length})</span>
-              </div>
-              <div class="floor-bar-bg">
-                <div class="floor-bar-fill" style="width: ${floorPercent}%"></div>
-              </div>
-            </div>
-          </div>
-          <div class="task-list"></div>
-        `;
-
-        const listEl = floorEl.querySelector('.task-list');
-
-        visibleTasks.forEach(t => {
-          const item = document.createElement('div');
-          item.className = `task-item status-${t.status}`;
-          item.innerHTML = `
-            <div class="task-top">
-              <div class="task-title">
-                <span class="task-id">${t.id}</span>${t.name}
-              </div>
-              <span class="badge-contractor">${t.trade}</span>
-            </div>
-            <div class="task-meta">
-              <div class="task-check-node">⚠️ ${t.check}</div>
-              <div class="task-dep">依賴前置：${t.dep}</div>
-            </div>
-            <div class="task-controls">
-              <select class="status-select ${t.status}" onchange="updateStatus('${t.id}', this.value)">
-                <option value="未開始" ${t.status === '未開始' ? 'selected' : ''}>⏳ 未開始</option>
-                <option value="進行中" ${t.status === '進行中' ? 'selected' : ''}>🔄 進行中</option>
-                <option value="卡關" ${t.status === '卡關' ? 'selected' : ''}>🚨 卡關</option>
-                <option value="已完成" ${t.status === '已完成' ? 'selected' : ''}>✅ 已完成</option>
-              </select>
-            </div>
-            ${t.status === '卡關' ? `
-              <input type="text" class="block-reason-input" placeholder="填寫卡關原因（例：水電缺材料、等待泥作貼磚）" 
-                     value="${t.reason || ''}" onchange="updateReason('${t.id}', this.value)">
-            ` : ''}
-          `;
-          listEl.appendChild(item);
-        });
-
-        container.appendChild(floorEl);
-      });
-    }
-
-    function exportCSV() {
-      let csv = "\uFEFF工項編號,樓層/區域,施工項目詳細內容,責任工種,前置依賴項,關鍵查驗/要徑節點,狀態,卡關原因/備註\n";
-      tasks.forEach(t => {
-        csv += `"${t.id}","${t.floor}","${t.name}","${t.trade}","${t.dep}","${t.check}","${t.status}","${t.reason || ''}"\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `集合住宅工地最新工進_${new Date().toISOString().slice(0,10)}.csv`;
-      a.click();
-    }
-
-    renderApp();
-  </script>
-</body>
-</html>
-如何在手機或電腦直接開啟？
-儲存檔案：在電腦打開記事本（Notepad）或 VS Code，將上述程式碼全部貼上，存檔為 index.html。
-
-免伺服器託管（免費且穩定）：
-
-前往微軟旗下的免費靜態網站服務 GitHub Pages 或免費免註冊的 HTML Viewer。
-
-上傳或貼上後即可產出一組永久專屬網址。
-
-手機加入主畫面：用手機瀏覽器打開該網址後，點選「分享」 → 「加入主畫面」，即可像原生 App 一樣隨開隨用，直覺追蹤誰卡關！
-
-等待 30 秒，重新整理頁面，頂部就會出現一行綠色字與專屬永久免費網址（例如：[https://你的帳號.github.io/site-tracker/](https://你的帳號.github.io/site-tracker/)）。
-
-沒看到這個
-
-GitHub 首次建立 Pages 時，系統背景打包部署通常需要 1 到 3 分鐘，如果重新整理後頂端還沒跳出綠色網址區塊，請依下列步驟確認與排查：
-
-一、 查看排程是否正在跑（最常見原因：還在排隊）
-
-點擊儲存庫頂部的 「Actions」 頁籤（在 Code、Issues、Pull requests 旁邊）。
-
-查看是否有一個名為 pages-build-deployment 的任務正在轉黃色圈圈：
-
-黃色圈圈轉動中：代表 GitHub 伺服器正在打包，請稍候 1 分鐘直到它變成「綠色勾勾（Success）」。
-
-變成綠色勾勾後：回到 Settings → Pages，頂部就會出現綠底的專屬網址。
-
-二、 檢查 Pages 設定是否完全儲存
-回到 Settings → Pages，檢查以下三個關鍵項目：
-
-Source：是否為 Deploy from a branch（若不是，請切換過來）。
-
-Branch：確認第一個下拉選單已選為 main（或 master），右側資料夾選為 /(root)。
-
-確認 Save：選好後旁邊的 「Save」 按鈕是否有確實點擊（點擊成功後按鈕會變灰或消失）。
-
-三、 檢查檔案名稱與位置
-點回頂部的 「Code」 頁籤，確認檔案清單：
-
-檔名必須嚴格為小寫的 index.html（不能是 Index.html、site_tracker.html 或放在資料夾內）。
-
-它必須直接放在最外層（Root 目錄）。
-
-手動合成專屬網址（可直接測試開啟）
-如果 Actions 已經跑出綠色勾勾，GitHub 的網址規則為固定格式，可以直接在瀏覽器輸入：
-
-Plaintext
-https://<你的GitHub使用者名稱>.github.io/<你的儲存庫名稱>/
-(例如使用者名稱是 wang123，儲存庫叫 site-tracker，網址即為 [https://wang123.github.io/site-tracker/](https://wang123.github.io/site-tracker/))
-
-沒看到網址 我退到標籤 CODE了 去哪裡找網址
-
-在 「Code」 頁籤要找網址，最快的方式是看右側邊欄：
-
-方法一：看 Code 頁面右下角的「Environments」
-
-停留在 Code 頁面不要動。
-
-將畫面往右下方看，右側邊欄有五個區塊（About、Releases、Packages...）。
-
-找到 「Environments」 這一塊：
-
-如果部署成功，下方會出現一個 github-pages。
-
-點一下 github-pages，彈出的頁面中就會直接看到 「View deployment」 按鈕，點下去就是你的網頁網址！
-
-方法二：重新點回 Settings 頁面確認
-如果右側邊欄沒有出現 Environments，代表網頁還沒成功發布：
-
-點頂部導覽列最右邊的 「Settings」（齒輪圖示）。
-
-在左側選單點選 「Pages」。
-
-看中間頁面頂部：
-
-如果成功，會出現一個方框寫著：Your site is live at https://...，後面那一串就是網址。
-
-如果畫面依然是設定畫面（顯示 Branch: None），代表當初沒有選到 main 或沒有點到 「Save」，請重新選 main 並按 Save。
-
-方法三：免找直接組合（100% 正確）
-GitHub Pages 的網址規則是完全固定的，你可以直接照這個公式拼出來貼到瀏覽器：
-
-Plaintext
-https://[你的GitHub帳號].github.io/[這個專案的名字]/
-範例：如果你的 GitHub 帳號叫 builder-chen，這個專案名稱叫 site-tracker，你的專屬網址就是：
-
-[https://builder-chen.github.io/site-tracker/](https://builder-chen.github.io/site-tracker/)
-
-點一下 github-pages一樣出現import pandas as pd import openpyxl # Inspect the uploaded excel file file_path = "集合住宅工地工進追蹤表.xlsx" xls = pd.ExcelFile(file_path) print("Sheet names:", xls.sheet_names) df = pd.read_excel(file_path, sheet_name=xls.sheet_names[0]) print("First 10 rows:") print(df.head(10)) print("Columns:", df.columns) print("Shape:", df.shape)
-
-這代表你在建立 index.html 時，不小心複製貼上成了我後台讀取 Excel 資料的 Python 程式碼，而不是真正的網頁 HTML 程式碼！所以瀏覽器把它當成純文字直接印出來了。
-
-請照著以下 3 個步驟修改，1 分鐘就能恢復正常：
-
-步驟一：進入 GitHub 編輯 index.html
-點回儲存庫頂部的 「Code」 頁籤。
-
-在檔案清單中點選 index.html。
-
-點擊右上角的小鉛筆圖示 「Edit this file」（編輯檔案）。
-
-步驟二：清空並換成正確的網頁程式碼
-把編輯框裡面現有的文字（包含 import pandas...）全部按鍵盤 Ctrl + A 全選刪除，然後完整複製下方這段以 <!DOCTYPE html> 開頭的網頁程式碼貼進去：
-
-HTML
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -744,9 +32,20 @@ HTML
     .bar-bg { background: #334155; height: 10px; border-radius: 5px; overflow: hidden; }
     .bar-fill { background: #38bdf8; height: 100%; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    .filter-bar { padding: 10px 14px; background: #fff; border-bottom: 1px solid var(--border); display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; position: sticky; top: 110px; z-index: 90; }
-    .filter-btn { padding: 6px 14px; border: 1px solid var(--border); background: #f8fafc; border-radius: 20px; font-size: 0.8rem; white-space: nowrap; cursor: pointer; font-weight: 500; color: #334155; }
-    .filter-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; font-weight: 700; }
+    /* 篩選控制器容器 */
+    .filter-wrapper { position: sticky; top: 110px; z-index: 90; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    
+    /* 樓層快速切換列 */
+    .floor-filter-bar { padding: 8px 12px 4px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px dashed #e2e8f0; }
+    .floor-filter-bar::-webkit-scrollbar { display: none; }
+    .floor-pill { padding: 5px 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: #334155; white-space: nowrap; cursor: pointer; }
+    .floor-pill.active { background: #2563eb; color: #fff; border-color: #2563eb; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+
+    /* 工種/狀態篩選列 */
+    .filter-bar { padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-btn { padding: 5px 12px; border: 1px solid var(--border); background: #fff; border-radius: 20px; font-size: 0.75rem; white-space: nowrap; cursor: pointer; font-weight: 600; color: #475569; }
+    .filter-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
     .filter-btn.danger-filter.active { background: var(--danger); border-color: var(--danger); }
 
     .floor-section { margin: 12px; background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -808,13 +107,32 @@ HTML
     </div>
   </header>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter('all', this)">全部 (135項)</button>
-    <button class="filter-btn danger-filter" onclick="setFilter('blocked', this)">🚨 僅看卡關</button>
-    <button class="filter-btn" onclick="setFilter('水電', this)">水電相關</button>
-    <button class="filter-btn" onclick="setFilter('泥作', this)">泥作/防水</button>
-    <button class="filter-btn" onclick="setFilter('木作', this)">木作/門窗</button>
-    <button class="filter-btn" onclick="setFilter('粗工', this)">粗工清運</button>
+  <div class="filter-wrapper">
+    <!-- 樓層單切按鈕 -->
+    <div class="floor-filter-bar">
+      <button class="floor-pill active" onclick="setFloorFilter('all', this)">全部樓層</button>
+      <button class="floor-pill" onclick="setFloorFilter('屋突3', this)">屋突3</button>
+      <button class="floor-pill" onclick="setFloorFilter('屋突2', this)">屋突2</button>
+      <button class="floor-pill" onclick="setFloorFilter('屋突1', this)">屋突1</button>
+      <button class="floor-pill" onclick="setFloorFilter('7F', this)">7F</button>
+      <button class="floor-pill" onclick="setFloorFilter('6F', this)">6F</button>
+      <button class="floor-pill" onclick="setFloorFilter('5F', this)">5F</button>
+      <button class="floor-pill" onclick="setFloorFilter('4F', this)">4F</button>
+      <button class="floor-pill" onclick="setFloorFilter('3F', this)">3F</button>
+      <button class="floor-pill" onclick="setFloorFilter('2F', this)">2F</button>
+      <button class="floor-pill" onclick="setFloorFilter('1F', this)">1F</button>
+      <button class="floor-pill" onclick="setFloorFilter('B1', this)">B1</button>
+      <button class="floor-pill" onclick="setFloorFilter('B2', this)">B2</button>
+    </div>
+    <!-- 工種與卡關篩選按鈕 -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="setTradeFilter('all', this)">全部工種</button>
+      <button class="filter-btn danger-filter" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>
+      <button class="filter-btn" onclick="setTradeFilter('水電', this)">水電相關</button>
+      <button class="filter-btn" onclick="setTradeFilter('泥作', this)">泥作/防水</button>
+      <button class="filter-btn" onclick="setTradeFilter('木作', this)">木作/門窗</button>
+      <button class="filter-btn" onclick="setTradeFilter('粗工', this)">粗工清運</button>
+    </div>
   </div>
 
   <main id="app"></main>
@@ -823,7 +141,8 @@ HTML
     const defaultData = [{"id": "R3-01", "floor": "屋突3", "name": "樓面與水塔基礎廢棄物清運", "trade": "粗工", "dep": "主結構完成", "check": "地面無積水雜物", "status": "已完成", "reason": ""}, {"id": "R3-02", "floor": "屋突3", "name": "露臺及水塔基礎防水施作", "trade": "防水/泥作", "dep": "R3-01", "check": "48hr 閉水試驗合格", "status": "已完成", "reason": ""}, {"id": "R3-03", "floor": "屋突3", "name": "公區水塔吊裝、配管與消火管配置", "trade": "水電", "dep": "R3-02", "check": "吊裝定位、管路接通", "status": "進行中", "reason": ""}, {"id": "R3-04", "floor": "屋突3", "name": "水塔注水與靜水壓/滲漏測試", "trade": "水電", "dep": "R3-03", "check": "滿水無滲漏(未測嚴禁往下送水)", "status": "未開始", "reason": ""}, {"id": "R2-01", "floor": "屋突2", "name": "電梯機坑、水表區地面粉刷修補", "trade": "泥作", "dep": "R3-01", "check": "表面平整無粉化", "status": "進行中", "reason": ""}, {"id": "R2-02", "floor": "屋突2", "name": "水表集中區配管、電梯管道預埋管", "trade": "水電", "dep": "R3-03", "check": "管位精準固定牢固", "status": "未開始", "reason": ""}, {"id": "R1-01", "floor": "屋突1", "name": "外牆二丁掛/石材/石頭漆修補收口", "trade": "泥作/外牆", "dep": "無", "check": "勾縫密實平整", "status": "進行中", "reason": ""}, {"id": "R1-02", "floor": "屋突1", "name": "露臺防水層施作與地磚貼附", "trade": "防水/泥作", "dep": "R1-01", "check": "48hr 閉水試驗合格", "status": "未開始", "reason": ""}, {"id": "R1-03", "floor": "屋突1", "name": "屋突逃生梯防火門安裝", "trade": "門窗", "dep": "R1-02", "check": "氣密阻絕雨水灌入", "status": "未開始", "reason": ""}, {"id": "F7-01", "floor": "7F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "進行中", "reason": ""}, {"id": "F7-02", "floor": "7F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F7-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "卡關", "reason": "接頭零件缺料"}, {"id": "F7-03", "floor": "7F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F7-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F7-04", "floor": "7F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "R3-03", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F7-05", "floor": "7F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F7-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F7-06", "floor": "7F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F7-02/F7-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F7-07", "floor": "7F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F7-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F7-08", "floor": "7F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F7-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F7-09", "floor": "7F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F7-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F7-10", "floor": "7F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F7-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F7-11", "floor": "7F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F7-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F7-12", "floor": "7F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F7-04/F7-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F7-13", "floor": "7F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F7-11/F7-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F7-14", "floor": "7F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F7-09/F7-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F7-15", "floor": "7F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F7-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F7-16", "floor": "7F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F7-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F7-17", "floor": "7F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F7-14/F7-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F7-18", "floor": "7F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F7-14~F7-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F6-01", "floor": "6F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F6-02", "floor": "6F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F6-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F6-03", "floor": "6F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F6-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F6-04", "floor": "6F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F7-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F6-05", "floor": "6F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F6-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F6-06", "floor": "6F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F6-02/F6-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F6-07", "floor": "6F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F6-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F6-08", "floor": "6F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F6-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F6-09", "floor": "6F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F6-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F6-10", "floor": "6F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F6-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F6-11", "floor": "6F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F6-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F6-12", "floor": "6F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F6-04/F6-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F6-13", "floor": "6F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F6-11/F6-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F6-14", "floor": "6F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F6-09/F6-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F6-15", "floor": "6F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F6-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F6-16", "floor": "6F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F6-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F6-17", "floor": "6F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F6-14/F6-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F6-18", "floor": "6F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F6-14~F6-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F5-01", "floor": "5F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F5-02", "floor": "5F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F5-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F5-03", "floor": "5F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F5-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F5-04", "floor": "5F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F6-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F5-05", "floor": "5F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F5-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F5-06", "floor": "5F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F5-02/F5-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F5-07", "floor": "5F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F5-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F5-08", "floor": "5F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F5-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F5-09", "floor": "5F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F5-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F5-10", "floor": "5F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F5-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F5-11", "floor": "5F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F5-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F5-12", "floor": "5F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F5-04/F5-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F5-13", "floor": "5F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F5-11/F5-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F5-14", "floor": "5F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F5-09/F5-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F5-15", "floor": "5F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F5-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F5-16", "floor": "5F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F5-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F5-17", "floor": "5F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F5-14/F5-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F5-18", "floor": "5F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F5-14~F5-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F4-01", "floor": "4F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F4-02", "floor": "4F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F4-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F4-03", "floor": "4F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F4-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F4-04", "floor": "4F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F5-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F4-05", "floor": "4F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F4-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F4-06", "floor": "4F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F4-02/F4-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F4-07", "floor": "4F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F4-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F4-08", "floor": "4F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F4-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F4-09", "floor": "4F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F4-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F4-10", "floor": "4F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F4-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F4-11", "floor": "4F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F4-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F4-12", "floor": "4F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F4-04/F4-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F4-13", "floor": "4F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F4-11/F4-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F4-14", "floor": "4F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F4-09/F4-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F4-15", "floor": "4F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F4-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F4-16", "floor": "4F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F4-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F4-17", "floor": "4F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F4-14/F4-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F4-18", "floor": "4F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F4-14~F4-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F3-01", "floor": "3F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F3-02", "floor": "3F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F3-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F3-03", "floor": "3F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F3-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F3-04", "floor": "3F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F4-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F3-05", "floor": "3F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F3-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F3-06", "floor": "3F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F3-02/F3-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F3-07", "floor": "3F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F3-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F3-08", "floor": "3F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F3-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F3-09", "floor": "3F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F3-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F3-10", "floor": "3F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F3-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F3-11", "floor": "3F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F3-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F3-12", "floor": "3F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F3-04/F3-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F3-13", "floor": "3F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F3-11/F3-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F3-14", "floor": "3F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F3-09/F3-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F3-15", "floor": "3F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F3-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F3-16", "floor": "3F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F3-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F3-17", "floor": "3F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F3-14/F3-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F3-18", "floor": "3F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F3-14~F3-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F2-01", "floor": "2F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""}, {"id": "F2-02", "floor": "2F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F2-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""}, {"id": "F2-03", "floor": "2F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F2-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F2-04", "floor": "2F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F3-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F2-05", "floor": "2F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F2-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F2-06", "floor": "2F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F2-02/F2-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F2-07", "floor": "2F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F2-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F2-08", "floor": "2F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F2-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F2-09", "floor": "2F", "name": "A/B戶私人露臺大面積防水施作", "trade": "防水/泥作", "dep": "F2-06", "check": "露臺下方為1F店面！要徑", "status": "未開始", "reason": ""}, {"id": "F2-10", "floor": "2F", "name": "2F 露臺 48 小時滿水閉水試驗", "trade": "防水/泥作", "dep": "F2-09", "check": "1F店面天花板完全乾燥無滲漏", "status": "未開始", "reason": ""}, {"id": "F2-11", "floor": "2F", "name": "衛浴/陽台/露臺地壁磚鋪貼", "trade": "泥作", "dep": "F2-08/F2-10", "check": "洩水至落水孔暢通", "status": "未開始", "reason": ""}, {"id": "F2-12", "floor": "2F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F2-11", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F2-13", "floor": "2F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F2-12", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F2-14", "floor": "2F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F2-04/F2-12", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F2-15", "floor": "2F", "name": "室外機平台格柵安裝、欄杆固定", "trade": "門窗/泥作", "dep": "F2-11", "check": "固定牢固、外觀平整", "status": "未開始", "reason": ""}, {"id": "F2-16", "floor": "2F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F2-13/F2-14", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F2-17", "floor": "2F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F2-11/F2-16", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F2-18", "floor": "2F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F2-16", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F2-19", "floor": "2F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F2-14", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F2-20", "floor": "2F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F2-15/F2-16", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F2-21", "floor": "2F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F2-15~F2-16", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}, {"id": "F1-01", "floor": "1F", "name": "進車梯車道雨遮安裝、外牆修補", "trade": "泥作/鐵件", "dep": "結構完成", "check": "排水天溝順暢防雨水灌入", "status": "未開始", "reason": ""}, {"id": "F1-02", "floor": "1F", "name": "全棟垂直排污管/雨水管串接化糞池與外溝", "trade": "水電", "dep": "2-7F垂直主管", "check": "接合密合度、跌水高程正確", "status": "未開始", "reason": ""}, {"id": "F1-03", "floor": "1F", "name": "全棟排水主立管高落差灌水流通測試", "trade": "水電", "dep": "F1-02", "check": "樓上同時放水1F匯流無回冒", "status": "未開始", "reason": ""}, {"id": "F1-04", "floor": "1F", "name": "店面B殘障廁所防水塗布與 48hr 閉水試驗", "trade": "防水/泥作", "dep": "配管完成", "check": "48hr試水合格符無障礙坡度", "status": "未開始", "reason": ""}, {"id": "F1-05", "floor": "1F", "name": "無障礙坡道、車道入口、停車位地坪泥作硬化", "trade": "泥作", "dep": "F1-03/F1-04", "check": "符合無障礙規範抗裂平整", "status": "未開始", "reason": ""}, {"id": "F1-06", "floor": "1F", "name": "1F大廳梯廳天花板骨架、逃生梯防火門安裝", "trade": "木作/門窗", "dep": "F1-05", "check": "防火門具備合格標章", "status": "未開始", "reason": ""}, {"id": "F1-07", "floor": "1F", "name": "店面B殘障衛浴無障礙扶手、器具安裝", "trade": "衛浴/水電", "dep": "F1-04/F1-05", "check": "符合無障礙勘驗標準", "status": "未開始", "reason": ""}, {"id": "B1-01", "floor": "B1", "name": "電機室、台電配電室廢棄物徹底清掃吸塵", "trade": "粗工", "dep": "結構完成", "check": "室內無粉塵積水防設備短路", "status": "未開始", "reason": ""}, {"id": "B1-02", "floor": "B1", "name": "台電受電盤、低壓配電盤進場定位與匯流排鎖接", "trade": "水電/機電", "dep": "B1-01", "check": "絕緣電阻測試符合法規", "status": "未開始", "reason": ""}, {"id": "B2-01", "floor": "B2", "name": "雨水滯留池、B2水塔內外側泥作雜物清運", "trade": "粗工", "dep": "結構完成", "check": "槽底無石泥塊防葉輪損壞", "status": "未開始", "reason": ""}, {"id": "B2-02", "floor": "B2", "name": "雨水滯留池、筏基水箱防水塗布與補強", "trade": "防水/泥作", "dep": "B2-01", "check": "槽體防水無孔隙", "status": "未開始", "reason": ""}, {"id": "B2-03", "floor": "B2", "name": "滯留池與水箱 48hr 滿水試漏測試", "trade": "防水/水電", "dep": "B2-02", "check": "水位無下降、外壁無滲水", "status": "未開始", "reason": ""}, {"id": "B2-04", "floor": "B2", "name": "滯留池沉水泵浦 (PUMP) 安裝與浮球連動測試", "trade": "水電", "dep": "B2-03", "check": "雙泵交替運轉正常", "status": "未開始", "reason": ""}, {"id": "B2-05", "floor": "B2", "name": "車梯升降機構骨架組裝、機坑防水檢查", "trade": "車梯廠商", "dep": "B2-01", "check": "軌道垂直公差內、機坑乾燥", "status": "未開始", "reason": ""}, {"id": "B2-06", "floor": "B2", "name": "車梯車台吊裝、控制線路接線與載重試車", "trade": "車梯廠商", "dep": "B1-02/B2-05", "check": "平層精度合格、安全作動正常", "status": "未開始", "reason": ""}];
 
     let tasks = JSON.parse(localStorage.getItem('site_tracker_data_v2')) || defaultData;
-    let currentFilter = 'all';
+    let currentFloorFilter = 'all';
+    let currentTradeFilter = 'all';
 
     function saveData() {
       localStorage.setItem('site_tracker_data_v2', JSON.stringify(tasks));
@@ -838,8 +157,15 @@ HTML
       }
     }
 
-    function setFilter(type, el) {
-      currentFilter = type;
+    function setFloorFilter(floor, el) {
+      currentFloorFilter = floor;
+      document.querySelectorAll('.floor-pill').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+      renderApp();
+    }
+
+    function setTradeFilter(type, el) {
+      currentTradeFilter = type;
       document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
       el.classList.add('active');
       renderApp();
@@ -880,13 +206,17 @@ HTML
       const floorOrder = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];
 
       floorOrder.forEach(floor => {
+        // 若有選擇單一樓層，不是該樓層的直接跳過
+        if (currentFloorFilter !== 'all' && currentFloorFilter !== floor) return;
+
         let floorTasks = tasks.filter(t => t.floor === floor);
         if (floorTasks.length === 0) return;
 
+        // 工種/卡關篩選
         let visibleTasks = floorTasks.filter(t => {
-          if (currentFilter === 'all') return true;
-          if (currentFilter === 'blocked') return t.status === '卡關';
-          return t.trade.includes(currentFilter);
+          if (currentTradeFilter === 'all') return true;
+          if (currentTradeFilter === 'blocked') return t.status === '卡關';
+          return t.trade.includes(currentTradeFilter);
         });
 
         if (visibleTasks.length === 0) return;
@@ -901,7 +231,7 @@ HTML
             <span class="floor-name">${floor}</span>
             <div class="floor-bar-container">
               <div class="floor-bar-meta">
-                <span>進度</span>
+                <span>該層進度</span>
                 <span>${floorPercent}% (${floorCompleted}/${floorTasks.length})</span>
               </div>
               <div class="floor-bar-bg">
