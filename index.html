@@ -22,10 +22,11 @@
     header { background: var(--navy); color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     .header-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .header-title h1 { font-size: 1.05rem; font-weight: 700; }
-    .header-actions { display: flex; gap: 6px; }
-    .btn { border: none; padding: 6px 11px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+    .header-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+    .btn { border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
     .btn-export { background: var(--primary); color: #fff; }
     .btn-add { background: #059669; color: #fff; }
+    .btn-trade-mgr { background: #7c3aed; color: #fff; }
     .btn-reset { background: #475569; color: #fff; }
 
     .overall-dashboard { margin-top: 10px; background: #1e293b; border-radius: 8px; padding: 10px 12px; }
@@ -37,7 +38,7 @@
     .billing-panel { margin: 12px; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .billing-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; font-weight: 700; color: #1e293b; cursor: pointer; }
     .billing-toggle-icon { font-size: 0.8rem; color: #64748b; }
-    .billing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 10px; }
+    .billing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 10px; }
     .billing-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; font-size: 0.75rem; }
     .billing-trade-title { font-weight: 700; color: #334155; margin-bottom: 4px; display: flex; justify-content: space-between; }
     .billing-trade-pct { font-weight: 700; color: #2563eb; }
@@ -116,6 +117,11 @@
     .photo-modal-actions { display: flex; justify-content: space-between; margin-top: 8px; }
     .btn-photo-del { background: #dc2626; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
     .btn-photo-close { background: #475569; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+
+    /* 工種管理樣式 */
+    .trade-mgr-list { display: flex; flex-direction: column; gap: 6px; max-height: 40vh; overflow-y: auto; margin-top: 8px; }
+    .trade-mgr-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 0.85rem; }
+    .trade-mgr-add { display: flex; gap: 6px; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -124,6 +130,7 @@
     <div class="header-title">
       <h1>集合住宅工進與請款看板</h1>
       <div class="header-actions">
+        <button class="btn btn-trade-mgr" onclick="openTradeMgrModal()">🛠️ 工種</button>
         <button class="btn btn-add" onclick="openCreateModal()">＋新增</button>
         <button class="btn btn-export" onclick="exportCSV()">匯出</button>
         <button class="btn btn-reset" onclick="resetToDefault()">還原</button>
@@ -169,25 +176,12 @@
       <button class="floor-pill" onclick="setFloorFilter('B1', this)">B1</button>
       <button class="floor-pill" onclick="setFloorFilter('B2', this)">B2</button>
     </div>
-    <div class="filter-bar">
-      <button class="filter-btn active" onclick="setTradeFilter('all', this)">全部</button>
-      <button class="filter-btn danger-filter" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>
-      <button class="filter-btn" onclick="setTradeFilter('給排水', this)">給排水</button>
-      <button class="filter-btn" onclick="setTradeFilter('消防', this)">消防工程</button>
-      <button class="filter-btn" onclick="setTradeFilter('弱電', this)">弱電/避雷針</button>
-      <button class="filter-btn" onclick="setTradeFilter('雨水', this)">雨水系統</button>
-      <button class="filter-btn" onclick="setTradeFilter('空調排氣', this)">空調排氣</button>
-      <button class="filter-btn" onclick="setTradeFilter('發電機簽證', this)">發電機簽證</button>
-      <button class="filter-btn" onclick="setTradeFilter('筏基人孔', this)">筏基人孔</button>
-      <button class="filter-btn" onclick="setTradeFilter('泥作', this)">泥作/防水</button>
-      <button class="filter-btn" onclick="setTradeFilter('木作', this)">木作/門窗</button>
-      <button class="filter-btn" onclick="setTradeFilter('粗工', this)">粗工清運</button>
-      <button class="filter-btn" onclick="setTradeFilter('瓦斯', this)">瓦斯工程</button>
-    </div>
+    <div class="filter-bar" id="tradeFilterContainer"></div>
   </div>
 
   <main id="app"></main>
 
+  <!-- 工項編輯/新增彈窗 -->
   <div class="modal-overlay" id="taskModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -222,24 +216,8 @@
           <input type="text" id="inputName" class="form-control">
         </div>
         <div class="form-group">
-          <label>責任工種（獨立分流）</label>
-          <select id="inputTrade" class="form-control">
-            <option value="給排水">給排水</option>
-            <option value="消防">消防</option>
-            <option value="弱電">弱電 (含避雷針)</option>
-            <option value="雨水">雨水</option>
-            <option value="空調排氣">空調排氣</option>
-            <option value="發電機簽證">發電機簽證</option>
-            <option value="筏基人孔">筏基人孔</option>
-            <option value="瓦斯">瓦斯</option>
-            <option value="泥作">泥作</option>
-            <option value="木作">木作</option>
-            <option value="粗工">粗工</option>
-            <option value="油漆">油漆</option>
-            <option value="衛浴">衛浴</option>
-            <option value="廚具">廚具</option>
-            <option value="車梯">車梯</option>
-          </select>
+          <label>責任工種（獨立選單）</label>
+          <select id="inputTrade" class="form-control"></select>
         </div>
         <div class="form-group">
           <label>前置依賴項</label>
@@ -271,6 +249,28 @@
     </div>
   </div>
 
+  <!-- 工種清單管理彈窗 -->
+  <div class="modal-overlay" id="tradeMgrModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>工種清單管理（自訂/編輯）</h3>
+        <button class="btn btn-icon" onclick="closeTradeMgrModal()">✕</button>
+      </div>
+      <div style="font-size:0.75rem; color:#64748b; margin-bottom:8px;">
+        在此可新增自訂工種或刪除不再使用的工種。
+      </div>
+      <div class="trade-mgr-list" id="tradeMgrList"></div>
+      <div class="trade-mgr-add">
+        <input type="text" id="newTradeInput" class="form-control" placeholder="輸入新工種名稱（例：防水）">
+        <button type="button" class="btn btn-add" onclick="addNewTrade()">＋新增</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-modal-cancel" onclick="closeTradeMgrModal()">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 照片大圖檢視彈窗 -->
   <div class="modal-overlay" id="photoModal">
     <div class="photo-modal-card">
       <img id="photoModalImg" src="" alt="現場照片">
@@ -282,6 +282,15 @@
   </div>
 
   <script>
+    // 預設獨立工種清單（含新納入的防火門、格柵、玻璃、鐵件、鋁窗、樓梯扶手）
+    const initialTrades = [
+      "給排水", "消防", "弱電", "雨水", "空調排氣", "發電機簽證", "筏基人孔",
+      "防火門", "格柵", "玻璃", "鐵件", "鋁窗", "樓梯扶手",
+      "泥作", "木作", "粗工", "油漆", "瓦斯", "衛浴", "廚具", "車梯"
+    ];
+
+    let customTrades = JSON.parse(localStorage.getItem('site_custom_trades_v1')) || initialTrades;
+
     const defaultData = [
       {"id":"R3-01","floor":"屋突3","name":"樓面與水塔基礎廢棄物清運","trade":"粗工","dep":"結構完成","check":"地面潔淨無積水","status":"已完成","reason":"","photos":[]},
       {"id":"R3-02","floor":"屋突3","name":"露臺及水塔基礎防水施作與48hr試水","trade":"泥作","dep":"R3-01","check":"48hr閉水無滲漏合格","status":"已完成","reason":"","photos":[]},
@@ -289,6 +298,7 @@
       {"id":"R3-04","floor":"屋突3","name":"公區水塔注水滿水及水壓測試","trade":"給排水","dep":"R3-03","check":"滿水無滲漏(未測嚴禁往下送水)","status":"未開始","reason":"","photos":[]},
       {"id":"R3-05","floor":"屋突3","name":"屋突頂端避雷針安裝與接地阻抗量測","trade":"弱電","dep":"結構完成","check":"接地電阻小於10歐姆並出具報告","status":"未開始","reason":"","photos":[]},
       {"id":"R3-06","floor":"屋突3","name":"屋頂逃生梯間排煙風機與排氣管道安裝","trade":"空調排氣","dep":"R3-01","check":"排風量符合消防排煙法規","status":"未開始","reason":"","photos":[]},
+      {"id":"R3-07","floor":"屋突3","name":"屋突3逃生爬梯與安全鐵件扶手固定","trade":"鐵件","dep":"R3-01","check":"固定螺栓牢靠穩固無晃動","status":"未開始","reason":"","photos":[]},
 
       {"id":"R2-01","floor":"屋突2","name":"電梯機坑、水表區地坪粉刷整平","trade":"泥作","dep":"R3-01","check":"表面平整無粉化空鼓","status":"進行中","reason":"","photos":[]},
       {"id":"R2-02","floor":"屋突2","name":"各戶集中水表組配管與減壓閥配置","trade":"給排水","dep":"R3-04","check":"水表閥件安裝水平穩固","status":"未開始","reason":"","photos":[]},
@@ -297,7 +307,8 @@
       {"id":"R1-01","floor":"屋突1","name":"外牆二丁掛/石材/石頭漆修補收口","trade":"泥作","dep":"結構完成","check":"勾縫密實平整防水","status":"進行中","reason":"","photos":[]},
       {"id":"R1-02","floor":"屋突1","name":"露臺防水層施作與地磚貼附","trade":"泥作","dep":"R1-01","check":"48hr 閉水試驗合格","status":"未開始","reason":"","photos":[]},
       {"id":"R1-03","floor":"屋突1","name":"屋突雨水排水斗安裝與立管串接","trade":"雨水","dep":"R1-02","check":"雨水洩水無積水回冒","status":"未開始","reason":"","photos":[]},
-      {"id":"R1-04","floor":"屋突1","name":"屋突逃生梯甲種防火門安裝","trade":"木作","dep":"R1-02","check":"阻絕屋頂雨水與氣密合格","status":"未開始","reason":"","photos":[]},
+      {"id":"R1-04","floor":"屋突1","name":"屋突逃生梯甲種防火門安裝","trade":"防火門","dep":"R1-02","check":"具備試合格標章、阻絕屋頂雨水","status":"未開始","reason":"","photos":[]},
+      {"id":"R1-05","floor":"屋突1","name":"屋突露臺防護欄杆與樓梯扶手組裝","trade":"樓梯扶手","dep":"R1-02","check":"欄杆高度符合法規110cm以上","status":"未開始","reason":"","photos":[]},
 
       ...["7F","6F","5F","4F","3F"].flatMap(fl => {
         const num = fl.replace("F","");
@@ -310,47 +321,51 @@
           {"id":`F${num}-06`,"floor":fl,"name":"各戶對講機、網路監視幹線拉線與面板盒","trade":"弱電","dep":`F${num}-01`,"check":"導通電阻正常、標籤清晰","status":"未開始","reason":"","photos":[]},
           {"id":`F${num}-07`,"floor":fl,"name":"梯廳公區管道間給水/消火主管垂直配置","trade":"給排水","dep":"R3-04","check":"垂立主管固定牢靠垂直度","status":"未開始","reason":"","photos":[]},
           {"id":`F${num}-08`,"floor":fl,"name":"各戶瓦斯明管穿牆配置與氣密檢驗","trade":"瓦斯","dep":`F${num}-01`,"check":"氣密試壓合格並出具證明","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-09`,"floor":fl,"name":"鋁門窗框安裝、外牆格柵固定、窗縫塞水","trade":"木作","dep":`F${num}-01`,"check":"窗框嵌縫飽滿阻絕外水","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-10`,"floor":fl,"name":"泥作管溝填補包覆、地坪砂漿打底整平","trade":"泥作","dep":`F${num}-02/03/04`,"check":"表面平整包覆完全無空洞","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-11`,"floor":fl,"name":"各戶浴室與陽台防水層塗布(含高度加強)","trade":"泥作","dep":`F${num}-10`,"check":"塗膜厚度均勻轉角泛水","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-12`,"floor":fl,"name":"各戶衛浴、陽台 48 小時滿水閉水試驗","trade":"泥作","dep":`F${num}-11`,"check":"樓下樓板天花無任何冷汗水痕","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-13`,"floor":fl,"name":"陽台雨水落水頭組裝與陽台地壁磚鋪貼","trade":"雨水","dep":`F${num}-12`,"check":"落水孔洩水順暢無淤塞","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-14`,"floor":fl,"name":"泥作廢料與碎磚清運，室內吸塵洗地","trade":"粗工","dep":`F${num}-13`,"check":"地面潔淨無砂漿塊阻礙木作","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-15`,"floor":fl,"name":"各戶大門防火門安裝、室內門框立框","trade":"木作","dep":`F${num}-14`,"check":"防火門標章齊全、垂直水平","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-16`,"floor":fl,"name":"梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板","trade":"木作","dep":`F${num}-07/14`,"check":"公區管線查驗合格方可封牆","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-17`,"floor":fl,"name":"天花與牆面接縫批土、打磨、上第一道底漆","trade":"油漆","dep":`F${num}-15/16`,"check":"平整無裂紋透底","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-18`,"floor":fl,"name":"衛浴設備安裝 (馬桶/面盆/淋浴五金龍頭)","trade":"衛浴","dep":`F${num}-12/17`,"check":"通水出水順暢無漏","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-19`,"floor":fl,"name":"開放廚具、排油煙機安裝與瓦斯軟管對接","trade":"廚具","dep":`F${num}-08/17`,"check":"抽風運轉無漏氣","status":"未開始","reason":"","photos":[]},
-          {"id":`F${num}-20`,"floor":fl,"name":"油漆面漆修補與全戶完工大清掃細清","trade":"粗工","dep":`F${num}-18/19`,"check":"室內一塵不染鎖門交屋","status":"未開始","reason":"","photos":[]}
+          {"id":`F${num}-09`,"floor":fl,"name":"各戶鋁門窗外框安裝、嵌縫塞水膠打滿","trade":"鋁窗","dep":`F${num}-01`,"check":"窗框嵌縫飽滿阻絕外水","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-10`,"floor":fl,"name":"各戶外牆冷氣室外機造型格柵安裝固定","trade":"格柵","dep":`F${num}-09`,"check":"固定牢固、外觀平整垂直","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-11`,"floor":fl,"name":"泥作管溝填補包覆、地坪砂漿打底整平","trade":"泥作","dep":`F${num}-02/03/04`,"check":"表面平整包覆完全無空洞","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-12`,"floor":fl,"name":"各戶浴室與陽台防水層塗布(含高度加強)","trade":"泥作","dep":`F${num}-11`,"check":"塗膜厚度均勻轉角泛水","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-13`,"floor":fl,"name":"各戶衛浴、陽台 48 小時滿水閉水試驗","trade":"泥作","dep":`F${num}-12`,"check":"樓下樓板天花無任何冷汗水痕","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-14`,"floor":fl,"name":"陽台雨水落水頭組裝與陽台地壁磚鋪貼","trade":"雨水","dep":`F${num}-13`,"check":"落水孔洩水順暢無淤塞","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-15`,"floor":fl,"name":"公共逃生梯不鏽鋼/鍛造樓梯扶手安裝","trade":"樓梯扶手","dep":`F${num}-11`,"check":"搖晃無鬆動、接縫平滑","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-16`,"floor":fl,"name":"各戶防火玄關大門立框與門扇安裝","trade":"防火門","dep":`F${num}-14`,"check":"防火門甲種標章齊全、閉門順暢","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-17`,"floor":fl,"name":"鋁窗氣密窗扇吊掛、各戶外窗氣密玻璃安裝","trade":"玻璃","dep":`F${num}-09`,"check":"矽利康填縫密實、推拉順暢","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-18`,"floor":fl,"name":"梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板","trade":"木作","dep":`F${num}-07/14`,"check":"公區管線查驗合格方可封牆","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-19`,"floor":fl,"name":"天花與牆面接縫批土、打磨、上第一道底漆","trade":"油漆","dep":`F${num}-16/18`,"check":"平整無裂紋透底","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-20`,"floor":fl,"name":"衛浴設備安裝 (馬桶/面盆/淋浴五金龍頭)","trade":"衛浴","dep":`F${num}-13/19`,"check":"通水出水順暢無漏","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-21`,"floor":fl,"name":"開放廚具、排油煙機安裝與瓦斯軟管對接","trade":"廚具","dep":`F${num}-08/19`,"check":"抽風運轉無漏氣","status":"未開始","reason":"","photos":[]},
+          {"id":`F${num}-22`,"floor":fl,"name":"油漆面漆修補與全戶完工大清掃細清","trade":"粗工","dep":`F${num}-20/21`,"check":"室內一塵不染鎖門交屋","status":"未開始","reason":"","photos":[]}
         ];
       }),
 
       {"id":"F2-01","floor":"2F","name":"戶內管溝廢料打除、洗孔餘泥全面清運","trade":"粗工","dep":"配管完成","check":"管溝潔淨","status":"未開始","reason":"","photos":[]},
       {"id":"F2-02","floor":"2F","name":"各戶冷熱水管壓力測試與污水通水","trade":"給排水","dep":"F2-01","check":"打壓不掉壓、通水無滲漏","status":"未開始","reason":"","photos":[]},
       {"id":"F2-03","floor":"2F","name":"各戶消防撒水支管與排氣通風管配置","trade":"消防","dep":"F2-01","check":"管路固定牢固","status":"未開始","reason":"","photos":[]},
-      {"id":"F2-04","floor":"2F","name":"梯廳公區管道間立管與弱電光纖幹線","trade":"弱電","dep":"F3-07","check":"弱電箱標記清楚","status":"未開始","reason":"","photos":[]},
+      {"id":"F2-04","floor":"2F","name":"各戶鋁窗安裝、嵌縫、室外機格柵安裝","trade":"鋁窗","dep":"F2-01","check":"嵌縫防水飽滿","status":"未開始","reason":"","photos":[]},
       {"id":"F2-05","floor":"2F","name":"A/B戶私人露臺大面積防水層塗布(含轉角加強)","trade":"泥作","dep":"F2-01","check":"轉角翻起30cm泛水厚度達標","status":"未開始","reason":"","photos":[]},
       {"id":"F2-06","floor":"2F","name":"2F 私人露臺 48 小時滿水閉水試驗","trade":"泥作","dep":"F2-05","check":"露臺正下方為1F店面！無水痕","status":"未開始","reason":"","photos":[]},
       {"id":"F2-07","floor":"2F","name":"2F露臺大排量雨水落水頭與雨水立管連接","trade":"雨水","dep":"F2-06","check":"雨水暢通防暴雨積水倒灌","status":"未開始","reason":"","photos":[]},
       {"id":"F2-08","floor":"2F","name":"露臺、衛浴、陽台地壁磚鋪貼","trade":"泥作","dep":"F2-06","check":"洩水坡度正常無反坡","status":"未開始","reason":"","photos":[]},
-      {"id":"F2-09","floor":"2F","name":"室外機平台格柵與欄杆固定安裝","trade":"木作","dep":"F2-08","check":"固定牢靠美觀","status":"未開始","reason":"","photos":[]},
-      {"id":"F2-10","floor":"2F","name":"防火門、管道間封板、天花板、油漆設備收尾","trade":"木作","dep":"F2-08","check":"完整裝修收口","status":"未開始","reason":"","photos":[]},
+      {"id":"F2-09","floor":"2F","name":"2F私人露臺防護欄杆與強化玻璃組裝","trade":"玻璃","dep":"F2-08","check":"玻璃夾具牢靠、安全膠合","status":"未開始","reason":"","photos":[]},
+      {"id":"F2-10","floor":"2F","name":"防火門、管道間封板、天花板、油漆設備收尾","trade":"防火門","dep":"F2-08","check":"完整裝修收口","status":"未開始","reason":"","photos":[]},
 
-      {"id":"F1-01","floor":"1F","name":"進車梯車道雨遮鋼構與面材安裝、外牆修補","trade":"泥作","dep":"結構完成","check":"防雨水潑入地下室","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-02","floor":"1F","name":"全棟雨水主立管與雨水滯留系統/外溝連通","trade":"雨水","dep":"2-7F雨水管","check":"雨水匯流無回冒","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-03","floor":"1F","name":"全棟垂直排污管/廢水主管串接化糞池與外溝","trade":"給排水","dep":"2-7F主管","check":"落差流通順暢無冒水","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-04","floor":"1F","name":"店面A/B給排水及店面B殘障廁所配管","trade":"給排水","dep":"F1-01","check":"打壓通水無滲漏","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-05","floor":"1F","name":"店面B殘障廁所防水塗布與48hr試水","trade":"泥作","dep":"F1-04","check":"試水合格符合無障礙地坪高程","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-06","floor":"1F","name":"無障礙停車位、車道、梯廳泥作硬化整平","trade":"泥作","dep":"F1-03/05","check":"符合無障礙規範無落差","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-07","floor":"1F","name":"店面B殘障衛浴無障礙扶手與馬桶安裝","trade":"衛浴","dep":"F1-05/06","check":"通過無障礙法規查驗標準","status":"未開始","reason":"","photos":[]},
-      {"id":"F1-08","floor":"1F","name":"1F大門電子門禁、對講主機、監視鏡頭安裝","trade":"弱電","dep":"F1-06","check":"門禁作動聯網正常","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-01","floor":"1F","name":"進車梯車道鋼構雨遮骨架焊接固定","trade":"鐵件","dep":"結構完成","check":"焊道飽滿防鏽處理","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-02","floor":"1F","name":"車道雨遮強化膠合玻璃安裝與打膠防水","trade":"玻璃","dep":"F1-01","check":"填膠飽滿不漏水","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-03","floor":"1F","name":"全棟雨水主立管與雨水滯留系統/外溝連通","trade":"雨水","dep":"2-7F雨水管","check":"雨水匯流無回冒","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-04","floor":"1F","name":"全棟垂直排污管/廢水主管串接化糞池與外溝","trade":"給排水","dep":"2-7F主管","check":"落差流通順暢無冒水","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-05","floor":"1F","name":"店面A/B給排水及店面B殘障廁所配管","trade":"給排水","dep":"F1-01","check":"打壓通水無滲漏","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-06","floor":"1F","name":"店面B殘障廁所防水塗布與48hr試水","trade":"泥作","dep":"F1-05","check":"試水合格符合無障礙地坪高程","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-07","floor":"1F","name":"無障礙停車位、車道、梯廳泥作硬化整平","trade":"泥作","dep":"F1-04/06","check":"符合無障礙規範無落差","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-08","floor":"1F","name":"1F大廳出入口不銹鋼無障礙斜坡扶手安裝","trade":"樓梯扶手","dep":"F1-07","check":"扶手牢固符合無障礙規範","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-09","floor":"1F","name":"店面B殘障衛浴無障礙扶手與馬桶安裝","trade":"衛浴","dep":"F1-06/07","check":"通過無障礙法規查驗標準","status":"未開始","reason":"","photos":[]},
+      {"id":"F1-10","floor":"1F","name":"1F大門電子門禁、對講主機、監視鏡頭安裝","trade":"弱電","dep":"F1-07","check":"門禁作動聯網正常","status":"未開始","reason":"","photos":[]},
 
       {"id":"B1-01","floor":"B1","name":"電機室、台電受電室徹底清理吸塵無粉塵","trade":"粗工","dep":"結構完成","check":"室內乾燥無粉塵防止高壓短路","status":"未開始","reason":"","photos":[]},
       {"id":"B1-02","floor":"B1","name":"台電受電盤、低壓總配電盤進場定位鎖接","trade":"給排水","dep":"B1-01","check":"絕緣阻抗測試符合台電規範","status":"未開始","reason":"","photos":[]},
       {"id":"B1-03","floor":"B1","name":"緊急柴油發電機進場定位、排煙管穿牆配置","trade":"空調排氣","dep":"B1-01","check":"發電機排煙耐熱包覆無漏","status":"未開始","reason":"","photos":[]},
       {"id":"B1-04","floor":"B1","name":"緊急柴油發電機現場負載測試與技師簽證報告","trade":"發電機簽證","dep":"B1-03","check":"取得合格技師簽證與消防申報","status":"未開始","reason":"","photos":[]},
       {"id":"B1-05","floor":"B1","name":"弱電總機櫃、全棟光纖光化箱、CCTV監控總機","trade":"弱電","dep":"B1-01","check":"監控螢幕顯示清晰全棟串聯","status":"未開始","reason":"","photos":[]},
-      {"id":"B1-06","floor":"B1","name":"B1梯廳、逃生梯防火門安裝與油漆收尾","trade":"木作","dep":"B1-02","check":"防火區劃密合","status":"未開始","reason":"","photos":[]},
+      {"id":"B1-06","floor":"B1","name":"B1機電室、逃生梯甲種防火門安裝","trade":"防火門","dep":"B1-02","check":"具備遮煙防火效能","status":"未開始","reason":"","photos":[]},
 
       {"id":"B2-01","floor":"B2","name":"筏基人孔蓋密閉檢查、筏基內部積泥雜物清運","trade":"筏基人孔","dep":"結構完成","check":"人孔氣密防臭、筏基乾燥","status":"未開始","reason":"","photos":[]},
       {"id":"B2-02","floor":"B2","name":"雨水滯留池、B2水塔內部雜物清掃徹底","trade":"粗工","dep":"結構完成","check":"槽內無砂石防止卡死葉輪","status":"未開始","reason":"","photos":[]},
@@ -358,29 +373,38 @@
       {"id":"B2-04","floor":"B2","name":"滯留池與水箱 48hr 滿水試漏與耐壓測試","trade":"雨水","dep":"B2-03","check":"水位無下降、外壁完全乾燥","status":"未開始","reason":"","photos":[]},
       {"id":"B2-05","floor":"B2","name":"滯留池沉水泵浦 (PUMP) 安裝與雙泵浮球連動","trade":"雨水","dep":"B2-04","check":"液位警報與強制抽排運作正常","status":"未開始","reason":"","photos":[]},
       {"id":"B2-06","floor":"B2","name":"消防主泵浦、撒水泵浦定位與消防管閥接通","trade":"消防","dep":"B2-02","check":"啟動打壓無洩漏、聯動訊號正確","status":"未開始","reason":"","photos":[]},
-      {"id":"B2-07","floor":"B2","name":"B1-B2車梯升降軌道骨架組裝、機坑防水","trade":"車梯","dep":"B2-01","check":"機坑完全無積水滲水","status":"未開始","reason":"","photos":[]},
+      {"id":"B2-07","floor":"B2","name":"B1-B2車梯升降導軌槽鐵與固定鐵件組裝","trade":"鐵件","dep":"B2-01","check":"骨架垂直公差內焊接牢靠","status":"未開始","reason":"","photos":[]},
       {"id":"B2-08","floor":"B2","name":"車梯車台吊裝、控制線路接線與載重試車","trade":"車梯","dep":"B1-02/B2-07","check":"取得升降設備合格證、平層精準","status":"未開始","reason":"","photos":[]},
       {"id":"B2-09","floor":"B2","name":"停車區耐磨地坪硬化與停車位標線劃設","trade":"泥作","dep":"B2-05/08","check":"地坪平整、符合使照車位標準","status":"未開始","reason":"","photos":[]}
     ];
 
-    let tasks = JSON.parse(localStorage.getItem('site_tracker_data_v5')) || defaultData;
+    let tasks = JSON.parse(localStorage.getItem('site_tracker_data_v6')) || defaultData;
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
     let currentViewingPhoto = { taskId: '', photoIndex: -1 };
 
     function saveData() {
       try {
-        localStorage.setItem('site_tracker_data_v5', JSON.stringify(tasks));
+        localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
       } catch (e) {
         alert('儲存空間不足，請適當刪除部分照片或工項！');
       }
       renderApp();
     }
 
+    function saveTrades() {
+      localStorage.setItem('site_custom_trades_v1', JSON.stringify(customTrades));
+      renderTradeFilterBar();
+      renderApp();
+    }
+
     function resetToDefault() {
       if (confirm('確定要還原成初始預設資料嗎？現場手動變更與照片將會重設。')) {
-        localStorage.removeItem('site_tracker_data_v5');
+        localStorage.removeItem('site_tracker_data_v6');
+        localStorage.removeItem('site_custom_trades_v1');
         tasks = JSON.parse(JSON.stringify(defaultData));
+        customTrades = [...initialTrades];
+        saveTrades();
         renderApp();
       }
     }
@@ -423,7 +447,7 @@
       const t = tasks.find(item => item.id === id);
       if (t) {
         t.reason = text;
-        try { localStorage.setItem('site_tracker_data_v5', JSON.stringify(tasks)); } catch(e){}
+        try { localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks)); } catch(e){}
       }
     }
 
@@ -496,6 +520,71 @@
       }
     }
 
+    // 工種管理彈窗
+    function openTradeMgrModal() {
+      renderTradeMgrList();
+      document.getElementById('tradeMgrModal').classList.add('open');
+    }
+
+    function closeTradeMgrModal() {
+      document.getElementById('tradeMgrModal').classList.remove('open');
+    }
+
+    function renderTradeMgrList() {
+      const listEl = document.getElementById('tradeMgrList');
+      listEl.innerHTML = '';
+      customTrades.forEach((tr, index) => {
+        const row = document.createElement('div');
+        row.className = 'trade-mgr-item';
+        row.innerHTML = `
+          <span><strong>${index + 1}.</strong> ${tr}</span>
+          <button class="btn btn-modal-del" style="margin-right:0; padding:2px 8px; font-size:0.7rem;" onclick="deleteTrade('${tr}')">刪除</button>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    function addNewTrade() {
+      const val = document.getElementById('newTradeInput').value.trim();
+      if (!val) return;
+      if (customTrades.includes(val)) {
+        alert('該工種已存在！');
+        return;
+      }
+      customTrades.push(val);
+      document.getElementById('newTradeInput').value = '';
+      saveTrades();
+      renderTradeMgrList();
+    }
+
+    function deleteTrade(tradeName) {
+      if (confirm(`確定要從工種清單中刪除「${tradeName}」嗎？`)) {
+        customTrades = customTrades.filter(t => t !== tradeName);
+        saveTrades();
+        renderTradeMgrList();
+      }
+    }
+
+    function populateTradeSelect(selectedTrade) {
+      const sel = document.getElementById('inputTrade');
+      sel.innerHTML = '';
+      customTrades.forEach(tr => {
+        const opt = document.createElement('option');
+        opt.value = tr;
+        opt.innerText = tr;
+        if (tr === selectedTrade) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      // 若該工項工種不在清單中，動態加進選項
+      if (selectedTrade && !customTrades.includes(selectedTrade)) {
+        const opt = document.createElement('option');
+        opt.value = selectedTrade;
+        opt.innerText = selectedTrade + ' (自訂)';
+        opt.selected = true;
+        sel.appendChild(opt);
+      }
+    }
+
     function openEditModal(id) {
       const t = tasks.find(item => item.id === id);
       if (!t) return;
@@ -505,7 +594,7 @@
       document.getElementById('inputId').disabled = true;
       document.getElementById('inputFloor').value = t.floor;
       document.getElementById('inputName').value = t.name;
-      document.getElementById('inputTrade').value = t.trade;
+      populateTradeSelect(t.trade);
       document.getElementById('inputDep').value = t.dep;
       document.getElementById('inputCheck').value = t.check;
       document.getElementById('inputStatus').value = t.status;
@@ -523,7 +612,7 @@
       const prefix = targetFloor.startsWith('屋突') ? 'R' + targetFloor.replace('屋突','') : targetFloor;
       document.getElementById('inputId').value = `${prefix}-${Date.now().toString().slice(-4)}`;
       document.getElementById('inputName').value = '';
-      document.getElementById('inputTrade').value = '給排水';
+      populateTradeSelect('給排水');
       document.getElementById('inputDep').value = '無';
       document.getElementById('inputCheck').value = '確認施工品質合格';
       document.getElementById('inputStatus').value = '未開始';
@@ -585,6 +674,21 @@
         closeModal();
         saveData();
       }
+    }
+
+    function renderTradeFilterBar() {
+      const bar = document.getElementById('tradeFilterContainer');
+      bar.innerHTML = `
+        <button class="filter-btn ${currentTradeFilter === 'all' ? 'active' : ''}" onclick="setTradeFilter('all', this)">全部</button>
+        <button class="filter-btn danger-filter ${currentTradeFilter === 'blocked' ? 'active' : ''}" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>
+      `;
+      customTrades.forEach(tr => {
+        const btn = document.createElement('button');
+        btn.className = `filter-btn ${currentTradeFilter === tr ? 'active' : ''}`;
+        btn.innerText = tr;
+        btn.onclick = function() { setTradeFilter(tr, this); };
+        bar.appendChild(btn);
+      });
     }
 
     function renderApp() {
@@ -703,10 +807,8 @@
     function renderBillingGrid() {
       const grid = document.getElementById('billingGrid');
       grid.innerHTML = '';
-      
-      const distinctTrades = ['給排水', '消防', '弱電', '雨水', '空調排氣', '發電機簽證', '筏基人孔', '泥作', '木作', '粗工', '油漆', '瓦斯', '衛浴', '廚具', '車梯'];
 
-      distinctTrades.forEach(trade => {
+      customTrades.forEach(trade => {
         const tradeTasks = tasks.filter(t => t.trade === trade);
         if (tradeTasks.length === 0) return;
 
@@ -743,6 +845,7 @@
       a.click();
     }
 
+    renderTradeFilterBar();
     renderApp();
   </script>
 </body>
