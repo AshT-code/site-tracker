@@ -22,7 +22,12 @@
     header { background: var(--navy); color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     .header-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .header-title h1 { font-size: 1.05rem; font-weight: 700; }
-    .header-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+    .sync-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; background: #334155; color: #cbd5e1; white-space: nowrap; font-weight: 600; }
+    .sync-badge.online { background: #065f46; color: #34d399; }
+    .sync-badge.syncing { background: #854d0e; color: #fde047; }
+    .sync-badge.error { background: #991b1b; color: #fca5a5; }
+
+    .header-actions { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
     .btn { border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
     .btn-export { background: var(--primary); color: #fff; }
     .btn-add { background: #059669; color: #fff; }
@@ -45,7 +50,7 @@
     .billing-bar-bg { background: #cbd5e1; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
     .billing-bar-fill { background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease; }
 
-    .filter-wrapper { position: sticky; top: 110px; z-index: 90; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .filter-wrapper { position: sticky; top: 105px; z-index: 90; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
     .floor-filter-bar { padding: 8px 12px 4px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px dashed #e2e8f0; }
     .floor-filter-bar::-webkit-scrollbar { display: none; }
     .floor-pill { padding: 5px 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: #334155; white-space: nowrap; cursor: pointer; }
@@ -118,7 +123,6 @@
     .btn-photo-del { background: #dc2626; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
     .btn-photo-close { background: #475569; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
 
-    /* 工種管理樣式 */
     .trade-mgr-list { display: flex; flex-direction: column; gap: 6px; max-height: 40vh; overflow-y: auto; margin-top: 8px; }
     .trade-mgr-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 0.85rem; }
     .trade-mgr-add { display: flex; gap: 6px; margin-top: 10px; }
@@ -129,12 +133,13 @@
   <header>
     <div class="header-title">
       <h1>集合住宅工進與請款看板</h1>
-      <div class="header-actions">
-        <button class="btn btn-trade-mgr" onclick="openTradeMgrModal()">🛠️ 工種</button>
-        <button class="btn btn-add" onclick="openCreateModal()">＋新增</button>
-        <button class="btn btn-export" onclick="exportCSV()">匯出</button>
-        <button class="btn btn-reset" onclick="resetToDefault()">還原</button>
-      </div>
+      <span class="sync-badge" id="syncStatus">連線檢測中...</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-trade-mgr" onclick="openTradeMgrModal()">🛠️ 工種</button>
+      <button class="btn btn-add" onclick="openCreateModal()">＋新增</button>
+      <button class="btn btn-export" onclick="exportCSV()">匯出</button>
+      <button class="btn btn-reset" onclick="resetToDefault()">還原</button>
     </div>
     <div class="overall-dashboard">
       <div class="progress-info">
@@ -284,7 +289,6 @@
   <script>
     const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbz-iWf06xY8M_cqj4bjpxZQJaC4EOHlT-PB04wjcXXFwoFfxOMIpDCNJ22jv2fsvhgJ/exec";
 
-    // 預設獨立工種清單（含新納入的防火門、格柵、玻璃、鐵件、鋁窗、樓梯扶手）
     const initialTrades = [
       "給排水", "消防", "弱電", "雨水", "空調排氣", "發電機簽證", "筏基人孔",
       "防火門", "格柵", "玻璃", "鐵件", "鋁窗", "樓梯扶手",
@@ -385,6 +389,80 @@
     let currentTradeFilter = 'all';
     let currentViewingPhoto = { taskId: '', photoIndex: -1 };
 
+    // 🌐 雲端資料同步引擎 (向 Google Apps Script 抓取並覆蓋)
+    async function syncCloudData(isBackground = false) {
+      const badge = document.getElementById('syncStatus');
+      if (!GOOGLE_API_URL) {
+        badge.className = "sync-badge";
+        badge.innerText = "⚠️ 未設定 API";
+        return;
+      }
+
+      if (!isBackground) {
+        badge.className = "sync-badge syncing";
+        badge.innerText = "🔄 同步中...";
+      }
+
+      try {
+        const response = await fetch(GOOGLE_API_URL);
+        const cloudData = await response.json();
+
+        if (Array.isArray(cloudData) && cloudData.length > 0) {
+          // 合併雲端進度與本機暫存照片
+          tasks = cloudData.map(row => {
+            const localItem = tasks.find(t => t.id === (row['工項編號'] || row.id));
+            return {
+              id: row['工項編號'] || row.id,
+              floor: row['樓層/區域'] || row.floor,
+              name: row['施工項目詳細內容'] || row.name,
+              trade: row['責任工種'] || row.trade,
+              dep: row['前置依賴項'] || row.dep || '無',
+              check: row['關鍵查驗/要徑節點'] || row.check,
+              status: row['狀態'] || row.status || '未開始',
+              reason: row['卡關原因/備註'] || row.reason || '',
+              photos: localItem && localItem.photos ? localItem.photos : []
+            };
+          });
+
+          localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
+          badge.className = "sync-badge online";
+          badge.innerText = "● 雲端連線中";
+          renderApp();
+        }
+      } catch (err) {
+        console.error("雲端同步失敗:", err);
+        badge.className = "sync-badge error";
+        badge.innerText = "❌ 雲端連線失敗";
+      }
+    }
+
+    // 📤 將最新狀態推送至 Google 試算表
+    async function pushStatusToCloud(id, status, reason = "") {
+      if (!GOOGLE_API_URL) return;
+      const badge = document.getElementById('syncStatus');
+      badge.className = "sync-badge syncing";
+      badge.innerText = "🔄 上傳進度...";
+
+      try {
+        await fetch(GOOGLE_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: "updateStatus",
+            id: id,
+            status: status,
+            reason: reason
+          })
+        });
+        badge.className = "sync-badge online";
+        badge.innerText = "● 雲端連線中";
+      } catch (e) {
+        badge.className = "sync-badge error";
+        badge.innerText = "❌ 上傳失敗";
+      }
+    }
+
     function saveData() {
       try {
         localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
@@ -442,6 +520,7 @@
       if (t) {
         t.status = newStatus;
         saveData();
+        pushStatusToCloud(id, newStatus, t.reason || '');
       }
     }
 
@@ -450,6 +529,7 @@
       if (t) {
         t.reason = text;
         try { localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks)); } catch(e){}
+        pushStatusToCloud(id, t.status, text);
       }
     }
 
@@ -522,7 +602,6 @@
       }
     }
 
-    // 工種管理彈窗
     function openTradeMgrModal() {
       renderTradeMgrList();
       document.getElementById('tradeMgrModal').classList.add('open');
@@ -577,7 +656,6 @@
         if (tr === selectedTrade) opt.selected = true;
         sel.appendChild(opt);
       });
-      // 若該工項工種不在清單中，動態加進選項
       if (selectedTrade && !customTrades.includes(selectedTrade)) {
         const opt = document.createElement('option');
         opt.value = selectedTrade;
@@ -646,6 +724,7 @@
           t.check = document.getElementById('inputCheck').value;
           t.status = document.getElementById('inputStatus').value;
           t.reason = document.getElementById('inputReason').value;
+          pushStatusToCloud(editId, t.status, t.reason);
         }
       } else {
         if (tasks.some(item => item.id === idVal)) {
@@ -663,6 +742,7 @@
           reason: document.getElementById('inputReason').value,
           photos: []
         });
+        pushStatusToCloud(idVal, document.getElementById('inputStatus').value, document.getElementById('inputReason').value);
       }
       closeModal();
       saveData();
@@ -847,8 +927,17 @@
       a.click();
     }
 
+    // 初始化渲染與連線排程
     renderTradeFilterBar();
     renderApp();
+
+    // 1. 網頁開啟時立即進行雲端拉取
+    syncCloudData();
+
+    // 2. 每 10 秒自動背景輪巡一次，確保大家看到的狀態完全一致
+    setInterval(() => {
+      syncCloudData(true);
+    }, 10000);
   </script>
 </body>
 </html>
