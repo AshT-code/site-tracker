@@ -107,9 +107,10 @@
     .status-select.卡關 { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     .status-select.已完成 { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
 
-    .date-input-container { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; }
-    .date-input { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; outline: none; flex: 1; background: #fff; }
-    .date-label { white-space: nowrap; color: #475569; }
+    /* 西曆選擇器專用樣式 */
+    .date-input-container { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; background: #f8fafc; padding: 6px 8px; border-radius: 6px; border: 1px solid #cbd5e1; }
+    .date-input { padding: 5px 8px; border: 1px solid #94a3b8; border-radius: 6px; font-size: 0.85rem; outline: none; flex: 1; background: #fff; cursor: pointer; color: #0f172a; font-family: inherit; }
+    .date-label { white-space: nowrap; color: #334155; }
 
     .assistant-box { background: #fdf4ff; border: 1px solid #f0abfc; border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
     .assistant-note-input { width: 100%; font-size: 0.85rem; padding: 6px 8px; border: 1px solid #d8b4fe; border-radius: 6px; background: #fff; color: #581c87; outline: none; }
@@ -203,7 +204,7 @@
 
   <main id="app"></main>
 
-  <!-- 工項編輯/新增彈窗 -->
+  <!-- 工項編輯/新增彈窗 (完全隱藏編號) -->
   <div class="modal-overlay" id="taskModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -231,7 +232,7 @@
         </div>
         <div class="form-group">
           <label>施工項目 / 待辦詳細內容</label>
-          <input type="text" id="inputName" class="form-control">
+          <input type="text" id="inputName" class="form-control" placeholder="請輸入項目描述">
         </div>
         <div class="form-group">
           <label>責任工種（獨立選單）</label>
@@ -239,11 +240,11 @@
         </div>
         <div class="form-group">
           <label>前置依賴項</label>
-          <input type="text" id="inputDep" class="form-control">
+          <input type="text" id="inputDep" class="form-control" placeholder="例如：防水試水通過">
         </div>
         <div class="form-group">
           <label>關鍵查驗 / 要徑節點</label>
-          <input type="text" id="inputCheck" class="form-control">
+          <input type="text" id="inputCheck" class="form-control" placeholder="例如：加壓試水48hr無滲漏">
         </div>
         <div class="form-group">
           <label>目前施工狀態</label>
@@ -257,7 +258,7 @@
         </div>
         <div class="form-group">
           <label>卡關原因 / 備註</label>
-          <input type="text" id="inputReason" class="form-control">
+          <input type="text" id="inputReason" class="form-control" placeholder="遇卡關時填寫">
         </div>
       </div>
       <div class="modal-footer">
@@ -323,7 +324,6 @@
 
     const allFloorList = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];
 
-    // 預設獨立工種清單（新增：特助）
     const initialTrades = [
       "特助", "給排水", "消防", "弱電", "雨水", "空調排氣", "發電機簽證", "筏基人孔",
       "防火門", "格柵", "玻璃", "鐵件", "鋁窗", "樓梯扶手",
@@ -794,7 +794,7 @@
     function openEditModal(id) {
       const t = tasks.find(item => item.id === id);
       if (!t) return;
-      document.getElementById('modalTitle').innerText = `編輯工項`;
+      document.getElementById('modalTitle').innerText = `編輯項目`;
       document.getElementById('editTaskId').value = t.id;
       document.getElementById('inputFloor').value = t.floor;
       document.getElementById('inputName').value = t.name;
@@ -808,7 +808,7 @@
     }
 
     function openCreateModal(defaultFloor) {
-      document.getElementById('modalTitle').innerText = '新增自訂工項 / 特助待辦';
+      document.getElementById('modalTitle').innerText = '新增自訂項目';
       document.getElementById('editTaskId').value = '';
       const targetFloor = defaultFloor || (currentFloorFilter !== 'all' ? currentFloorFilter : '7F');
       document.getElementById('inputFloor').value = targetFloor;
@@ -830,7 +830,7 @@
       const editId = document.getElementById('editTaskId').value;
       const nameVal = document.getElementById('inputName').value.trim();
       if (!nameVal) {
-        alert('請填寫施工項目 / 待辦內容！');
+        alert('請填寫項目內容！');
         return;
       }
 
@@ -899,7 +899,6 @@
       const container = document.getElementById('app');
       container.innerHTML = '';
 
-      // 進度計算全面排除「特助」工項
       const constructionTasks = tasks.filter(t => t.trade !== '特助');
       const completedCount = constructionTasks.filter(t => t.status === '已完成').length;
       const ongoingCount = constructionTasks.filter(t => t.status === '進行中').length;
@@ -929,7 +928,6 @@
           return t.trade === currentTradeFilter;
         });
 
-        // 樓層進度條同樣排除「特助」
         const floorConstruction = floorTasks.filter(t => t.trade !== '特助');
         const floorCompleted = floorConstruction.filter(t => t.status === '已完成').length;
         const floorPercent = floorConstruction.length > 0 ? Math.round((floorCompleted / floorConstruction.length) * 100) : 0;
@@ -983,11 +981,10 @@
               <div class="task-dep">依賴前置：${t.dep}</div>
             </div>
 
-            <!-- 特助專屬提醒日曆與備註欄位 -->
             ${isAssistant ? `
               <div class="assistant-box">
                 <div class="date-input-container">
-                  <span class="date-label" style="color:#7e22ce;">📅 提醒特助日期:</span>
+                  <span class="date-label" style="color:#7e22ce;">📅 提醒特助日期 (西元):</span>
                   <input type="date" class="date-input" value="${t.assistantDate || ''}" onchange="updateDate('${t.id}', 'assistant', this.value)">
                 </div>
                 <input type="text" class="assistant-note-input" placeholder="📝 填寫特助需協助之具體事項/追蹤備註..." 
@@ -1017,14 +1014,14 @@
 
               ${t.status === '預計進場' ? `
                 <div class="date-input-container">
-                  <span class="date-label">📅 預計進場日:</span>
+                  <span class="date-label">📅 預計進場日 (西元):</span>
                   <input type="date" class="date-input" value="${t.plannedDate || ''}" onchange="updateDate('${t.id}', 'planned', this.value)">
                 </div>
               ` : ''}
 
               ${t.status === '已完成' ? `
                 <div class="date-input-container">
-                  <span class="date-label">✅ 實際完工日:</span>
+                  <span class="date-label">✅ 實際完工日 (西元):</span>
                   <input type="date" class="date-input" value="${t.completedDate || ''}" onchange="updateDate('${t.id}', 'completed', this.value)">
                 </div>
               ` : ''}
@@ -1047,7 +1044,6 @@
       grid.innerHTML = '';
 
       customTrades.forEach(trade => {
-        // 估驗請款看板自動排除特助
         if (trade === '特助') return;
 
         const tradeTasks = tasks.filter(t => t.trade === trade);
@@ -1096,5 +1092,3 @@
   </script>
 </body>
 </html>
-
-```
