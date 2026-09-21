@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>集合住宅工地工進追蹤系統</title>
+  <title>集合住宅工地工進追蹤系統 (救援復原版)</title>
   <style>
     :root {
       --bg: #f1f5f9;
@@ -22,16 +22,12 @@
     header { background: var(--navy); color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     .header-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .header-title h1 { font-size: 1.05rem; font-weight: 700; }
-    .sync-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; background: #334155; color: #cbd5e1; white-space: nowrap; font-weight: 600; cursor: pointer; }
-    .sync-badge.online { background: #065f46; color: #34d399; }
-    .sync-badge.syncing { background: #854d0e; color: #fde047; }
-    .sync-badge.error { background: #991b1b; color: #fecaca; }
+    .sync-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; background: #065f46; color: #34d399; white-space: nowrap; font-weight: 600; }
 
     .header-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
     .btn { border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-    .btn-pull { background: #16a34a; color: #fff; }
-    .btn-export { background: #475569; color: #fff; }
-    .btn-reset { background: #64748b; color: #fff; }
+    .btn-rescue { background: #d97706; color: #fff; font-weight: 700; }
+    .btn-export { background: var(--primary); color: #fff; }
 
     .overall-dashboard { margin-top: 10px; background: #1e293b; border-radius: 8px; padding: 10px 12px; }
     .progress-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; }
@@ -82,7 +78,6 @@
     .status-select.已完成 { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
 
     .block-reason-input { width: 100%; font-size: 0.85rem; padding: 8px; border: 1px solid #fca5a5; border-radius: 6px; background: #fff; color: #991b1b; }
-    .block-reason-input::placeholder { color: #f87171; }
   </style>
 </head>
 <body>
@@ -90,12 +85,11 @@
   <header>
     <div class="header-title">
       <h1>集合住宅工進即時追蹤</h1>
-      <span class="sync-badge online" id="syncStatus" onclick="fetchCloudData(true)">● 點此同步雲端</span>
+      <span class="sync-badge" id="syncStatus">● 本機安全保護中</span>
     </div>
     <div class="header-actions">
-      <button class="btn btn-pull" onclick="fetchCloudData(true)">📥 下載雲端最新</button>
-      <button class="btn btn-export" onclick="exportCSV()">匯出 CSV</button>
-      <button class="btn btn-reset" onclick="resetToDefault()">還原 135 項</button>
+      <button class="btn btn-rescue" onclick="rescueAllHistoricalData()">🔍 搜尋並還原歷史手填紀錄</button>
+      <button class="btn btn-export" onclick="exportCSV()">匯出 CSV (存檔備份)</button>
     </div>
     <div class="overall-dashboard">
       <div class="progress-info">
@@ -142,10 +136,8 @@
   <main id="app"></main>
 
   <script>
-    const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbz-iWf06xY8M_cqj4bjpxZQJaC4EOHlT-PB04wjcXXFwoFfxOMIpDCNJ22jv2fsvhgJ/exec";
     const allFloorList = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];
 
-    // 建立 135 筆工項資料結構
     function createAll135Tasks() {
       let data = [
         {id: "R3-01", floor: "屋突3", name: "樓面與水塔基礎廢棄物清運", trade: "粗工", dep: "主結構完成", check: "地面無積水雜物", status: "已完成", reason: ""},
@@ -186,10 +178,6 @@
         let p = fl.replace("F", "");
         for (let j = 0; j < standardItems.length; j++) {
           let item = standardItems[j];
-          let status = "未開始";
-          let reason = "";
-          if (fl === "7F" && item.idx === "01") status = "進行中";
-          if (fl === "7F" && item.idx === "02") { status = "卡關"; reason = "接頭零件缺料"; }
           data.push({
             id: "F" + p + "-" + item.idx,
             floor: fl,
@@ -197,8 +185,8 @@
             trade: item.trade,
             dep: item.dep.indexOf("0") !== -1 ? "F" + p + "-" + item.dep : item.dep,
             check: item.check,
-            status: status,
-            reason: reason
+            status: "未開始",
+            reason: ""
           });
         }
       }
@@ -248,102 +236,49 @@
       return data;
     }
 
-    // 初始化讀取：若本地暫存為空或少於 130 筆，直接重建 135 筆
-    let tasks = [];
-    try {
-      tasks = JSON.parse(localStorage.getItem('site_tracker_data_135_full')) || [];
-    } catch(e) {
-      tasks = [];
-    }
-    if (!tasks || tasks.length < 130) {
-      tasks = createAll135Tasks();
-      localStorage.setItem('site_tracker_data_135_full', JSON.stringify(tasks));
-    }
-
+    let tasks = createAll135Tasks();
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
 
-    function saveData() {
-      localStorage.setItem('site_tracker_data_135_full', JSON.stringify(tasks));
-      renderApp();
-    }
+    // 關鍵：深層救援函式（搜尋瀏覽器內所有歷史版本快取）
+    function rescueAllHistoricalData() {
+      let recoveredCount = 0;
+      const keysToSearch = Object.keys(localStorage);
 
-    function resetToDefault() {
-      if (confirm('確定要強制還原成 135 筆標準工項清單嗎？')) {
-        localStorage.removeItem('site_tracker_data_135_full');
-        tasks = createAll135Tasks();
-        saveData();
-      }
-    }
-
-    async function syncChangeToCloud(id, newStatus, reason = "") {
-      const badge = document.getElementById('syncStatus');
-      if (badge) {
-        badge.className = "sync-badge syncing";
-        badge.innerText = "🔄 寫入中...";
-      }
-
-      try {
-        const queryParams = new URLSearchParams({
-          action: "update",
-          id: id,
-          status: newStatus,
-          reason: reason,
-          t: Date.now()
-        });
-
-        await fetch(GOOGLE_API_URL + "?" + queryParams.toString(), { mode: 'no-cors' });
-
-        if (badge) {
-          badge.className = "sync-badge online";
-          badge.innerText = "● 已同步雲端";
-        }
-      } catch (err) {
-        if (badge) {
-          badge.className = "sync-badge error";
-          badge.innerText = "❌ 連線異常";
-        }
-      }
-    }
-
-    async function fetchCloudData(isManual = false) {
-      const badge = document.getElementById('syncStatus');
-      if (badge) {
-        badge.className = "sync-badge syncing";
-        badge.innerText = "🔄 下載雲端中...";
-      }
-
-      try {
-        const res = await fetch(GOOGLE_API_URL + "?t=" + Date.now());
-        const cloudData = await res.json();
-
-        if (Array.isArray(cloudData) && cloudData.length > 0) {
-          tasks.forEach(localItem => {
-            const cloudItem = cloudData.find(c => {
-              const cloudId = String(c['工項編號'] || c.id || c['編號'] || "").trim();
-              return cloudId === String(localItem.id).trim();
+      keysToSearch.forEach(key => {
+        try {
+          const itemData = JSON.parse(localStorage.getItem(key));
+          if (Array.isArray(itemData)) {
+            itemData.forEach(oldItem => {
+              if (oldItem && (oldItem.id || oldItem.name)) {
+                const target = tasks.find(t => 
+                  (oldItem.id && String(t.id).trim() === String(oldItem.id).trim()) || 
+                  (oldItem.name && t.name === oldItem.name)
+                );
+                if (target) {
+                  if (oldItem.status && oldItem.status !== '未開始') {
+                    target.status = oldItem.status;
+                    recoveredCount++;
+                  }
+                  if (oldItem.reason) target.reason = oldItem.reason;
+                }
+              }
             });
-            if (cloudItem) {
-              localItem.status = cloudItem['狀態'] || cloudItem.status || localItem.status;
-              localItem.reason = cloudItem['卡關原因/備註'] || cloudItem.reason || localItem.reason;
-            }
-          });
+          }
+        } catch(e) {}
+      });
 
-          saveData();
-          if (badge) {
-            badge.className = "sync-badge online";
-            badge.innerText = "● 雲端已連線";
-          }
-          if (isManual) {
-            alert("✅ 成功！已從 Google 試算表同步回最新施工狀態！");
-          }
-        }
-      } catch (err) {
-        if (badge) {
-          badge.className = "sync-badge online";
-          badge.innerText = "● 本機模式";
-        }
+      saveData();
+      if (recoveredCount > 0) {
+        alert(`🎉 救援成功！已自動從瀏覽器歷史暫存中找回 ${recoveredCount} 個手填施工進度！`);
+      } else {
+        alert('此設備的瀏覽器歷史暫存中沒有找到舊進度，可能已被清空或更換了不同瀏覽器開啓。');
       }
+    }
+
+    function saveData() {
+      localStorage.setItem('site_tracker_rescued_master', JSON.stringify(tasks));
+      renderApp();
     }
 
     function setFloorFilter(floor, el) {
@@ -365,7 +300,6 @@
       if (t) {
         t.status = newStatus;
         saveData();
-        syncChangeToCloud(id, newStatus, t.reason || "");
       }
     }
 
@@ -373,8 +307,7 @@
       const t = tasks.find(item => item.id === id);
       if (t) {
         t.reason = text;
-        localStorage.setItem('site_tracker_data_135_full', JSON.stringify(tasks));
-        syncChangeToCloud(id, t.status, text);
+        localStorage.setItem('site_tracker_rescued_master', JSON.stringify(tasks));
       }
     }
 
@@ -474,9 +407,19 @@
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `集合住宅工地最新工進_${new Date().toISOString().slice(0,10)}.csv`;
+      a.download = `集合住宅工地救援進度_${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
     }
+
+    // 載入即自動嘗試救援
+    try {
+      const saved = localStorage.getItem('site_tracker_rescued_master');
+      if (saved) {
+        tasks = JSON.parse(saved);
+      } else {
+        rescueAllHistoricalData();
+      }
+    } catch(e) {}
 
     renderApp();
   </script>
