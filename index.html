@@ -227,7 +227,7 @@
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
 
-    // 📥 雲端下載功能（智慧容錯版）
+    // 📥 雲端下載功能（智慧容錯版 + 支援重新導向）
     async function pullFromCloud() {
       if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycby...")) {
         alert("⚠️ 尚未設定 Apps Script 網址！");
