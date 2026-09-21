@@ -234,7 +234,7 @@
         return;
       }
       try {
-        const res = await fetch(APPS_SCRIPT_URL);
+        const res = await fetch(APPS_SCRIPT_URL, { redirect: "follow" });
         const data = await res.json();
         
         if (Array.isArray(data) && data.length > 0) {
