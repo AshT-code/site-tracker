@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>集合住宅工地工進與估驗請款系統</title>
+  <title>集合住宅工地工進追蹤系統</title>
   <style>
     :root {
       --bg: #f1f5f9;
@@ -23,18 +23,14 @@
     header { background: var(--navy); color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     .header-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .header-title h1 { font-size: 1.05rem; font-weight: 700; }
-    .sync-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; background: #334155; color: #cbd5e1; white-space: nowrap; font-weight: 600; cursor: pointer; }
+    .sync-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; background: #334155; color: #cbd5e1; white-space: nowrap; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
     .sync-badge.online { background: #065f46; color: #34d399; }
     .sync-badge.syncing { background: #854d0e; color: #fde047; }
-    .sync-badge.local { background: #475569; color: #cbd5e1; }
-    .sync-badge.error { background: #991b1b; color: #fca5a5; }
+    .sync-badge.error { background: #991b1b; color: #fecaca; }
 
-    .header-actions { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
-    .btn { border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
-    .btn-push { background: #0284c7; color: #fff; font-weight: 700; }
-    .btn-pull { background: #16a34a; color: #fff; font-weight: 700; }
-    .btn-add { background: #059669; color: #fff; }
-    .btn-trade-mgr { background: #7c3aed; color: #fff; }
+    .header-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .btn { border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+    .btn-pull { background: #16a34a; color: #fff; }
     .btn-export { background: #475569; color: #fff; }
     .btn-reset { background: #64748b; color: #fff; }
 
@@ -44,17 +40,7 @@
     .bar-bg { background: #334155; height: 10px; border-radius: 5px; overflow: hidden; }
     .bar-fill { background: #38bdf8; height: 100%; width: 0%; transition: width 0.3s ease; }
 
-    .billing-panel { margin: 12px; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .billing-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; font-weight: 700; color: #1e293b; cursor: pointer; }
-    .billing-toggle-icon { font-size: 0.8rem; color: #64748b; }
-    .billing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 10px; }
-    .billing-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; font-size: 0.75rem; }
-    .billing-trade-title { font-weight: 700; color: #334155; margin-bottom: 4px; display: flex; justify-content: space-between; }
-    .billing-trade-pct { font-weight: 700; color: #2563eb; }
-    .billing-bar-bg { background: #cbd5e1; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
-    .billing-bar-fill { background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease; }
-
-    .filter-wrapper { position: sticky; top: 105px; z-index: 90; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .filter-wrapper { position: sticky; top: 96px; z-index: 90; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
     .floor-filter-bar { padding: 8px 12px 4px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px dashed #e2e8f0; }
     .floor-filter-bar::-webkit-scrollbar { display: none; }
     .floor-pill { padding: 5px 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: #334155; white-space: nowrap; cursor: pointer; }
@@ -65,14 +51,11 @@
     .filter-btn { padding: 5px 12px; border: 1px solid var(--border); background: #fff; border-radius: 20px; font-size: 0.75rem; white-space: nowrap; cursor: pointer; font-weight: 600; color: #475569; }
     .filter-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
     .filter-btn.danger-filter.active { background: var(--danger); border-color: var(--danger); }
-    .filter-btn.assistant-filter.active { background: var(--assistant); border-color: var(--assistant); }
 
     .floor-section { margin: 12px; background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .floor-header { padding: 12px 14px; background: #f8fafc; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .floor-left { display: flex; align-items: center; gap: 8px; }
     .floor-name { font-weight: 700; font-size: 1rem; color: #1e293b; }
-    .btn-floor-add { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 2px 7px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
-    .floor-bar-container { width: 45%; }
+    .floor-bar-container { width: 50%; }
     .floor-bar-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-bottom: 3px; }
     .floor-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; }
     .floor-bar-fill { background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease; }
@@ -83,92 +66,47 @@
     .task-item.status-卡關 { background: #fff1f2; border-left: 5px solid var(--danger); }
     .task-item.status-已完成 { background: #fcfcfc; border-left: 5px solid var(--success); }
     .task-item.status-進行中 { border-left: 5px solid var(--warning); }
-    .task-item.trade-特助 { border-left: 5px solid var(--assistant); background: #faf5ff; }
 
     .task-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
     .task-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #0f172a; flex: 1; }
-    .task-actions { display: flex; gap: 4px; align-items: center; }
+    .task-id { font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; color: #475569; margin-right: 6px; font-weight: 700; }
     .badge-contractor { font-size: 0.75rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 12px; font-weight: 700; white-space: nowrap; }
-    .badge-assistant { font-size: 0.75rem; background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; padding: 2px 8px; border-radius: 12px; font-weight: 700; white-space: nowrap; }
-    .btn-icon { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 3px 6px; font-size: 0.75rem; cursor: pointer; }
 
     .task-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 2px; }
     .task-check-node { font-size: 0.8rem; color: #b91c1c; font-weight: 500; background: #fef2f2; padding: 4px 8px; border-radius: 4px; line-height: 1.3; }
     .task-dep { font-size: 0.75rem; color: #64748b; }
 
-    .task-photos { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; align-items: center; }
-    .photo-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer; flex-shrink: 0; }
-    .btn-add-photo { width: 56px; height: 56px; border: 1px dashed #94a3b8; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: #64748b; background: #f8fafc; cursor: pointer; flex-shrink: 0; }
-    .btn-add-photo input { display: none; }
-
     .task-controls { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-    .status-row { display: flex; gap: 8px; align-items: center; }
-    .status-select { padding: 8px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: 700; flex: 1; outline: none; }
+    .status-select { padding: 8px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: 700; width: 100%; outline: none; }
     .status-select.未開始 { background: #f8fafc; color: #475569; }
-    .status-select.預計進場 { background: #e0e7ff; color: #3730a3; border-color: #c7d2fe; }
     .status-select.進行中 { background: #fef3c7; color: #92400e; border-color: #fde68a; }
     .status-select.卡關 { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     .status-select.已完成 { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
 
-    .date-input-container { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; background: #f8fafc; padding: 6px 8px; border-radius: 6px; border: 1px solid #cbd5e1; }
-    .date-input { padding: 5px 8px; border: 1px solid #94a3b8; border-radius: 6px; font-size: 0.85rem; outline: none; flex: 1; background: #fff; cursor: pointer; color: #0f172a; font-family: inherit; }
-    .date-label { white-space: nowrap; color: #334155; }
-
-    .assistant-box { background: #fdf4ff; border: 1px solid #f0abfc; border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
-    .assistant-note-input { width: 100%; font-size: 0.85rem; padding: 6px 8px; border: 1px solid #d8b4fe; border-radius: 6px; background: #fff; color: #581c87; outline: none; }
     .block-reason-input { width: 100%; font-size: 0.85rem; padding: 8px; border: 1px solid #fca5a5; border-radius: 6px; background: #fff; color: #991b1b; }
-
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; }
-    .modal-overlay.open { display: flex; }
-    .modal-card { background: #fff; width: 100%; max-width: 480px; border-radius: 12px; padding: 16px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
-    .modal-header h3 { font-size: 1.1rem; color: #0f172a; }
-    .modal-form { display: flex; flex-direction: column; gap: 10px; }
-    .form-group { display: flex; flex-direction: column; gap: 4px; }
-    .form-group label { font-size: 0.8rem; font-weight: 600; color: #475569; }
-    .form-control { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; outline: none; }
-    .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; border-top: 1px solid #e2e8f0; padding-top: 10px; }
-    .btn-modal-cancel { background: #e2e8f0; color: #475569; }
-    .btn-modal-save { background: #2563eb; color: #fff; }
-    .btn-modal-del { background: #fee2e2; color: #b91c1c; margin-right: auto; }
-
-    .photo-modal-card { max-width: 90vw; background: #000; padding: 10px; border-radius: 8px; text-align: center; }
-    .photo-modal-card img { max-width: 100%; max-height: 75vh; border-radius: 4px; }
-    .photo-modal-actions { display: flex; justify-content: space-between; margin-top: 8px; }
-    .btn-photo-del { background: #dc2626; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
-    .btn-photo-close { background: #475569; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
-
-    .trade-mgr-list { display: flex; flex-direction: column; gap: 6px; max-height: 40vh; overflow-y: auto; margin-top: 8px; }
-    .trade-mgr-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 0.85rem; }
-    .trade-mgr-add { display: flex; gap: 6px; margin-top: 10px; }
-    .copy-floors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
-    .copy-floor-label { display: flex; align-items: center; gap: 4px; font-size: 0.85rem; background: #f8fafc; padding: 6px; border-radius: 4px; border: 1px solid #e2e8f0; cursor: pointer; }
+    .block-reason-input::placeholder { color: #f87171; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="header-title">
-      <h1>集合住宅工進與請款看板</h1>
-      <span class="sync-badge" id="syncStatus" onclick="pullFromCloud(true)">🔄 點擊重新整理</span>
+      <h1>集合住宅工進即時追蹤</h1>
+      <span class="sync-badge online" id="syncStatus" onclick="fetchCloudData(true)">● 點此手動更新</span>
     </div>
     <div class="header-actions">
-      <button class="btn btn-push" onclick="pushAllToCloud()">☁️ 傳上雲端</button>
-      <button class="btn btn-pull" onclick="pullFromCloud(true)">📥 下載覆蓋</button>
-      <button class="btn btn-trade-mgr" onclick="openTradeMgrModal()">🛠️ 工種</button>
-      <button class="btn btn-add" onclick="openCreateModal()">＋新增工項</button>
-      <button class="btn btn-export" onclick="exportCSV()">匯出</button>
+      <button class="btn btn-pull" onclick="fetchCloudData(true)">📥 下載雲端最新</button>
+      <button class="btn btn-export" onclick="exportCSV()">匯出 CSV</button>
       <button class="btn btn-reset" onclick="resetToDefault()">還原</button>
     </div>
     <div class="overall-dashboard">
       <div class="progress-info">
-        <span>全案完工總進度 (排除特助)</span>
+        <span>全案完工進度</span>
         <strong id="total-percent">0%</strong>
       </div>
       <div class="progress-stats">
         <span id="stat-completed">✅ 完成: 0</span>
         <span id="stat-ongoing">🔄 進行: 0</span>
-        <span id="stat-planned" style="color:#a5b4fc;">📅 預計: 0</span>
         <span id="stat-blocked" style="color:#f87171;">🚨 卡關: 0</span>
       </div>
       <div class="bar-bg">
@@ -176,14 +114,6 @@
       </div>
     </div>
   </header>
-
-  <section class="billing-panel">
-    <div class="billing-header" onclick="toggleBillingGrid()">
-      <span>📊 各獨立工種完成進度（估驗請款依據・排除特助）</span>
-      <span class="billing-toggle-icon" id="billingToggleIcon">▼ 展開/收合</span>
-    </div>
-    <div class="billing-grid" id="billingGrid"></div>
-  </section>
 
   <div class="filter-wrapper">
     <div class="floor-filter-bar">
@@ -201,355 +131,161 @@
       <button class="floor-pill" onclick="setFloorFilter('B1', this)">B1</button>
       <button class="floor-pill" onclick="setFloorFilter('B2', this)">B2</button>
     </div>
-    <div class="filter-bar" id="tradeFilterContainer"></div>
+    <div class="filter-bar" id="tradeFilterContainer">
+      <button class="filter-btn active" onclick="setTradeFilter('all', this)">全部工種 (135項)</button>
+      <button class="filter-btn danger-filter" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>
+      <button class="filter-btn" onclick="setTradeFilter('水電', this)">水電/弱電</button>
+      <button class="filter-btn" onclick="setTradeFilter('泥作', this)">泥作/防水</button>
+      <button class="filter-btn" onclick="setTradeFilter('木作', this)">木作/門窗</button>
+      <button class="filter-btn" onclick="setTradeFilter('粗工', this)">粗工清運</button>
+    </div>
   </div>
 
   <main id="app"></main>
 
-  <div class="modal-overlay" id="taskModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="modalTitle">編輯工項內容</h3>
-        <button class="btn btn-icon" onclick="closeModal()">✕</button>
-      </div>
-      <div class="modal-form">
-        <input type="hidden" id="editTaskId">
-        <div class="form-group">
-          <label>樓層 / 區域</label>
-          <select id="inputFloor" class="form-control">
-            <option value="屋突3">屋突3</option><option value="屋突2">屋突2</option><option value="屋突1">屋突1</option>
-            <option value="7F">7F</option><option value="6F">6F</option><option value="5F">5F</option>
-            <option value="4F">4F</option><option value="3F">3F</option><option value="2F">2F</option>
-            <option value="1F">1F</option><option value="B1">B1</option><option value="B2">B2</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>施工項目 / 待辦詳細內容</label>
-          <input type="text" id="inputName" class="form-control" placeholder="請輸入項目描述">
-        </div>
-        <div class="form-group">
-          <label>責任工種（獨立選單）</label>
-          <select id="inputTrade" class="form-control"></select>
-        </div>
-        <div class="form-group">
-          <label>前置依賴項</label>
-          <input type="text" id="inputDep" class="form-control" placeholder="例如：防水試水通過">
-        </div>
-        <div class="form-group">
-          <label>關鍵查驗 / 要徑節點</label>
-          <input type="text" id="inputCheck" class="form-control" placeholder="例如：加壓試水48hr無滲漏">
-        </div>
-        <div class="form-group">
-          <label>目前施工狀態</label>
-          <select id="inputStatus" class="form-control">
-            <option value="未開始">⏳ 未開始</option>
-            <option value="預計進場">📅 預計進場</option>
-            <option value="進行中">🔄 進行中</option>
-            <option value="卡關">🚨 卡關</option>
-            <option value="已完成">✅ 已完成</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>卡關原因 / 備註</label>
-          <input type="text" id="inputReason" class="form-control" placeholder="遇卡關時填寫">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-modal-del" id="btnDeleteTask" onclick="deleteTask()">🗑️ 刪除此項</button>
-        <button type="button" class="btn btn-modal-cancel" onclick="closeModal()">取消</button>
-        <button type="button" class="btn btn-modal-save" onclick="saveTaskModal()">儲存變更</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="copyTaskModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>複製此工序至其他樓層</h3>
-        <button class="btn btn-icon" onclick="closeCopyModal()">✕</button>
-      </div>
-      <input type="hidden" id="copySourceTaskId">
-      <p style="font-size:0.85rem; color:#475569;" id="copyTaskDesc"></p>
-      <div style="font-size:0.8rem; font-weight:700; margin-top:10px; color:#1e293b;">請選擇要複製貼上的目標樓層：</div>
-      <div class="copy-floors-grid" id="copyFloorsGrid"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-modal-cancel" onclick="closeCopyModal()">取消</button>
-        <button type="button" class="btn btn-modal-save" onclick="executeBatchCopy()">確認複製派發</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="tradeMgrModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>工種清單管理（自訂/編輯）</h3>
-        <button class="btn btn-icon" onclick="closeTradeMgrModal()">✕</button>
-      </div>
-      <div style="font-size:0.75rem; color:#64748b; margin-bottom:8px;">在此可新增自訂工種或刪除不再使用的工種。</div>
-      <div class="trade-mgr-list" id="tradeMgrList"></div>
-      <div class="trade-mgr-add">
-        <input type="text" id="newTradeInput" class="form-control" placeholder="輸入新工種名稱（例：防水）">
-        <button type="button" class="btn btn-add" onclick="addNewTrade()">＋新增</button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-modal-cancel" onclick="closeTradeMgrModal()">完成</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="photoModal">
-    <div class="photo-modal-card">
-      <img id="photoModalImg" src="" alt="現場照片">
-      <div class="photo-modal-actions">
-        <button class="btn-photo-del" onclick="deleteCurrentPhoto()">🗑️ 刪除這張照片</button>
-        <button class="btn-photo-close" onclick="closePhotoModal()">關閉</button>
-      </div>
-    </div>
-  </div>
-
   <script>
+    // ⚠️ 請確認此處已填入你部署成功的 Apps Script Web App 網址
     const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbz-iWf06xY8M_cqj4bjpxZQJaC4EOHlT-PB04wjcXXFwoFfxOMIpDCNJ22jv2fsvhgJ/exec";
+
     const allFloorList = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];
-    const initialTrades = [
-      "特助", "給排水", "消防", "弱電", "雨水", "空調排氣", "發電機簽證", "筏基人孔",
-      "防火門", "格柵", "玻璃", "鐵件", "鋁窗", "樓梯扶手",
-      "泥作", "木作", "粗工", "油漆", "瓦斯", "衛浴", "廚具", "車梯"
-    ];
-    let customTrades = JSON.parse(localStorage.getItem('site_custom_trades_v1')) || initialTrades;
-    if (!customTrades.includes("特助")) customTrades.unshift("特助");
 
-    const defaultData = [
-      {"id":"R3-01","floor":"屋突3","name":"樓面與水塔基礎廢棄物清運","trade":"粗工","dep":"結構完成","check":"地面潔淨無積水","status":"已完成","plannedDate":"","completedDate":"2026-03-10","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R3-02","floor":"屋突3","name":"露臺及水塔基礎防水施作與48hr試水","trade":"泥作","dep":"結構完成","check":"48hr閉水無滲漏合格","status":"已完成","plannedDate":"","completedDate":"2026-03-12","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R3-03","floor":"屋突3","name":"屋頂公區水塔吊裝定位與進出水管接管","trade":"給排水","dep":"防水完成","check":"吊裝定位、管路接通","status":"進行中","plannedDate":"2026-03-15","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R3-04","floor":"屋突3","name":"公區水塔注水滿水及水壓測試","trade":"給排水","dep":"水塔定位","check":"滿水無滲漏(未測嚴禁往下送水)","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R3-05","floor":"屋突3","name":"屋突頂端避雷針安裝與接地阻抗量測","trade":"弱電","dep":"結構完成","check":"接地電阻小於10歐姆並出具報告","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R3-06","floor":"屋突3","name":"屋頂逃生梯間排煙風機與排氣管道安裝","trade":"空調排氣","dep":"開口完成","check":"排風量符合消防排煙法規","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R3-07","floor":"屋突3","name":"屋突3逃生爬梯與安全鐵件扶手固定","trade":"鐵件","dep":"結構完成","check":"固定螺栓牢靠穩固無晃動","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R2-01","floor":"屋突2","name":"電梯機坑、水表區地坪粉刷整平","trade":"泥作","dep":"結構完成","check":"表面平整無粉化空鼓","status":"進行中","plannedDate":"2026-03-14","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R2-02","floor":"屋突2","name":"各戶集中水表組配管與減壓閥配置","trade":"給排水","dep":"水塔送水","check":"水表閥件安裝水平穩固","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R2-03","floor":"屋突2","name":"電梯井控制線槽與弱電信號管預埋","trade":"弱電","dep":"泥作粉刷","check":"管路通暢防干擾接地","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R1-01","floor":"屋突1","name":"外牆二丁掛/石材/石頭漆修補收口","trade":"泥作","dep":"結構完成","check":"勾縫密實平整防水","status":"進行中","plannedDate":"2026-03-15","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R1-02","floor":"屋突1","name":"露臺防水層施作與地磚貼附","trade":"泥作","dep":"外牆修補","check":"48hr 閉水試驗合格","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R1-03","floor":"屋突1","name":"屋突雨水排水斗安裝與立管串接","trade":"雨水","dep":"露臺防水","check":"雨水洩水無積水回冒","status":"未開始","reason":"","photos":[]},
-      {"id":"R1-04","floor":"屋突1","name":"屋突逃生梯甲種防火門安裝","trade":"防火門","dep":"泥作打底","check":"具備試合格標章、阻絕屋頂雨水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"R1-05","floor":"屋突1","name":"屋突露臺防護欄杆與樓梯扶手組裝","trade":"樓梯扶手","dep":"地磚貼附","check":"欄杆高度符合法規110cm以上","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      ...["7F","6F","5F","4F","3F"].flatMap(fl => {
-        const num = fl.replace("F","");
-        return [
-          {"id":"F" + num + "-01","floor":fl,"name":"戶內管溝廢料打除、洗孔餘泥全面清運","trade":"粗工","dep":"配管完成","check":"管溝潔淨無阻礙試水","status": fl==='7F'?'進行中':'未開始',"plannedDate": fl==='7F'?'2026-03-16':'',"completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-02","floor":fl,"name":"各戶冷熱水管打壓試水 (給水壓力測試)","trade":"給排水","dep":"清運完成","check":"加壓不掉壓(未測嚴禁泥作封填)","status": fl==='7F'?'卡關':'未開始',"plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason": fl==='7F'?'接頭零件缺料':'',"photos":[]},
-          {"id":"F" + num + "-03","floor":fl,"name":"各戶污水/廢水排管通水與防臭管檢查","trade":"給排水","dep":"清運完成","check":"暢通無滲漏無反水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-04","floor":fl,"name":"各戶消防撒水支管配置與末端測水閥安裝","trade":"消防","dep":"清運完成","check":"打壓無洩漏、撒水頭高度精確","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-05","floor":fl,"name":"各戶廚房排油煙管、浴廁排氣管穿樑安裝","trade":"空調排氣","dep":"清運完成","check":"逆止閥作動正常防臭氣回灌","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-06","floor":fl,"name":"各戶對講機、網路監視幹線拉線與面板盒","trade":"弱電","dep":"清運完成","check":"導通電阻正常、標籤清晰","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-07","floor":fl,"name":"梯廳公區管道間給水/消火主管垂直配置","trade":"給排水","dep":"頂樓水塔","check":"垂立主管固定牢靠垂直度","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-08","floor":fl,"name":"各戶瓦斯明管穿牆配置與氣密檢驗","trade":"瓦斯","dep":"清運完成","check":"氣密試壓合格並出具證明","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-09","floor":fl,"name":"各戶鋁門窗外框安裝、嵌縫塞水膠打滿","trade":"鋁窗","dep":"清運完成","check":"窗框嵌縫飽滿阻絕外水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-10","floor":fl,"name":"各戶外牆冷氣室外機造型格柵安裝固定","trade":"格柵","dep":"鋁窗安裝","check":"固定牢固、外觀平整垂直","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-11","floor":fl,"name":"泥作管溝填補包覆、地坪砂漿打底整平","trade":"泥作","dep":"水電試水","check":"表面平整包覆完全無空洞","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-12","floor":fl,"name":"各戶浴室與陽台防水層塗布(含高度加強)","trade":"泥作","dep":"泥作打底","check":"塗膜厚度均勻轉角泛水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-13","floor":fl,"name":"各戶衛浴、陽台 48 小時滿水閉水試驗","trade":"泥作","dep":"防水塗布","check":"樓下樓板天花無任何冷汗水痕","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-14","floor":fl,"name":"陽台雨水落水頭組裝與陽台地壁磚鋪貼","trade":"雨水","dep":"閉水試驗","check":"落水孔洩水順暢無淤塞","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-15","floor":fl,"name":"公共逃生梯不鏽鋼/鍛造樓梯扶手安裝","trade":"樓梯扶手","dep":"泥作打底","check":"搖晃無鬆動、接縫平滑","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-16","floor":fl,"name":"各戶防火玄關大門立框與門扇安裝","trade":"防火門","dep":"地磚鋪貼","check":"防火門甲種標章齊全、閉門順暢","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-17","floor":fl,"name":"鋁窗氣密窗扇吊掛、各戶外窗氣密玻璃安裝","trade":"玻璃","dep":"鋁窗外框","check":"矽利康填縫密實、推拉順暢","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-18","floor":fl,"name":"梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板","trade":"木作","dep":"公區管線","check":"公區管線查驗合格方可封牆","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-19","floor":fl,"name":"天花與牆面接縫批土、打磨、上第一道底漆","trade":"油漆","dep":"天花封板","check":"平整無裂紋透底","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-20","floor":fl,"name":"衛浴設備安裝 (馬桶/面盆/淋浴五金龍頭)","trade":"衛浴","dep":"油漆底漆","check":"通水出水順暢無漏","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-21","floor":fl,"name":"開放廚具、排油煙機安裝與瓦斯軟管對接","trade":"廚具","dep":"瓦斯管線","check":"抽風運轉無漏氣","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-          {"id":"F" + num + "-22","floor":fl,"name":"油漆面漆修補與全戶完工大清掃細清","trade":"粗工","dep":"設備安裝","check":"室內一塵不染鎖門交屋","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]}
-        ];
-      }),
-      {"id":"F2-01","floor":"2F","name":"戶內管溝廢料打除、洗孔餘泥全面清運","trade":"粗工","dep":"配管完成","check":"管溝潔淨","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-02","floor":"2F","name":"各戶冷熱水管壓力測試與污水通水","trade":"給排水","dep":"清運完成","check":"打壓不掉壓、通水無滲漏","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-03","floor":"2F","name":"各戶消防撒水支管與排氣通風管配置","trade":"消防","dep":"清運完成","check":"管路固定牢固","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-04","floor":"2F","name":"各戶鋁窗安裝、嵌縫、室外機格柵安裝","trade":"鋁窗","dep":"清運完成","check":"嵌縫防水飽滿","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-05","floor":"2F","name":"A/B戶私人露臺大面積防水層塗布(含轉角加強)","trade":"泥作","dep":"清運完成","check":"轉角翻起30cm泛水厚度達標","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-06","floor":"2F","name":"2F 私人露臺 48 小時滿水閉水試驗","trade":"泥作","dep":"露臺防水","check":"露臺正下方為1F店面！無水痕","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-07","floor":"2F","name":"2F露臺大排量雨水落水頭與雨水立管連接","trade":"雨水","dep":"試水合格","check":"雨水暢通防暴雨積水倒灌","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-08","floor":"2F","name":"露臺、衛浴、陽台地壁磚鋪貼","trade":"泥作","dep":"試水合格","check":"洩水坡度正常無反坡","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-09","floor":"2F","name":"2F私人露臺防護欄杆與強化玻璃組裝","trade":"玻璃","dep":"地磚鋪貼","check":"玻璃夾具牢靠、安全膠合","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F2-10","floor":"2F","name":"防火門、管道間封板、天花板、油漆設備收尾","trade":"防火門","dep":"地磚鋪貼","check":"完整裝修收口","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-01","floor":"1F","name":"進車梯車道鋼構雨遮骨架焊接固定","trade":"鐵件","dep":"結構完成","check":"焊道飽滿防鏽處理","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-02","floor":"1F","name":"車道雨遮強化膠合玻璃安裝與打膠防水","trade":"玻璃","dep":"鋼構雨遮","check":"填膠飽滿不漏水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-03","floor":"1F","name":"全棟雨水主立管與雨水滯留系統/外溝連通","trade":"雨水","dep":"雨水立管","check":"雨水匯流無回冒","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-04","floor":"1F","name":"全棟垂直排污管/廢水主管串接化糞池與外溝","trade":"給排水","dep":"垂直主管","check":"落差流通順暢無冒水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-05","floor":"1F","name":"店面A/B給排水及店面B殘障廁所配管","trade":"給排水","dep":"主管串接","check":"打壓通水無滲漏","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-06","floor":"1F","name":"店面B殘障廁所防水塗布與48hr試水","trade":"泥作","dep":"管路配好","check":"試水合格符合無障礙地坪高程","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-07","floor":"1F","name":"無障礙停車位、車道、梯廳泥作硬化整平","trade":"泥作","dep":"試水合格","check":"符合無障礙規範無落差","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-08","floor":"1F","name":"1F大廳出入口不銹鋼無障礙斜坡扶手安裝","trade":"樓梯扶手","dep":"地坪整平","check":"扶手牢固符合無障礙規範","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-09","floor":"1F","name":"店面B殘障衛浴無障礙扶手與馬桶安裝","trade":"衛浴","dep":"地坪整平","check":"通過無障礙法規查驗標準","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"F1-10","floor":"1F","name":"1F大門電子門禁、對講主機、監視鏡頭安裝","trade":"弱電","dep":"大廳整平","check":"門禁作動聯網正常","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B1-01","floor":"B1","name":"電機室、台電受電室徹底清理吸塵無粉塵","trade":"粗工","dep":"結構完成","check":"室內乾燥無粉塵防止高壓短路","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B1-02","floor":"B1","name":"台電受電盤、低壓總配電盤進場定位鎖接","trade":"給排水","dep":"清掃完成","check":"絕緣阻抗測試符合台電規範","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B1-03","floor":"B1","name":"緊急柴油發電機進場定位、排煙管穿牆配置","trade":"空調排氣","dep":"清掃完成","check":"發電機排煙耐熱包覆無漏","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B1-04","floor":"B1","name":"緊急柴油發電機現場負載測試與技師簽證報告","trade":"發電機簽證","dep":"發電機定位","check":"取得合格技師簽證與消防申報","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B1-05","floor":"B1","name":"弱電總機櫃、全棟光纖光化箱、CCTV監控總機","trade":"弱電","dep":"清掃完成","check":"監控螢幕顯示清晰全棟串聯","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B1-06","floor":"B1","name":"B1機電室、逃生梯甲種防火門安裝","trade":"防火門","dep":"配電盤定位","check":"具備遮煙防火效能","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-01","floor":"B2","name":"筏基人孔蓋密閉檢查、筏基內部積泥雜物清運","trade":"筏基人孔","dep":"結構完成","check":"人孔氣密防臭、筏基乾燥","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-02","floor":"B2","name":"雨水滯留池、B2水塔內部雜物清掃徹底","trade":"粗工","dep":"結構完成","check":"槽內無砂石防止卡死葉輪","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-03","floor":"B2","name":"雨水滯留池、筏基水箱防水層塗布補強","trade":"泥作","dep":"雜物清掃","check":"槽壁冷汗滲水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-04","floor":"B2","name":"滯留池與水箱 48hr 滿水試漏與耐壓測試","trade":"雨水","dep":"水箱防水","check":"水位無下降、外壁完全乾燥","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-05","floor":"B2","name":"滯留池沉水泵浦 (PUMP) 安裝與雙泵浮球連動","trade":"雨水","dep":"滿水試漏","check":"液位警報與強制抽排運作正常","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-06","floor":"B2","name":"消防主泵浦、撒水泵浦定位與消防管閥接通","trade":"消防","dep":"水箱試漏","check":"啟動打壓無洩漏、聯動訊號正確","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-07","floor":"B2","name":"B1-B2車梯升降導軌槽鐵與固定鐵件組裝","trade":"鐵件","dep":"結構完成","check":"骨架垂直公差內焊接牢靠","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-08","floor":"B2","name":"車梯車台吊裝、控制線路接線與載重試車","trade":"車梯","dep":"導軌組裝","check":"取得升降設備合格證、平層精準","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-09","floor":"B2","name":"停車區耐磨地坪硬化與停車位標線劃設","trade":"泥作","dep":"設備安裝","check":"地坪平整、符合使照車位標準","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]}
-    ];
+    const defaultData = [{"id": "R3-01", "floor": "屋突3", "name": "樓面與水塔基礎廢棄物清運", "trade": "粗工", "dep": "主結構完成", "check": "地面無積水雜物", "status": "已完成", "reason": ""}, {"id": "R3-02", "floor": "屋突3", "name": "露臺及水塔基礎防水施作", "trade": "防水/泥作", "dep": "R3-01", "check": "48hr 閉水試驗合格", "status": "已完成", "reason": ""}, {"id": "R3-03", "floor": "屋突3", "name": "公區水塔吊裝、配管與消火管配置", "trade": "水電", "dep": "R3-02", "check": "吊裝定位、管路接通", "status": "進行中", "reason": ""}, {"id": "R3-04", "floor": "屋突3", "name": "水塔注水與靜水壓/滲漏測試", "trade": "水電", "dep": "R3-03", "check": "滿水無滲漏(未測嚴禁往下送水)", "status": "未開始", "reason": ""}, {"id": "R2-01", "floor": "屋突2", "name": "電梯機坑、水表區地面粉刷修補", "trade": "泥作", "dep": "R3-01", "check": "表面平整無粉化", "status": "進行中", "reason": ""}, {"id": "R2-02", "floor": "屋突2", "name": "水表集中區配管、電梯管道預埋管", "trade": "水電", "dep": "R3-03", "check": "管位精準固定牢固", "status": "未開始", "reason": ""}, {"id": "R1-01", "floor": "屋突1", "name": "外牆二丁掛/石材/石頭漆修補收口", "trade": "泥作/外牆", "dep": "無", "check": "勾縫密實平整", "status": "進行中", "reason": ""}, {"id": "R1-02", "floor": "屋突1", "name": "露臺防水層施作與地磚貼附", "trade": "防水/泥作", "dep": "R1-01", "check": "48hr 閉水試驗合格", "status": "未開始", "reason": ""}, {"id": "R1-03", "floor": "屋突1", "name": "屋突逃生梯防火門安裝", "trade": "門窗", "dep": "R1-02", "check": "氣密阻絕雨水灌入", "status": "未開始", "reason": ""}, {"id": "F7-01", "floor": "7F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "進行中", "reason": ""}, {"id": "F7-02", "floor": "7F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F7-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "卡關", "reason": "接頭零件缺料"}, {"id": "F7-03", "floor": "7F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F7-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""}, {"id": "F7-04", "floor": "7F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "R3-03", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""}, {"id": "F7-05", "floor": "7F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F7-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""}, {"id": "F7-06", "floor": "7F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F7-02/F7-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""}, {"id": "F7-07", "floor": "7F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F7-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""}, {"id": "F7-08", "floor": "7F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F7-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""}, {"id": "F7-09", "floor": "7F", "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F7-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""}, {"id": "F7-10", "floor": "7F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F7-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""}, {"id": "F7-11", "floor": "7F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F7-10", "check": "垂直水平精確", "status": "未開始", "reason": ""}, {"id": "F7-12", "floor": "7F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F7-04/F7-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""}, {"id": "F7-13", "floor": "7F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F7-11/F7-12", "check": "平整無透底", "status": "未開始", "reason": ""}, {"id": "F7-14", "floor": "7F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F7-09/F7-13", "check": "出水排水正常", "status": "未開始", "reason": ""}, {"id": "F7-15", "floor": "7F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F7-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""}, {"id": "F7-16", "floor": "7F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F7-13", "check": "回路正常通電", "status": "未開始", "reason": ""}, {"id": "F7-17", "floor": "7F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F7-14/F7-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""}, {"id": "F7-18", "floor": "7F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F7-14~F7-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""},
+    ...["6F","5F","4F","3F"].flatMap(fl => {
+      const num = fl.replace("F","");
+      return [
+        {"id": "F" + num + "-01", "floor": fl, "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-02", "floor": fl, "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F" + num + "-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-03", "floor": fl, "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F" + num + "-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-04", "floor": fl, "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "垂主管", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-05", "floor": fl, "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F" + num + "-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-06", "floor": fl, "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F" + num + "-02/F" + num + "-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-07", "floor": fl, "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F" + num + "-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-08", "floor": fl, "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F" + num + "-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-09", "floor": fl, "name": "衛浴/陽台地壁磚鋪貼、填縫", "trade": "泥作", "dep": "F" + num + "-08", "check": "洩水坡度正常", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-10", "floor": fl, "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F" + num + "-09", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-11", "floor": fl, "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F" + num + "-10", "check": "垂直水平精確", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-12", "floor": fl, "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F" + num + "-04/F" + num + "-10", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-13", "floor": fl, "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F" + num + "-11/F" + num + "-12", "check": "平整無透底", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-14", "floor": fl, "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F" + num + "-09/F" + num + "-13", "check": "出水排水正常", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-15", "floor": fl, "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F" + num + "-13", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-16", "floor": fl, "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F" + num + "-13", "check": "回路正常通電", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-17", "floor": fl, "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F" + num + "-14/F" + num + "-15", "check": "開關順暢無異音", "status": "未開始", "reason": ""},
+        {"id": "F" + num + "-18", "floor": fl, "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F" + num + "-14~F" + num + "-17", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""}
+      ];
+    }),
+    {"id": "F2-01", "floor": "2F", "name": "戶內管溝打除廢料、洗孔餘泥全面清運", "trade": "粗工", "dep": "配管完成", "check": "管溝乾淨無阻礙", "status": "未開始", "reason": ""},
+    {"id": "F2-02", "floor": "2F", "name": "戶內給水管壓力測試 (打壓試水)", "trade": "水電", "dep": "F2-01", "check": "打壓不掉壓(未測嚴禁泥作填溝)", "status": "未開始", "reason": ""},
+    {"id": "F2-03", "floor": "2F", "name": "戶內排污/廢水/雨水通水試驗", "trade": "水電", "dep": "F2-01", "check": "滿水暢通無滲漏無回冒", "status": "未開始", "reason": ""},
+    {"id": "F2-04", "floor": "2F", "name": "梯廳公區管道間垂直主管、消防撒水配置", "trade": "水電", "dep": "F3-04", "check": "垂主管貫通、支管就位", "status": "未開始", "reason": ""},
+    {"id": "F2-05", "floor": "2F", "name": "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", "trade": "門窗/泥作", "dep": "F2-01", "check": "嵌縫飽滿防雨水潑入", "status": "未開始", "reason": ""},
+    {"id": "F2-06", "floor": "2F", "name": "泥作管溝填補打底、地坪水泥砂漿整平", "trade": "泥作", "dep": "F2-02/F2-03", "check": "表面平整包覆完全", "status": "未開始", "reason": ""},
+    {"id": "F2-07", "floor": "2F", "name": "各戶衛浴、陽台防水層塗布(含翻起高度)", "trade": "防水/泥作", "dep": "F2-06", "check": "塗膜厚度達標、轉角加強", "status": "未開始", "reason": ""},
+    {"id": "F2-08", "floor": "2F", "name": "衛浴、陽台 48 小時閉水試驗", "trade": "防水/泥作", "dep": "F2-07", "check": "樓下天花板完全無滲漏(關鍵要徑)", "status": "未開始", "reason": ""},
+    {"id": "F2-09", "floor": "2F", "name": "A/B戶私人露臺大面積防水施作", "trade": "防水/泥作", "dep": "F2-06", "check": "露臺下方為1F店面！要徑", "status": "未開始", "reason": ""},
+    {"id": "F2-10", "floor": "2F", "name": "2F 露臺 48 小時滿水閉水試驗", "trade": "防水/泥作", "dep": "F2-09", "check": "1F店面天花板完全乾燥無滲漏", "status": "未開始", "reason": ""},
+    {"id": "F2-11", "floor": "2F", "name": "衛浴/陽台/露臺地壁磚鋪貼", "trade": "泥作", "dep": "F2-08/F2-10", "check": "洩水至落水孔暢通", "status": "未開始", "reason": ""},
+    {"id": "F2-12", "floor": "2F", "name": "泥作碎磚、砂漿廢料清運，室內吸塵洗地", "trade": "粗工", "dep": "F2-11", "check": "地面無水泥硬塊粉塵", "status": "未開始", "reason": ""},
+    {"id": "F2-13", "floor": "2F", "name": "防火門安裝、各室內木門框立框", "trade": "門窗/木作", "dep": "F2-12", "check": "垂直水平精確", "status": "未開始", "reason": ""},
+    {"id": "F2-14", "floor": "2F", "name": "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", "trade": "木作", "dep": "F2-04/F2-12", "check": "公區管線確認完成才可封板", "status": "未開始", "reason": ""},
+    {"id": "F2-15", "floor": "2F", "name": "室外機平台格柵安裝、欄杆固定", "trade": "門窗/泥作", "dep": "F2-11", "check": "固定牢固、外觀平整", "status": "未開始", "reason": ""},
+    {"id": "F2-16", "floor": "2F", "name": "牆面與天花板接縫批土、打磨、上底漆", "trade": "油漆", "dep": "F2-13/F2-14", "check": "平整無透底", "status": "未開始", "reason": ""},
+    {"id": "F2-17", "floor": "2F", "name": "衛浴設備安裝 (馬桶/面盆/淋浴五金)", "trade": "水電/衛浴", "dep": "F2-11/F2-16", "check": "出水排水正常", "status": "未開始", "reason": ""},
+    {"id": "F2-18", "floor": "2F", "name": "開放式系統廚具、抽油煙機、瓦斯管對接", "trade": "廚具/瓦斯", "dep": "F2-16", "check": "瓦斯氣密檢測通過", "status": "未開始", "reason": ""},
+    {"id": "F2-19", "floor": "2F", "name": "插座/開關/對講機面板安裝、燈具裝設", "trade": "水電/弱電", "dep": "F2-14", "check": "回路正常通電", "status": "未開始", "reason": ""},
+    {"id": "F2-20", "floor": "2F", "name": "室內門片吊掛、五金把手鎖件安裝", "trade": "木作", "dep": "F2-15/F2-16", "check": "開關順暢無異音", "status": "未開始", "reason": ""},
+    {"id": "F2-21", "floor": "2F", "name": "油漆面漆修補、全戶及梯廳完工細部清潔", "trade": "粗工/油漆", "dep": "F2-15~F2-16", "check": "全戶潔淨可鎖門交屋", "status": "未開始", "reason": ""},
+    {"id": "F1-01", "floor": "1F", "name": "進車梯車道雨遮安裝、外牆修補", "trade": "泥作/鐵件", "dep": "結構完成", "check": "排水天溝順暢防雨水灌入", "status": "未開始", "reason": ""},
+    {"id": "F1-02", "floor": "1F", "name": "全棟垂直排污管/雨水管串接化糞池與外溝", "trade": "水電", "dep": "2-7F垂直主管", "check": "接合密合度、跌水高程正確", "status": "未開始", "reason": ""},
+    {"id": "F1-03", "floor": "1F", "name": "全棟排水主立管高落差灌水流通測試", "trade": "水電", "dep": "F1-02", "check": "樓上同時放水1F匯流無回冒", "status": "未開始", "reason": ""},
+    {"id": "F1-04", "floor": "1F", "name": "店面B殘障廁所防水塗布與 48hr 閉水試驗", "trade": "防水/泥作", "dep": "配管完成", "check": "48hr試水合格符無障礙坡度", "status": "未開始", "reason": ""},
+    {"id": "F1-05", "floor": "1F", "name": "無障礙坡道、車道入口、停車位地坪泥作硬化", "trade": "泥作", "dep": "F1-03/F1-04", "check": "符合無障礙規範抗裂平整", "status": "未開始", "reason": ""},
+    {"id": "F1-06", "floor": "1F", "name": "1F大廳梯廳天花板骨架、逃生梯防火門安裝", "trade": "木作/門窗", "dep": "F1-05", "check": "防火門具備合格標章", "status": "未開始", "reason": ""},
+    {"id": "F1-07", "floor": "1F", "name": "店面B殘障衛浴無障礙扶手、器具安裝", "trade": "衛浴/水電", "dep": "F1-04/F1-05", "check": "符合無障礙勘驗標準", "status": "未開始", "reason": ""},
+    {"id": "B1-01", "floor": "B1", "name": "電機室、台電配電室廢棄物徹底清掃吸塵", "trade": "粗工", "dep": "結構完成", "check": "室內無粉塵積水防設備短路", "status": "未開始", "reason": ""},
+    {"id": "B1-02", "floor": "B1", "name": "台電受電盤、低壓配電盤進場定位與匯流排鎖接", "trade": "水電/機電", "dep": "B1-01", "check": "絕緣電阻測試符合法規", "status": "未開始", "reason": ""},
+    {"id": "B2-01", "floor": "B2", "name": "雨水滯留池、B2水塔內外側泥作雜物清運", "trade": "粗工", "dep": "結構完成", "check": "槽底無石泥塊防葉輪損壞", "status": "未開始", "reason": ""},
+    {"id": "B2-02", "floor": "B2", "name": "雨水滯留池、筏基水箱防水塗布與補強", "trade": "防水/泥作", "dep": "B2-01", "check": "槽體防水無孔隙", "status": "未開始", "reason": ""},
+    {"id": "B2-03", "floor": "B2", "name": "滯留池與水箱 48hr 滿水試漏測試", "trade": "防水/水電", "dep": "B2-02", "check": "水位無下降、外壁無滲水", "status": "未開始", "reason": ""},
+    {"id": "B2-04", "floor": "B2", "name": "滯留池沉水泵浦 (PUMP) 安裝與浮球連動測試", "trade": "水電", "dep": "B2-03", "check": "雙泵交替運轉正常", "status": "未開始", "reason": ""},
+    {"id": "B2-05", "floor": "B2", "name": "車梯升降機構骨架組裝、機坑防水檢查", "trade": "車梯廠商", "dep": "B2-01", "check": "軌道垂直公差內、機坑乾燥", "status": "未開始", "reason": ""},
+    {"id": "B2-06", "floor": "B2", "name": "車梯車台吊裝、控制線路接線與載重試車", "trade": "車梯廠商", "dep": "B1-02/B2-05", "check": "平層精度合格、安全作動正常", "status": "未開始", "reason": ""}];
 
-    let tasks = JSON.parse(localStorage.getItem('site_tracker_data_v6')) || defaultData;
+    let tasks = JSON.parse(localStorage.getItem('site_tracker_data_final')) || defaultData;
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
-    let currentViewingPhoto = { taskId: '', photoIndex: -1 };
 
-    // 核心：全量整包上傳到 Google 雲端試算表
-    async function pushAllToCloud() {
-      const badge = document.getElementById('syncStatus');
-      badge.className = "sync-badge syncing";
-      badge.innerText = "⏳ 正在傳上雲端...";
+    function saveData() {
+      localStorage.setItem('site_tracker_data_final', JSON.stringify(tasks));
+      renderApp();
+    }
 
-      localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
-      const payload = JSON.stringify({
-        mode: "FULL_SYNC",
-        tasks: tasks
-      });
-
-      try {
-        await fetch(GOOGLE_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: payload
-        });
-        badge.className = "sync-badge online";
-        badge.innerText = "● 雲端已同步最新";
-        alert("🎉 成功！已將全案所有樓層與工項資料完整推播至 Google 試算表！\n\n現在請拿起手機點擊「📥 下載覆蓋」，手機就會立刻同步變更！");
-      } catch (e) {
-        badge.className = "sync-badge local";
-        badge.innerText = "● 儲存於本機";
-        alert("傳送失敗，請確認網路連線！");
+    function resetToDefault() {
+      if (confirm('確定要還原成初始預設資料嗎？現場手動填寫的狀態將會被重設。')) {
+        localStorage.removeItem('site_tracker_data_final');
+        tasks = JSON.parse(JSON.stringify(defaultData));
+        saveData();
       }
     }
 
-    // 核心：從 Google 雲端強制拉回並完全覆蓋本機 (強化中英文欄位比對與防快取)
-    async function pullFromCloud(isManual = false) {
+    // 單筆變更即時寫入 Google 試算表（確定有效的通道）
+    async function syncChangeToCloud(id, newStatus, reason = "") {
+      const badge = document.getElementById('syncStatus');
+      badge.className = "sync-badge syncing";
+      badge.innerText = "🔄 寫入中...";
+
+      try {
+        const queryParams = new URLSearchParams({
+          action: "update",
+          id: id,
+          status: newStatus,
+          reason: reason,
+          t: Date.now()
+        });
+
+        // 呼叫驗證成功的 GET 寫入通道
+        await fetch(GOOGLE_API_URL + "?" + queryParams.toString(), { mode: 'no-cors' });
+
+        badge.className = "sync-badge online";
+        badge.innerText = "● 已同步雲端";
+      } catch (err) {
+        badge.className = "sync-badge error";
+        badge.innerText = "❌ 連線異常";
+      }
+    }
+
+    // 從 Google 試算表強制下載最新工進覆蓋本地
+    async function fetchCloudData(isManual = false) {
       const badge = document.getElementById('syncStatus');
       badge.className = "sync-badge syncing";
       badge.innerText = "🔄 下載雲端中...";
 
       try {
-        const response = await fetch(GOOGLE_API_URL + "?t=" + new Date().getTime());
-        const cloudData = await response.json();
+        const res = await fetch(GOOGLE_API_URL + "?t=" + Date.now());
+        const cloudData = await res.json();
 
         if (Array.isArray(cloudData) && cloudData.length > 0) {
           tasks = tasks.map(localItem => {
-            const cloudItem = cloudData.find(c => 
-              String(c['工項編號'] || c['id'] || c['ID']) === String(localItem.id)
-            );
+            const cloudItem = cloudData.find(c => String(c['工項編號'] || c.id) === String(localItem.id));
             if (!cloudItem) return localItem;
 
             return {
               ...localItem,
-              status: cloudItem['狀態'] || cloudItem['status'] || localItem.status,
-              plannedDate: cloudItem['預計進場日期'] || cloudItem['plannedDate'] || '',
-              completedDate: cloudItem['完成日期'] || cloudItem['completedDate'] || '',
-              assistantDate: cloudItem['特助提醒日期'] || cloudItem['assistantDate'] || '',
-              assistantNote: cloudItem['特助備註'] || cloudItem['assistantNote'] || '',
-              reason: cloudItem['卡關原因/備註'] || cloudItem['reason'] || ''
+              status: cloudItem['狀態'] || cloudItem.status || localItem.status,
+              reason: cloudItem['卡關原因/備註'] || cloudItem.reason || localItem.reason
             };
           });
 
-          localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
+          localStorage.setItem('site_tracker_data_final', JSON.stringify(tasks));
           badge.className = "sync-badge online";
           badge.innerText = "● 雲端已連線";
           renderApp();
           if (isManual) {
-            alert("✅ 成功！已從 Google 試算表同步回最新施工狀態！共更新 " + cloudData.length + " 筆。");
+            alert("✅ 成功！已從 Google 試算表同步回最新施工狀態！");
           }
-        } else {
-          badge.className = "sync-badge local";
-          badge.innerText = "● 雲端尚無資料";
-          if (isManual) alert("雲端試算表目前尚無資料，請先在電腦端點擊「☁️ 傳上雲端」！");
         }
       } catch (err) {
-        badge.className = "sync-badge local";
-        badge.innerText = "● 離線/連線失敗";
-        if (isManual) alert("下載失敗，請檢查網路或確認 Google Apps Script 權限！");
-      }
-    }
-
-    async function pushStatusToCloud(id, status, reason = "", plannedDate = "", completedDate = "", assistantDate = "", assistantNote = "") {
-      const badge = document.getElementById('syncStatus');
-      badge.className = "sync-badge syncing";
-      badge.innerText = "🔄 寫入中...";
-
-      localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
-      try {
-        const payload = JSON.stringify({
-          id: id,
-          status: status,
-          reason: reason,
-          plannedDate: plannedDate,
-          completedDate: completedDate,
-          assistantDate: assistantDate,
-          assistantNote: assistantNote
-        });
-
-        await fetch(GOOGLE_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: payload
-        });
-
-        badge.className = "sync-badge online";
-        badge.innerText = "● 儲存完成";
-      } catch (e) {
-        badge.className = "sync-badge local";
-        badge.innerText = "● 已存本地";
-      }
-    }
-
-    function saveData() {
-      try {
-        localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
-      } catch (e) {
-        alert('儲存空間不足，請適當刪除部分照片！');
-      }
-      renderApp();
-    }
-
-    function saveTrades() {
-      localStorage.setItem('site_custom_trades_v1', JSON.stringify(customTrades));
-      renderTradeFilterBar();
-      renderApp();
-    }
-
-    function resetToDefault() {
-      if (confirm('確定要還原成初始預設資料嗎？現場手動變更與照片將會重設。')) {
-        localStorage.removeItem('site_tracker_data_v6');
-        localStorage.removeItem('site_custom_trades_v1');
-        tasks = JSON.parse(JSON.stringify(defaultData));
-        customTrades = [...initialTrades];
-        saveTrades();
-        renderApp();
-      }
-    }
-
-    function toggleBillingGrid() {
-      const grid = document.getElementById('billingGrid');
-      const icon = document.getElementById('billingToggleIcon');
-      if (grid.style.display === 'none') {
-        grid.style.display = 'grid';
-        icon.innerText = '▲ 收合';
-      } else {
-        grid.style.display = 'none';
-        icon.innerText = '▼ 展開';
+        badge.className = "sync-badge error";
+        badge.innerText = "● 本機離線模式";
       }
     }
 
@@ -571,31 +307,8 @@
       const t = tasks.find(item => item.id === id);
       if (t) {
         t.status = newStatus;
-        const today = new Date().toISOString().split('T')[0];
-        if (newStatus === '預計進場' && !t.plannedDate) t.plannedDate = today;
-        if (newStatus === '已完成' && !t.completedDate) t.completedDate = today;
         saveData();
-        pushStatusToCloud(id, newStatus, t.reason || '', t.plannedDate || '', t.completedDate || '', t.assistantDate || '', t.assistantNote || '');
-      }
-    }
-
-    function updateDate(id, type, dateVal) {
-      const t = tasks.find(item => item.id === id);
-      if (t) {
-        if (type === 'planned') t.plannedDate = dateVal;
-        if (type === 'completed') t.completedDate = dateVal;
-        if (type === 'assistant') t.assistantDate = dateVal;
-        saveData();
-        pushStatusToCloud(id, t.status, t.reason || '', t.plannedDate || '', t.completedDate || '', t.assistantDate || '', t.assistantNote || '');
-      }
-    }
-
-    function updateAssistantNote(id, text) {
-      const t = tasks.find(item => item.id === id);
-      if (t) {
-        t.assistantNote = text;
-        saveData();
-        pushStatusToCloud(id, t.status, t.reason || '', t.plannedDate || '', t.completedDate || '', t.assistantDate || '', text);
+        syncChangeToCloud(id, newStatus, t.reason || "");
       }
     }
 
@@ -603,354 +316,53 @@
       const t = tasks.find(item => item.id === id);
       if (t) {
         t.reason = text;
-        saveData();
-        pushStatusToCloud(id, t.status, text, t.plannedDate || '', t.completedDate || '', t.assistantDate || '', t.assistantNote || '');
+        localStorage.setItem('site_tracker_data_final', JSON.stringify(tasks));
+        syncChangeToCloud(id, t.status, text);
       }
-    }
-
-    function openCopyModal(taskId) {
-      const t = tasks.find(item => item.id === taskId);
-      if (!t) return;
-      document.getElementById('copySourceTaskId').value = taskId;
-      document.getElementById('copyTaskDesc').innerText = "複製來源（" + t.floor + "）：" + t.name + " (" + t.trade + ")";
-
-      const grid = document.getElementById('copyFloorsGrid');
-      grid.innerHTML = '';
-      allFloorList.forEach(fl => {
-        if (fl !== t.floor) {
-          const lbl = document.createElement('label');
-          lbl.className = 'copy-floor-label';
-          lbl.innerHTML = '<input type="checkbox" name="copyFloorTarget" value="' + fl + '"> ' + fl;
-          grid.appendChild(lbl);
-        }
-      });
-      document.getElementById('copyTaskModal').classList.add('open');
-    }
-
-    function closeCopyModal() {
-      document.getElementById('copyTaskModal').classList.remove('open');
-    }
-
-    function executeBatchCopy() {
-      const sourceId = document.getElementById('copySourceTaskId').value;
-      const src = tasks.find(item => item.id === sourceId);
-      if (!src) return;
-
-      const checkedFloors = Array.from(document.querySelectorAll('input[name="copyFloorTarget"]:checked')).map(cb => cb.value);
-      if (checkedFloors.length === 0) {
-        alert('請至少勾選一個要複製的目標樓層！');
-        return;
-      }
-
-      checkedFloors.forEach(targetFloor => {
-        const newId = "T-" + Date.now().toString().slice(-5) + "-" + Math.floor(Math.random()*1000);
-        tasks.push({
-          id: newId,
-          floor: targetFloor,
-          name: src.name,
-          trade: src.trade,
-          dep: src.dep,
-          check: src.check,
-          status: '未開始',
-          plannedDate: '',
-          completedDate: '',
-          assistantDate: src.assistantDate || '',
-          assistantNote: src.assistantNote || '',
-          reason: '',
-          photos: []
-        });
-      });
-
-      closeCopyModal();
-      saveData();
-      pushAllToCloud();
-      alert("✅ 已成功將此工序複製發佈至：" + checkedFloors.join('、') + "！");
-    }
-
-    function handlePhotoUpload(taskId, inputEl) {
-      const files = inputEl.files;
-      if (!files || files.length === 0) return;
-      const t = tasks.find(item => item.id === taskId);
-      if (!t) return;
-      if (!t.photos) t.photos = [];
-
-      Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = new Image();
-          img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const maxDimension = 600;
-            let width = img.width;
-            let height = img.height;
-            if (width > height) {
-              if (width > maxDimension) {
-                height = Math.round((height * maxDimension) / width);
-                width = maxDimension;
-              }
-            } else {
-              if (height > maxDimension) {
-                width = Math.round((width * maxDimension) / height);
-                height = maxDimension;
-              }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            const compressedData = canvas.toDataURL('image/jpeg', 0.5);
-            t.photos.push(compressedData);
-            saveData();
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-      inputEl.value = '';
-    }
-
-    function viewPhoto(taskId, index) {
-      const t = tasks.find(item => item.id === taskId);
-      if (!t || !t.photos || !t.photos[index]) return;
-      currentViewingPhoto = { taskId, photoIndex: index };
-      document.getElementById('photoModalImg').src = t.photos[index];
-      document.getElementById('photoModal').classList.add('open');
-    }
-
-    function closePhotoModal() {
-      document.getElementById('photoModal').classList.remove('open');
-      currentViewingPhoto = { taskId: '', photoIndex: -1 };
-    }
-
-    function deleteCurrentPhoto() {
-      const { taskId, photoIndex } = currentViewingPhoto;
-      if (!taskId || photoIndex < 0) return;
-      if (confirm('確定要刪除這張查驗照片嗎？')) {
-        const t = tasks.find(item => item.id === taskId);
-        if (t && t.photos) {
-          t.photos.splice(photoIndex, 1);
-          closePhotoModal();
-          saveData();
-        }
-      }
-    }
-
-    function openTradeMgrModal() {
-      renderTradeMgrList();
-      document.getElementById('tradeMgrModal').classList.add('open');
-    }
-
-    function closeTradeMgrModal() {
-      document.getElementById('tradeMgrModal').classList.remove('open');
-    }
-
-    function renderTradeMgrList() {
-      const listEl = document.getElementById('tradeMgrList');
-      listEl.innerHTML = '';
-      customTrades.forEach((tr, index) => {
-        const row = document.createElement('div');
-        row.className = 'trade-mgr-item';
-        row.innerHTML = '<span><strong>' + (index + 1) + '.</strong> ' + tr + '</span>' + 
-          (tr === '特助' ? '<span style="font-size:0.75rem; color:#9333ea; font-weight:700;">(專屬助理工種)</span>' : 
-            '<button class="btn btn-modal-del" style="margin-right:0; padding:2px 8px; font-size:0.7rem;" onclick="deleteTrade(\'' + tr + '\')">刪除</button>');
-        listEl.appendChild(row);
-      });
-    }
-
-    function addNewTrade() {
-      const val = document.getElementById('newTradeInput').value.trim();
-      if (!val) return;
-      if (customTrades.includes(val)) {
-        alert('該工種已存在！');
-        return;
-      }
-      customTrades.push(val);
-      document.getElementById('newTradeInput').value = '';
-      saveTrades();
-      renderTradeMgrList();
-    }
-
-    function deleteTrade(tradeName) {
-      if (confirm("確定要從工種清單中刪除「" + tradeName + "」嗎？")) {
-        customTrades = customTrades.filter(t => t !== tradeName);
-        saveTrades();
-        renderTradeMgrList();
-      }
-    }
-
-    function populateTradeSelect(selectedTrade) {
-      const sel = document.getElementById('inputTrade');
-      sel.innerHTML = '';
-      customTrades.forEach(tr => {
-        const opt = document.createElement('option');
-        opt.value = tr;
-        opt.innerText = tr;
-        if (tr === selectedTrade) opt.selected = true;
-        sel.appendChild(opt);
-      });
-      if (selectedTrade && !customTrades.includes(selectedTrade)) {
-        const opt = document.createElement('option');
-        opt.value = selectedTrade;
-        opt.innerText = selectedTrade + ' (自訂)';
-        opt.selected = true;
-        sel.appendChild(opt);
-      }
-    }
-
-    function openEditModal(id) {
-      const t = tasks.find(item => item.id === id);
-      if (!t) return;
-      document.getElementById('modalTitle').innerText = "編輯項目";
-      document.getElementById('editTaskId').value = t.id;
-      document.getElementById('inputFloor').value = t.floor;
-      document.getElementById('inputName').value = t.name;
-      populateTradeSelect(t.trade);
-      document.getElementById('inputDep').value = t.dep;
-      document.getElementById('inputCheck').value = t.check;
-      document.getElementById('inputStatus').value = t.status;
-      document.getElementById('inputReason').value = t.reason || '';
-      document.getElementById('btnDeleteTask').style.display = 'block';
-      document.getElementById('taskModal').classList.add('open');
-    }
-
-    function openCreateModal(defaultFloor) {
-      document.getElementById('modalTitle').innerText = '新增自訂項目';
-      document.getElementById('editTaskId').value = '';
-      const targetFloor = defaultFloor || (currentFloorFilter !== 'all' ? currentFloorFilter : '7F');
-      document.getElementById('inputFloor').value = targetFloor;
-      document.getElementById('inputName').value = '';
-      populateTradeSelect(currentTradeFilter === '特助' ? '特助' : '泥作');
-      document.getElementById('inputDep').value = '無';
-      document.getElementById('inputCheck').value = '確認施工品質合格';
-      document.getElementById('inputStatus').value = '未開始';
-      document.getElementById('inputReason').value = '';
-      document.getElementById('btnDeleteTask').style.display = 'none';
-      document.getElementById('taskModal').classList.add('open');
-    }
-
-    function closeModal() {
-      document.getElementById('taskModal').classList.remove('open');
-    }
-
-    function saveTaskModal() {
-      const editId = document.getElementById('editTaskId').value;
-      const nameVal = document.getElementById('inputName').value.trim();
-      if (!nameVal) {
-        alert('請填寫項目內容！');
-        return;
-      }
-
-      if (editId) {
-        const t = tasks.find(item => item.id === editId);
-        if (t) {
-          t.floor = document.getElementById('inputFloor').value;
-          t.name = nameVal;
-          t.trade = document.getElementById('inputTrade').value;
-          t.dep = document.getElementById('inputDep').value;
-          t.check = document.getElementById('inputCheck').value;
-          t.status = document.getElementById('inputStatus').value;
-          t.reason = document.getElementById('inputReason').value;
-          saveData();
-          pushStatusToCloud(editId, t.status, t.reason, t.plannedDate || '', t.completedDate || '', t.assistantDate || '', t.assistantNote || '');
-        }
-      } else {
-        const newId = "T-" + Date.now().toString().slice(-6);
-        tasks.push({
-          id: newId,
-          floor: document.getElementById('inputFloor').value,
-          name: nameVal,
-          trade: document.getElementById('inputTrade').value,
-          dep: document.getElementById('inputDep').value,
-          check: document.getElementById('inputCheck').value,
-          status: document.getElementById('inputStatus').value,
-          plannedDate: '',
-          completedDate: '',
-          assistantDate: '',
-          assistantNote: '',
-          reason: document.getElementById('inputReason').value,
-          photos: []
-        });
-        saveData();
-        pushStatusToCloud(newId, document.getElementById('inputStatus').value, document.getElementById('inputReason').value, '', '', '', '');
-      }
-      closeModal();
-    }
-
-    function deleteTask() {
-      const editId = document.getElementById('editTaskId').value;
-      if (!editId) return;
-      if (confirm("確定要永久刪除此項目嗎？")) {
-        tasks = tasks.filter(item => item.id !== editId);
-        closeModal();
-        saveData();
-        pushAllToCloud();
-      }
-    }
-
-    function renderTradeFilterBar() {
-      const bar = document.getElementById('tradeFilterContainer');
-      bar.innerHTML = '<button class="filter-btn ' + (currentTradeFilter === 'all' ? 'active' : '') + '" onclick="setTradeFilter(\'all\', this)">全部</button>' +
-        '<button class="filter-btn danger-filter ' + (currentTradeFilter === 'blocked' ? 'active' : '') + '" onclick="setTradeFilter(\'blocked\', this)">🚨 僅看卡關</button>';
-      
-      customTrades.forEach(tr => {
-        const btn = document.createElement('button');
-        const isAssistant = tr === '特助';
-        btn.className = 'filter-btn ' + (isAssistant ? 'assistant-filter' : '') + ' ' + (currentTradeFilter === tr ? 'active' : '');
-        btn.innerText = isAssistant ? ("⭐ " + tr) : tr;
-        btn.onclick = function() { setTradeFilter(tr, this); };
-        bar.appendChild(btn);
-      });
     }
 
     function renderApp() {
       const container = document.getElementById('app');
       container.innerHTML = '';
 
-      const constructionTasks = tasks.filter(t => t.trade !== '特助');
-      const completedCount = constructionTasks.filter(t => t.status === '已完成').length;
-      const ongoingCount = constructionTasks.filter(t => t.status === '進行中').length;
-      const plannedCount = constructionTasks.filter(t => t.status === '預計進場').length;
-      const blockedCount = constructionTasks.filter(t => t.status === '卡關').length;
-      const totalCount = constructionTasks.length;
-      const percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+      const completedCount = tasks.filter(t => t.status === '已完成').length;
+      const ongoingCount = tasks.filter(t => t.status === '進行中').length;
+      const blockedCount = tasks.filter(t => t.status === '卡關').length;
+      const totalCount = tasks.length;
+      const percent = Math.round((completedCount / totalCount) * 100);
 
-      document.getElementById('total-percent').innerText = percent + "% (" + completedCount + "/" + totalCount + ")";
-      document.getElementById('total-bar').style.width = percent + "%";
-      document.getElementById('stat-completed').innerText = "✅ 完成: " + completedCount;
-      document.getElementById('stat-ongoing').innerText = "🔄 進行: " + ongoingCount;
-      document.getElementById('stat-planned').innerText = "📅 預計: " + plannedCount;
-      document.getElementById('stat-blocked').innerText = "🚨 卡關: " + blockedCount;
-
-      renderBillingGrid();
+      document.getElementById('total-percent').innerText = `${percent}% (${completedCount}/${totalCount})`;
+      document.getElementById('total-bar').style.width = `${percent}%`;
+      document.getElementById('stat-completed').innerText = `✅ 完成: ${completedCount}`;
+      document.getElementById('stat-ongoing').innerText = `🔄 進行: ${ongoingCount}`;
+      document.getElementById('stat-blocked').innerText = `🚨 卡關: ${blockedCount}`;
 
       allFloorList.forEach(floor => {
         if (currentFloorFilter !== 'all' && currentFloorFilter !== floor) return;
 
         let floorTasks = tasks.filter(t => t.floor === floor);
-        if (floorTasks.length === 0 && currentFloorFilter !== floor) return;
+        if (floorTasks.length === 0) return;
 
         let visibleTasks = floorTasks.filter(t => {
           if (currentTradeFilter === 'all') return true;
           if (currentTradeFilter === 'blocked') return t.status === '卡關';
-          return t.trade === currentTradeFilter;
+          return t.trade.includes(currentTradeFilter);
         });
 
-        const floorConstruction = floorTasks.filter(t => t.trade !== '特助');
-        const floorCompleted = floorConstruction.filter(t => t.status === '已完成').length;
-        const floorPercent = floorConstruction.length > 0 ? Math.round((floorCompleted / floorConstruction.length) * 100) : 0;
+        if (visibleTasks.length === 0 && currentFloorFilter === 'all') return;
+
+        const floorCompleted = floorTasks.filter(t => t.status === '已完成').length;
+        const floorPercent = Math.round((floorCompleted / floorTasks.length) * 100);
 
         const floorEl = document.createElement('div');
         floorEl.className = 'floor-section';
         floorEl.innerHTML = `
           <div class="floor-header">
-            <div class="floor-left">
-              <span class="floor-name">${floor}</span>
-              <button class="btn-floor-add" onclick="openCreateModal('${floor}')">＋此層加項</button>
-            </div>
+            <span class="floor-name">${floor}</span>
             <div class="floor-bar-container">
               <div class="floor-bar-meta">
-                <span>施工進度</span>
-                <span>${floorPercent}% (${floorCompleted}/${floorConstruction.length})</span>
+                <span>樓層進度</span>
+                <span>${floorPercent}% (${floorCompleted}/${floorTasks.length})</span>
               </div>
               <div class="floor-bar-bg">
                 <div class="floor-bar-fill" style="width: ${floorPercent}%"></div>
@@ -963,82 +375,29 @@
         const listEl = floorEl.querySelector('.task-list');
 
         visibleTasks.forEach(t => {
-          const isAssistant = t.trade === '特助';
           const item = document.createElement('div');
-          item.className = 'task-item status-' + t.status + (isAssistant ? ' trade-特助' : '');
-          
-          let photosHtml = '';
-          if (t.photos && t.photos.length > 0) {
-            photosHtml = t.photos.map((src, idx) => `
-              <img src="${src}" class="photo-thumb" onclick="viewPhoto('${t.id}', ${idx})" alt="現場查驗照">
-            `).join('');
-          }
-
-          const assistantDateVal = t.assistantDate || '';
-          const assistantNoteVal = t.assistantNote || '';
-          const plannedDateVal = t.plannedDate || '';
-          const completedDateVal = t.completedDate || '';
-          const reasonVal = t.reason || '';
-
+          item.className = `task-item status-${t.status}`;
           item.innerHTML = `
             <div class="task-top">
-              <div class="task-title">${t.name}</div>
-              <div class="task-actions">
-                <span class="${isAssistant ? 'badge-assistant' : 'badge-contractor'}">${isAssistant ? '⭐ 特助' : t.trade}</span>
-                <button class="btn-icon" title="複製到其他樓層" onclick="openCopyModal('${t.id}')">📑 複製</button>
-                <button class="btn-icon" onclick="openEditModal('${t.id}')">✏️ 編輯</button>
+              <div class="task-title">
+                <span class="task-id">${t.id}</span>${t.name}
               </div>
+              <span class="badge-contractor">${t.trade}</span>
             </div>
             <div class="task-meta">
-              <div class="task-check-node">⚠️ 查驗/待辦重點：${t.check}</div>
+              <div class="task-check-node">⚠️ ${t.check}</div>
               <div class="task-dep">依賴前置：${t.dep}</div>
             </div>
-
-            ${isAssistant ? `
-              <div class="assistant-box">
-                <div class="date-input-container">
-                  <span class="date-label" style="color:#7e22ce;">📅 提醒特助日期 (西元):</span>
-                  <input type="date" class="date-input" value="${assistantDateVal}" onchange="updateDate('${t.id}', 'assistant', this.value)">
-                </div>
-                <input type="text" class="assistant-note-input" placeholder="📝 填寫特助需協助之具體事項/追蹤備註..." 
-                       value="${assistantNoteVal}" onchange="updateAssistantNote('${t.id}', this.value)">
-              </div>
-            ` : ''}
-
-            <div class="task-photos">
-              ${photosHtml}
-              <label class="btn-add-photo">
-                <span>📷</span>
-                <span>拍照</span>
-                <input type="file" accept="image/*" capture="environment" multiple onchange="handlePhotoUpload('${t.id}', this)">
-              </label>
-            </div>
-
             <div class="task-controls">
-              <div class="status-row">
-                <select class="status-select ${t.status}" onchange="updateStatus('${t.id}', this.value)">
-                  <option value="未開始" ${t.status === '未開始' ? 'selected' : ''}>⏳ 未開始</option>
-                  <option value="預計進場" ${t.status === '預計進場' ? 'selected' : ''}>📅 預計進場</option>
-                  <option value="進行中" ${t.status === '進行中' ? 'selected' : ''}>🔄 進行中</option>
-                  <option value="卡關" ${t.status === '卡關' ? 'selected' : ''}>🚨 卡關</option>
-                  <option value="已完成" ${t.status === '已完成' ? 'selected' : ''}>✅ 已完成</option>
-                </select>
-              </div>
-              ${t.status === '預計進場' ? `
-                <div class="date-input-container">
-                  <span class="date-label">📅 預計進場日 (西元):</span>
-                  <input type="date" class="date-input" value="${plannedDateVal}" onchange="updateDate('${t.id}', 'planned', this.value)">
-                </div>
-              ` : ''}
-              ${t.status === '已完成' ? `
-                <div class="date-input-container">
-                  <span class="date-label">✅ 實際完工日 (西元):</span>
-                  <input type="date" class="date-input" value="${completedDateVal}" onchange="updateDate('${t.id}', 'completed', this.value)">
-                </div>
-              ` : ''}
+              <select class="status-select ${t.status}" onchange="updateStatus('${t.id}', this.value)">
+                <option value="未開始" ${t.status === '未開始' ? 'selected' : ''}>⏳ 未開始</option>
+                <option value="進行中" ${t.status === '進行中' ? 'selected' : ''}>🔄 進行中</option>
+                <option value="卡關" ${t.status === '卡關' ? 'selected' : ''}>🚨 卡關</option>
+                <option value="已完成" ${t.status === '已完成' ? 'selected' : ''}>✅ 已完成</option>
+              </select>
               ${t.status === '卡關' ? `
-                <input type="text" class="block-reason-input" placeholder="填寫卡關原因（例：接頭缺料）" 
-                       value="${reasonVal}" onchange="updateReason('${t.id}', this.value)">
+                <input type="text" class="block-reason-input" placeholder="填寫卡關原因（例：水電缺材料、等待泥作貼磚）" 
+                       value="${t.reason \vert{}\vert{} ''}" onchange="updateReason('${t.id}', this.value)">
               ` : ''}
             </div>
           `;
@@ -1049,52 +408,21 @@
       });
     }
 
-    function renderBillingGrid() {
-      const grid = document.getElementById('billingGrid');
-      grid.innerHTML = '';
-
-      customTrades.forEach(trade => {
-        if (trade === '特助') return;
-
-        const tradeTasks = tasks.filter(t => t.trade === trade);
-        if (tradeTasks.length === 0) return;
-
-        const done = tradeTasks.filter(t => t.status === '已完成').length;
-        const total = tradeTasks.length;
-        const pct = Math.round((done / total) * 100);
-
-        const card = document.createElement('div');
-        card.className = 'billing-card';
-        card.innerHTML = `
-          <div class="billing-trade-title">
-            <span>${trade}</span>
-            <span class="billing-trade-pct">${pct}%</span>
-          </div>
-          <div style="color:#64748b; font-size:0.7rem;">已完成 ${done} / 共 ${total} 項</div>
-          <div class="billing-bar-bg">
-            <div class="billing-bar-fill" style="width: ${pct}%"></div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
     function exportCSV() {
-      let csv = "\uFEFF樓層/區域,施工項目詳細內容,責任工種,前置依賴項,關鍵查驗/要徑節點,狀態,預計進場日期,完成日期,特助提醒日期,特助備註,卡關原因/備註,已附照片張數\n";
+      let csv = "\uFEFF工項編號,樓層/區域,施工項目詳細內容,責任工種,前置依賴項,關鍵查驗/要徑節點,狀態,卡關原因/備註\n";
       tasks.forEach(t => {
-        const photoCount = t.photos ? t.photos.length : 0;
-        csv += '"' + t.floor + '","' + t.name + '","' + t.trade + '","' + t.dep + '","' + t.check + '","' + t.status + '","' + (t.plannedDate || '') + '","' + (t.completedDate || '') + '","' + (t.assistantDate || '') + '","' + (t.assistantNote || '') + '","' + (t.reason || '') + '","' + photoCount + '張"\n';
+        csv += `"${t.id}","${t.floor}","${t.name}","${t.trade}","${t.dep}","${t.check}","${t.status}","${t.reason || ''}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "集合住宅最新工進與估驗表.csv";
+      a.download = `集合住宅工地最新工進_${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
     }
 
-    renderTradeFilterBar();
+    // 初次載入渲染並嘗試抓取雲端
     renderApp();
-    pullFromCloud(false);
+    fetchCloudData(false);
   </script>
 </body>
 </html>
