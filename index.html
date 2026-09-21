@@ -419,11 +419,14 @@
         await fetch(GOOGLE_API_URL, {
           method: 'POST',
           mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
           body: payload
         });
         badge.className = "sync-badge online";
         badge.innerText = "● 雲端已同步最新";
-        alert("🎉 成功！已將全案所有樓層與工項資料完整推播至 Google 試算表！\n\n現在請拿起手機點擊「📥 下載覆蓋」，手機就會立刻變更！");
+        alert("🎉 成功！已將全案所有樓層與工項資料完整推播至 Google 試算表！\n\n現在請拿起手機點擊「📥 下載覆蓋」，手機就會立刻同步變更！");
       } catch (e) {
         badge.className = "sync-badge local";
         badge.innerText = "● 儲存於本機";
@@ -431,7 +434,7 @@
       }
     }
 
-    // 核心：從 Google 雲端強制拉回並完全覆蓋本機
+    // 核心：從 Google 雲端強制拉回並完全覆蓋本機 (強化中英文欄位比對與防快取)
     async function pullFromCloud(isManual = false) {
       const badge = document.getElementById('syncStatus');
       badge.className = "sync-badge syncing";
@@ -443,17 +446,19 @@
 
         if (Array.isArray(cloudData) && cloudData.length > 0) {
           tasks = tasks.map(localItem => {
-            const cloudItem = cloudData.find(c => String(c['工項編號'] || c.id) === String(localItem.id));
+            const cloudItem = cloudData.find(c => 
+              String(c['工項編號'] || c['id'] || c['ID']) === String(localItem.id)
+            );
             if (!cloudItem) return localItem;
 
             return {
               ...localItem,
-              status: cloudItem['狀態'] || localItem.status,
-              plannedDate: cloudItem['預計進場日期'] || '',
-              completedDate: cloudItem['完成日期'] || '',
-              assistantDate: cloudItem['特助提醒日期'] || '',
-              assistantNote: cloudItem['特助備註'] || '',
-              reason: cloudItem['卡關原因/備註'] || ''
+              status: cloudItem['狀態'] || cloudItem['status'] || localItem.status,
+              plannedDate: cloudItem['預計進場日期'] || cloudItem['plannedDate'] || '',
+              completedDate: cloudItem['完成日期'] || cloudItem['completedDate'] || '',
+              assistantDate: cloudItem['特助提醒日期'] || cloudItem['assistantDate'] || '',
+              assistantNote: cloudItem['特助備註'] || cloudItem['assistantNote'] || '',
+              reason: cloudItem['卡關原因/備註'] || cloudItem['reason'] || ''
             };
           });
 
@@ -471,8 +476,8 @@
         }
       } catch (err) {
         badge.className = "sync-badge local";
-        badge.innerText = "● 離線/本機模式";
-        if (isManual) alert("下載失敗，請檢查網路或 Google 試算表權限！");
+        badge.innerText = "● 離線/連線失敗";
+        if (isManual) alert("下載失敗，請檢查網路或確認 Google Apps Script 權限！");
       }
     }
 
@@ -496,6 +501,9 @@
         await fetch(GOOGLE_API_URL, {
           method: 'POST',
           mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
           body: payload
         });
 
