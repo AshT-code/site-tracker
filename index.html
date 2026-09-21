@@ -209,7 +209,6 @@
   </div>
 
   <script>
-    // 🔴 你的專屬 Apps Script 網址
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-iWf06xY8M_cqj4bjpxZQJaC4EOHlT-PB04wjcXXFwoFfxOMIpDCNJ22jv2fsvhgJ/exec";
 
     const STORAGE_KEY = 'site_active_tasks';
@@ -227,13 +226,10 @@
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
 
-    // 📥 雲端下載功能（智慧容錯版 + 支援重新導向）
+    // 📥 雲端下載功能（超強除錯版）
     async function pullFromCloud() {
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycby...")) {
-        alert("⚠️ 尚未設定 Apps Script 網址！");
-        return;
-      }
       try {
+        alert("🔄 正在連線雲端下載...");
         const res = await fetch(APPS_SCRIPT_URL, { redirect: "follow" });
         const data = await res.json();
         
@@ -262,20 +258,16 @@
           saveData();
           alert(`✅ 成功下載雲端最新進度！共 ${tasks.length} 筆`);
         } else {
-          alert("⚠️ 雲端試算表目前沒有資料！");
+          alert("⚠️ 雲端試算表目前沒有資料或格式回傳異常！");
         }
       } catch (err) {
-        alert("❌ 下載失敗，請檢查網路連線。");
+        alert("❌ 下載發生錯誤：" + err.message);
         console.error(err);
       }
     }
 
     // 📤 雲端上傳功能
     async function pushToCloud() {
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycby...")) {
-        alert("⚠️ 尚未設定 Apps Script 網址！");
-        return;
-      }
       if (tasks.length === 0) {
         alert("目前沒有資料可上傳！");
         return;
@@ -291,7 +283,7 @@
         });
         alert("✅ 已成功送出上傳指令至雲端試算表！");
       } catch (err) {
-        alert("❌ 上傳失敗，請稍後再試。");
+        alert("❌ 上傳失敗：" + err.message);
         console.error(err);
       }
     }
