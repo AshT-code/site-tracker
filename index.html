@@ -95,7 +95,7 @@
     <div class="header-actions">
       <button class="btn btn-pull" onclick="fetchCloudData(true)">📥 下載雲端最新</button>
       <button class="btn btn-export" onclick="exportCSV()">匯出 CSV</button>
-      <button class="btn btn-reset" onclick="resetToDefault()">還原清單</button>
+      <button class="btn btn-reset" onclick="resetToDefault()">還原 135 項</button>
     </div>
     <div class="overall-dashboard">
       <div class="progress-info">
@@ -130,7 +130,7 @@
       <button class="floor-pill" onclick="setFloorFilter('B2', this)">B2</button>
     </div>
     <div class="filter-bar">
-      <button class="filter-btn active" onclick="setTradeFilter('all', this)">全部工種</button>
+      <button class="filter-btn active" onclick="setTradeFilter('all', this)">全部工種 (135項)</button>
       <button class="filter-btn danger-filter" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>
       <button class="filter-btn" onclick="setTradeFilter('水電', this)">水電/弱電</button>
       <button class="filter-btn" onclick="setTradeFilter('泥作', this)">泥作/防水</button>
@@ -145,9 +145,9 @@
     const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbz-iWf06xY8M_cqj4bjpxZQJaC4EOHlT-PB04wjcXXFwoFfxOMIpDCNJ22jv2fsvhgJ/exec";
     const allFloorList = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];
 
-    // 建立 135 筆完整工項
-    function buildInitialData() {
-      let list = [
+    // 建立 135 筆工項資料結構
+    function createAll135Tasks() {
+      let data = [
         {id: "R3-01", floor: "屋突3", name: "樓面與水塔基礎廢棄物清運", trade: "粗工", dep: "主結構完成", check: "地面無積水雜物", status: "已完成", reason: ""},
         {id: "R3-02", floor: "屋突3", name: "露臺及水塔基礎防水施作", trade: "防水/泥作", dep: "R3-01", check: "48hr 閉水試驗合格", status: "已完成", reason: ""},
         {id: "R3-03", floor: "屋突3", name: "公區水塔吊裝、配管與消火管配置", trade: "水電", dep: "R3-02", check: "吊裝定位、管路接通", status: "進行中", reason: ""},
@@ -156,54 +156,54 @@
         {id: "R2-02", floor: "屋突2", name: "水表集中區配管、電梯管道預埋管", trade: "水電", dep: "R3-03", check: "管位精準固定牢固", status: "未開始", reason: ""},
         {id: "R1-01", floor: "屋突1", name: "外牆二丁掛/石材/石頭漆修補收口", trade: "泥作/外牆", dep: "無", check: "勾縫密實平整", status: "進行中", reason: ""},
         {id: "R1-02", floor: "屋突1", name: "露臺防水層施作與地磚貼附", trade: "防水/泥作", dep: "R1-01", check: "48hr 閉水試驗合格", status: "未開始", reason: ""},
-        {id: "R1-03", floor: "屋突1", name: "屋突逃生梯防火門安裝", trade: "門窗", dep: "R1-02", check: "氣密阻絕雨水灌入", status: "未開始", reason: ""},
+        {id: "R1-03", floor: "屋突1", name: "屋突逃生梯防火門安裝", trade: "門窗", dep: "R1-02", check: "氣密阻絕雨水灌入", status: "未開始", reason: ""}
       ];
 
-      // 7F 到 3F 模組化加入
-      const stdFloors = ['7F', '6F', '5F', '4F', '3F'];
-      const stdTemplates = [
-        {num: "01", name: "戶內管溝打除廢料、洗孔餘泥全面清運", trade: "粗工", dep: "配管完成", check: "管溝乾淨無阻礙"},
-        {num: "02", name: "戶內給水管壓力測試 (打壓試水)", trade: "水電", dep: "01", check: "打壓不掉壓(未測嚴禁泥作填溝)"},
-        {num: "03", name: "戶內排污/廢水/雨水通水試驗", trade: "水電", dep: "01", check: "滿水暢通無滲漏無回冒"},
-        {num: "04", name: "梯廳公區管道間垂直主管、消防撒水配置", trade: "水電", dep: "垂直主管", check: "垂主管貫通、支管就位"},
-        {num: "05", name: "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", trade: "門窗/泥作", dep: "01", check: "嵌縫飽滿防雨水潑入"},
-        {num: "06", name: "泥作管溝填補打底、地坪水泥砂漿整平", trade: "泥作", dep: "02/03", check: "表面平整包覆完全"},
-        {num: "07", name: "各戶衛浴、陽台防水層塗布(含翻起高度)", trade: "防水/泥作", dep: "06", check: "塗膜厚度達標、轉角加強"},
-        {num: "08", name: "衛浴、陽台 48 小時閉水試驗", trade: "防水/泥作", dep: "07", check: "樓下天花板完全無滲漏(關鍵要徑)"},
-        {num: "09", name: "衛浴/陽台地壁磚鋪貼、填縫", trade: "泥作", dep: "08", check: "洩水坡度正常"},
-        {num: "10", name: "泥作碎磚、砂漿廢料清運，室內吸塵洗地", trade: "粗工", dep: "09", check: "地面無水泥硬塊粉塵"},
-        {num: "11", name: "防火門安裝、各室內木門框立框", trade: "門窗/木作", dep: "10", check: "垂直水平精確"},
-        {num: "12", name: "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", trade: "木作", dep: "04/10", check: "公區管線確認完成才可封板"},
-        {num: "13", name: "牆面與天花板接縫批土、打磨、上底漆", trade: "油漆", dep: "11/12", check: "平整無透底"},
-        {num: "14", name: "衛浴設備安裝 (馬桶/面盆/淋浴五金)", trade: "水電/衛浴", dep: "09/13", check: "出水排水正常"},
-        {num: "15", name: "開放式系統廚具、抽油煙機、瓦斯管對接", trade: "廚具/瓦斯", dep: "13", check: "瓦斯氣密檢測通過"},
-        {num: "16", name: "插座/開關/對講機面板安裝、燈具裝設", trade: "水電/弱電", dep: "13", check: "回路正常通電"},
-        {num: "17", name: "室內門片吊掛、五金把手鎖件安裝", trade: "木作", dep: "14/15", check: "開關順暢無異音"},
-        {num: "18", name: "油漆面漆修補、全戶及梯廳完工細部清潔", trade: "粗工/油漆", dep: "14~17", check: "全戶潔淨可鎖門交屋"}
+      const standardFloors = ['7F', '6F', '5F', '4F', '3F'];
+      const standardItems = [
+        {idx: "01", name: "戶內管溝打除廢料、洗孔餘泥全面清運", trade: "粗工", dep: "配管完成", check: "管溝乾淨無阻礙"},
+        {idx: "02", name: "戶內給水管壓力測試 (打壓試水)", trade: "水電", dep: "01", check: "打壓不掉壓(未測嚴禁泥作填溝)"},
+        {idx: "03", name: "戶內排污/廢水/雨水通水試驗", trade: "水電", dep: "01", check: "滿水暢通無滲漏無回冒"},
+        {idx: "04", name: "梯廳公區管道間垂直主管、消防撒水配置", trade: "水電", dep: "垂直主管", check: "垂主管貫通、支管就位"},
+        {idx: "05", name: "鋁門窗框安裝、外牆格柵安裝、窗縫塞水泥", trade: "門窗/泥作", dep: "01", check: "嵌縫飽滿防雨水潑入"},
+        {idx: "06", name: "泥作管溝填補打底、地坪水泥砂漿整平", trade: "泥作", dep: "02/03", check: "表面平整包覆完全"},
+        {idx: "07", name: "各戶衛浴、陽台防水層塗布(含翻起高度)", trade: "防水/泥作", dep: "06", check: "塗膜厚度達標、轉角加強"},
+        {idx: "08", name: "衛浴、陽台 48 小時閉水試驗", trade: "防水/泥作", dep: "07", check: "樓下天花板完全無滲漏(關鍵要徑)"},
+        {idx: "09", name: "衛浴/陽台地壁磚鋪貼、填縫", trade: "泥作", dep: "08", check: "洩水坡度正常"},
+        {idx: "10", name: "泥作碎磚、砂漿廢料清運，室內吸塵洗地", trade: "粗工", dep: "09", check: "地面無水泥硬塊粉塵"},
+        {idx: "11", name: "防火門安裝、各室內木門框立框", trade: "門窗/木作", dep: "10", check: "垂直水平精確"},
+        {idx: "12", name: "梯廳管道間矽酸鈣板封牆、衛浴/梯廳天花板", trade: "木作", dep: "04/10", check: "公區管線確認完成才可封板"},
+        {idx: "13", name: "牆面與天花板接縫批土、打磨、上底漆", trade: "油漆", dep: "11/12", check: "平整無透底"},
+        {idx: "14", name: "衛浴設備安裝 (馬桶/面盆/淋浴五金)", trade: "水電/衛浴", dep: "09/13", check: "出水排水正常"},
+        {idx: "15", name: "開放式系統廚具、抽油煙機、瓦斯管對接", trade: "廚具/瓦斯", dep: "13", check: "瓦斯氣密檢測通過"},
+        {idx: "16", name: "插座/開關/對講機面板安裝、燈具裝設", trade: "水電/弱電", dep: "13", check: "回路正常通電"},
+        {idx: "17", name: "室內門片吊掛、五金把手鎖件安裝", trade: "木作", dep: "14/15", check: "開關順暢無異音"},
+        {idx: "18", name: "油漆面漆修補、全戶及梯廳完工細部清潔", trade: "粗工/油漆", dep: "14~17", check: "全戶潔淨可鎖門交屋"}
       ];
 
-      stdFloors.forEach(fl => {
-        const p = fl.replace("F","");
-        stdTemplates.forEach(t => {
-          let st = "未開始";
-          let r = "";
-          if (fl === "7F" && t.num === "01") st = "進行中";
-          if (fl === "7F" && t.num === "02") { st = "卡關"; r = "接頭零件缺料"; }
-          list.push({
-            id: `F${p}-${t.num}`,
+      for (let i = 0; i < standardFloors.length; i++) {
+        let fl = standardFloors[i];
+        let p = fl.replace("F", "");
+        for (let j = 0; j < standardItems.length; j++) {
+          let item = standardItems[j];
+          let status = "未開始";
+          let reason = "";
+          if (fl === "7F" && item.idx === "01") status = "進行中";
+          if (fl === "7F" && item.idx === "02") { status = "卡關"; reason = "接頭零件缺料"; }
+          data.push({
+            id: "F" + p + "-" + item.idx,
             floor: fl,
-            name: t.name,
-            trade: t.trade,
-            dep: t.dep.includes("0") ? `F${p}-${t.dep}` : t.dep,
-            check: t.check,
-            status: st,
-            reason: r
+            name: item.name,
+            trade: item.trade,
+            dep: item.dep.indexOf("0") !== -1 ? "F" + p + "-" + item.dep : item.dep,
+            check: item.check,
+            status: status,
+            reason: reason
           });
-        });
-      });
+        }
+      }
 
-      // 2F
-      list.push(
+      data.push(
         {id: "F2-01", floor: "2F", name: "戶內管溝打除廢料、洗孔餘泥全面清運", trade: "粗工", dep: "配管完成", check: "管溝乾淨無阻礙", status: "未開始", reason: ""},
         {id: "F2-02", floor: "2F", name: "戶內給水管壓力測試 (打壓試水)", trade: "水電", dep: "F2-01", check: "打壓不掉壓(未測嚴禁泥作填溝)", status: "未開始", reason: ""},
         {id: "F2-03", floor: "2F", name: "戶內排污/廢水/雨水通水試驗", trade: "水電", dep: "F2-01", check: "滿水暢通無滲漏無回冒", status: "未開始", reason: ""},
@@ -224,24 +224,19 @@
         {id: "F2-18", floor: "2F", name: "開放式系統廚具、抽油煙機、瓦斯管對接", trade: "廚具/瓦斯", dep: "F2-16", check: "瓦斯氣密檢測通過", status: "未開始", reason: ""},
         {id: "F2-19", floor: "2F", name: "插座/開關/對講機面板安裝、燈具裝設", trade: "水電/弱電", dep: "F2-14", check: "回路正常通電", status: "未開始", reason: ""},
         {id: "F2-20", floor: "2F", name: "室內門片吊掛、五金把手鎖件安裝", trade: "木作", dep: "F2-15/F2-16", check: "開關順暢無異音", status: "未開始", reason: ""},
-        {id: "F2-21", floor: "2F", name: "油漆面漆修補、全戶及梯廳完工細部清潔", trade: "粗工/油漆", dep: "F2-15~F2-16", check: "全戶潔淨可鎖門交屋", status: "未開始", reason: ""}
-      );
+        {id: "F2-21", floor: "2F", name: "油漆面漆修補、全戶及梯廳完工細部清潔", trade: "粗工/油漆", dep: "F2-15~F2-16", check: "全戶潔淨可鎖門交屋", status: "未開始", reason: ""},
 
-      // 1F
-      list.push(
         {id: "F1-01", floor: "1F", name: "進車梯車道雨遮安裝、外牆修補", trade: "泥作/鐵件", dep: "結構完成", check: "排水天溝順暢防雨水灌入", status: "未開始", reason: ""},
         {id: "F1-02", floor: "1F", name: "全棟垂直排污管/雨水管串接化糞池與外溝", trade: "水電", dep: "2-7F垂直主管", check: "接合密合度、跌水高程正確", status: "未開始", reason: ""},
         {id: "F1-03", floor: "1F", name: "全棟排水主立管高落差灌水流通測試", trade: "水電", dep: "F1-02", check: "樓上同時放水1F匯流無回冒", status: "未開始", reason: ""},
         {id: "F1-04", floor: "1F", name: "店面B殘障廁所防水塗布與 48hr 閉水試驗", trade: "防水/泥作", dep: "配管完成", check: "48hr試水合格符無障礙坡度", status: "未開始", reason: ""},
         {id: "F1-05", floor: "1F", name: "無障礙坡道、車道入口、停車位地坪泥作硬化", trade: "泥作", dep: "F1-03/F1-04", check: "符合無障礙規範抗裂平整", status: "未開始", reason: ""},
         {id: "F1-06", floor: "1F", name: "1F大廳梯廳天花板骨架、逃生梯防火門安裝", trade: "木作/門窗", dep: "F1-05", check: "防火門具備合格標章", status: "未開始", reason: ""},
-        {id: "F1-07", floor: "1F", name: "店面B殘障衛浴無障礙扶手、器具安裝", trade: "衛浴/水電", dep: "F1-04/F1-05", check: "符合無障礙勘驗標準", status: "未開始", reason: ""}
-      );
+        {id: "F1-07", floor: "1F", name: "店面B殘障衛浴無障礙扶手、器具安裝", trade: "衛浴/水電", dep: "F1-04/F1-05", check: "符合無障礙勘驗標準", status: "未開始", reason: ""},
 
-      // B1, B2
-      list.push(
         {id: "B1-01", floor: "B1", name: "電機室、台電配電室廢棄物徹底清掃吸塵", trade: "粗工", dep: "結構完成", check: "室內無粉塵積水防設備短路", status: "未開始", reason: ""},
         {id: "B1-02", floor: "B1", name: "台電受電盤、低壓配電盤進場定位與匯流排鎖接", trade: "水電/機電", dep: "B1-01", check: "絕緣電阻測試符合法規", status: "未開始", reason: ""},
+
         {id: "B2-01", floor: "B2", name: "雨水滯留池、B2水塔內外側泥作雜物清運", trade: "粗工", dep: "結構完成", check: "槽底無石泥塊防葉輪損壞", status: "未開始", reason: ""},
         {id: "B2-02", floor: "B2", name: "雨水滯留池、筏基水箱防水塗布與補強", trade: "防水/泥作", dep: "B2-01", check: "槽體防水無孔隙", status: "未開始", reason: ""},
         {id: "B2-03", floor: "B2", name: "滯留池與水箱 48hr 滿水試漏測試", trade: "防水/水電", dep: "B2-02", check: "水位無下降、外壁無滲水", status: "未開始", reason: ""},
@@ -250,31 +245,33 @@
         {id: "B2-06", floor: "B2", name: "車梯車台吊裝、控制線路接線與載重試車", trade: "車梯廠商", dep: "B1-02/B2-05", check: "平層精度合格、安全作動正常", status: "未開始", reason: ""}
       );
 
-      return list;
+      return data;
     }
 
+    // 初始化讀取：若本地暫存為空或少於 130 筆，直接重建 135 筆
     let tasks = [];
     try {
-      tasks = JSON.parse(localStorage.getItem('site_tracker_data_stable')) || [];
+      tasks = JSON.parse(localStorage.getItem('site_tracker_data_135_full')) || [];
     } catch(e) {
       tasks = [];
     }
-    if (!tasks || tasks.length === 0) {
-      tasks = buildInitialData();
+    if (!tasks || tasks.length < 130) {
+      tasks = createAll135Tasks();
+      localStorage.setItem('site_tracker_data_135_full', JSON.stringify(tasks));
     }
 
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
 
     function saveData() {
-      localStorage.setItem('site_tracker_data_stable', JSON.stringify(tasks));
+      localStorage.setItem('site_tracker_data_135_full', JSON.stringify(tasks));
       renderApp();
     }
 
     function resetToDefault() {
-      if (confirm('確定要還原成初始預設資料嗎？')) {
-        localStorage.removeItem('site_tracker_data_stable');
-        tasks = buildInitialData();
+      if (confirm('確定要強制還原成 135 筆標準工項清單嗎？')) {
+        localStorage.removeItem('site_tracker_data_135_full');
+        tasks = createAll135Tasks();
         saveData();
       }
     }
@@ -321,15 +318,15 @@
         const cloudData = await res.json();
 
         if (Array.isArray(cloudData) && cloudData.length > 0) {
-          tasks = tasks.map(localItem => {
-            const cloudItem = cloudData.find(c => String(c['工項編號'] || c.id) === String(localItem.id));
-            if (!cloudItem) return localItem;
-
-            return {
-              ...localItem,
-              status: cloudItem['狀態'] || cloudItem.status || localItem.status,
-              reason: cloudItem['卡關原因/備註'] || cloudItem.reason || localItem.reason
-            };
+          tasks.forEach(localItem => {
+            const cloudItem = cloudData.find(c => {
+              const cloudId = String(c['工項編號'] || c.id || c['編號'] || "").trim();
+              return cloudId === String(localItem.id).trim();
+            });
+            if (cloudItem) {
+              localItem.status = cloudItem['狀態'] || cloudItem.status || localItem.status;
+              localItem.reason = cloudItem['卡關原因/備註'] || cloudItem.reason || localItem.reason;
+            }
           });
 
           saveData();
@@ -344,7 +341,7 @@
       } catch (err) {
         if (badge) {
           badge.className = "sync-badge online";
-          badge.innerText = "● 本機離線模式";
+          badge.innerText = "● 本機模式";
         }
       }
     }
@@ -376,7 +373,7 @@
       const t = tasks.find(item => item.id === id);
       if (t) {
         t.reason = text;
-        localStorage.setItem('site_tracker_data_stable', JSON.stringify(tasks));
+        localStorage.setItem('site_tracker_data_135_full', JSON.stringify(tasks));
         syncChangeToCloud(id, t.status, text);
       }
     }
@@ -407,7 +404,7 @@
         let visibleTasks = floorTasks.filter(t => {
           if (currentTradeFilter === 'all') return true;
           if (currentTradeFilter === 'blocked') return t.status === '卡關';
-          return t.trade.includes(currentTradeFilter);
+          return t.trade.indexOf(currentTradeFilter) !== -1;
         });
 
         if (visibleTasks.length === 0 && currentFloorFilter === 'all') return;
@@ -481,7 +478,6 @@
       a.click();
     }
 
-    // 啟動渲染
     renderApp();
   </script>
 </body>
