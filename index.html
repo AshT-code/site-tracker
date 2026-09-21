@@ -421,13 +421,11 @@
       {"id":"B2-09","floor":"B2","name":"停車區耐磨地坪硬化與停車位標線劃設","trade":"泥作","dep":"設備安裝","check":"地坪平整、符合使照車位標準","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]}
     ];
 
-    // 優先讀取本地快取
     let tasks = JSON.parse(localStorage.getItem('site_tracker_data_v6')) || defaultData;
     let currentFloorFilter = 'all';
     let currentTradeFilter = 'all';
     let currentViewingPhoto = { taskId: '', photoIndex: -1 };
 
-    // 雲端同步：以本地最新狀態為基準做安全合併
     async function syncCloudData(isBackground = false) {
       const badge = document.getElementById('syncStatus');
       if (!GOOGLE_API_URL) return;
@@ -468,16 +466,13 @@
       }
     }
 
-    // 狀態寫入雲端（使用 Blob + text/plain 繞過瀏覽器 CORS 與預檢請求阻擋）
     async function pushStatusToCloud(id, status, reason = "", plannedDate = "", completedDate = "", assistantDate = "", assistantNote = "") {
       const badge = document.getElementById('syncStatus');
       badge.className = "sync-badge syncing";
       badge.innerText = "🔄 寫入中...";
 
-      // 1. 本地立刻儲存保全
       localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
 
-      // 2. 雲端推播
       if (!GOOGLE_API_URL) {
         badge.className = "sync-badge online";
         badge.innerText = "● 已存本機";
