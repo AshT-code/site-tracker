@@ -1,43 +1,23 @@
-<!DOCTYPE html><html lang="zh-TW"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  <title>集合住宅現場工進看板</title>  <style>    :root {      --bg: #f1f5f9;      --card-bg: #ffffff;      --text: #0f172a;      --border: #cbd5e1;      --primary: #2563eb;      --success: #16a34a;      --warning: #d97706;      --danger: #dc2626;      --navy: #0f172a;    }    * { box-sizing: border-box; margin: 0; padding: 0; }    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--text); padding-bottom: 100px; }        header { background: var(--navy); color: #fff; padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }    .header-title { display: flex; justify-content: space-between; align-items: center; }    .header-title h1 { font-size: 1.05rem; font-weight: 700; }        .header-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }    .btn { border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }    .btn-primary { background: var(--primary); color: #fff; }    .btn-success { background: var(--success); color: #fff; }    .btn-purple { background: #7c3aed; color: #fff; }    .btn-sub { background: #475569; color: #fff; }    .btn-cloud-pull { background: #0284c7; color: #fff; }    .btn-cloud-push { background: #059669; color: #fff; }
-
-    .overall-dashboard { margin-top: 10px; background: #1e293b; border-radius: 8px; padding: 10px 12px; }    .progress-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; }    .progress-stats { font-size: 0.75rem; color: #94a3b8; display: flex; gap: 12px; margin-bottom: 6px; }    .bar-bg { background: #334155; height: 10px; border-radius: 5px; overflow: hidden; }    .bar-fill { background: #38bdf8; height: 100%; width: 0%; transition: width 0.3s ease; }
-    .filter-wrapper { position: sticky; top: 126px; z-index: 90; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }    .floor-filter-bar { padding: 8px 12px 4px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px dashed #e2e8f0; }    .floor-filter-bar::-webkit-scrollbar { display: none; }    .floor-pill { padding: 5px 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: #334155; white-space: nowrap; cursor: pointer; }    .floor-pill.active { background: #2563eb; color: #fff; border-color: #2563eb; }
-    .filter-bar { padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; }    .filter-bar::-webkit-scrollbar { display: none; }    .filter-btn { padding: 5px 12px; border: 1px solid var(--border); background: #fff; border-radius: 20px; font-size: 0.75rem; white-space: nowrap; cursor: pointer; font-weight: 600; color: #475569; }    .filter-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }    .filter-btn.danger-filter.active { background: var(--danger); border-color: var(--danger); }
-    .floor-section { margin: 12px; background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }    .floor-header { padding: 12px 14px; background: #f8fafc; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }    .floor-left { display: flex; align-items: center; gap: 8px; }    .floor-name { font-weight: 700; font-size: 1rem; color: #1e293b; }    .btn-floor-add { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }    .floor-bar-container { width: 45%; }    .floor-bar-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-bottom: 3px; }    .floor-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; }    .floor-bar-fill { background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease; }
-    .task-item { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; position: relative; }    .task-item:last-child { border-bottom: none; }    .task-item.status-卡關 { background: #fff1f2; border-left: 5px solid var(--danger); }    .task-item.status-已完成 { background: #fcfcfc; border-left: 5px solid var(--success); }    .task-item.status-進行中 { border-left: 5px solid var(--warning); }
-    .task-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }    .task-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #0f172a; flex: 1; }    .task-id { font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; color: #475569; margin-right: 6px; font-weight: 700; }    .task-actions { display: flex; gap: 4px; align-items: center; }    .badge-contractor { font-size: 0.75rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 12px; font-weight: 700; white-space: nowrap; }    .btn-icon { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 3px 6px; font-size: 0.75rem; cursor: pointer; }
-    .task-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 2px; }    .task-check-node { font-size: 0.8rem; color: #b91c1c; font-weight: 500; background: #fef2f2; padding: 4px 8px; border-radius: 4px; line-height: 1.3; }    .task-dep { font-size: 0.75rem; color: #64748b; }
-    .task-controls { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }    .status-select { padding: 8px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: 700; width: 100%; outline: none; }    .status-select.未開始 { background: #f8fafc; color: #475569; }    .status-select.進行中 { background: #fef3c7; color: #92400e; border-color: #fde68a; }    .status-select.卡關 { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }    .status-select.已完成 { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
-    .block-reason-input { width: 100%; font-size: 0.85rem; padding: 8px; border: 1px solid #fca5a5; border-radius: 6px; background: #fff; color: #991b1b; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; }    .modal-overlay.open { display: flex; }    .modal-card { background: #fff; width: 100%; max-width: 480px; border-radius: 12px; padding: 16px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }    .modal-header h3 { font-size: 1.1rem; color: #0f172a; }    .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }    .form-group label { font-size: 0.8rem; font-weight: 600; color: #475569; }    .form-control { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; outline: none; }    .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; border-top: 1px solid #e2e8f0; padding-top: 10px; }    .btn-modal-del { background: #fee2e2; color: #b91c1c; margin-right: auto; }  </style></head><body>
-  <header>    <div class="header-title">      <h1>集合住宅現場工進看板</h1>    </div>    <div class="header-actions">      <button class="btn btn-success" onclick="openCreateModal()">＋新增工項</button>      <button class="btn btn-purple" onclick="openTradeMgrModal()">🛠️ 工種</button>      <button class="btn btn-primary" onclick="exportCSV()">匯出 CSV</button>      <button class="btn btn-sub" onclick="document.getElementById('importFileInput').click()">📥 匯入備份</button>      <button class="btn btn-cloud-pull" onclick="pullFromCloud()">📥 下載雲端</button>      <button class="btn btn-cloud-push" onclick="pushToCloud()">📤 上傳雲端</button>      <input type="file" id="importFileInput" accept=".json,.csv" style="display:none" onchange="handleFileImport(this)">    </div>    <div class="overall-dashboard">      <div class="progress-info">        <span>全案完工總進度</span>        <strong id="total-percent">0%</strong>      </div>      <div class="progress-stats">        <span id="stat-completed">✅ 完成: 0</span>        <span id="stat-ongoing">🔄 進行: 0</span>        <span id="stat-blocked" style="color:#f87171;">🚨 卡關: 0</span>      </div>      <div class="bar-bg">        <div class="bar-fill" id="total-bar"></div>      </div>    </div>  </header>
-  <div class="filter-wrapper">    <div class="floor-filter-bar" id="floorFilterContainer"></div>    <div class="filter-bar" id="tradeFilterContainer"></div>  </div>
-  <main id="app"></main>
-
-  <!-- 編輯/新增彈窗 -->  <div class="modal-overlay" id="taskModal">    <div class="modal-card">      <div class="modal-header">        <h3 id="modalTitle">編輯工項內容</h3>        <button class="btn btn-icon" onclick="closeModal()">✕</button>      </div>      <div class="modal-form">        <input type="hidden" id="editTaskId">        <div class="form-group">          <label>樓層 / 區域</label>          <input type="text" id="inputFloor" class="form-control" placeholder="例：7F 或 屋突1">        </div>        <div class="form-group">          <label>工項編號 (ID)</label>          <input type="text" id="inputId" class="form-control">        </div>        <div class="form-group">          <label>施工項目詳細內容</label>          <input type="text" id="inputName" class="form-control">        </div>        <div class="form-group">          <label>責任工種</label>          <select id="inputTrade" class="form-control"></select>        </div>        <div class="form-group">          <label>前置依賴項</label>          <input type="text" id="inputDep" class="form-control" value="無">        </div>        <div class="form-group">          <label>關鍵查驗 / 要徑節點</label>          <input type="text" id="inputCheck" class="form-control" value="確認施工品質合格">        </div>        <div class="form-group">          <label>目前施工狀態</label>          <select id="inputStatus" class="form-control">            <option value="未開始">⏳ 未開始</option>            <option value="進行中">🔄 進行中</option>            <option value="卡關">🚨 卡關</option>            <option value="已完成">✅ 已完成</option>          </select>        </div>        <div class="form-group">          <label>卡關原因 / 備註</label>          <input type="text" id="inputReason" class="form-control">        </div>      </div>      <div class="modal-footer">        <button type="button" class="btn btn-modal-del" id="btnDeleteTask" onclick="deleteTask()">🗑️ 刪除此項</button>        <button type="button" class="btn btn-sub" onclick="closeModal()">取消</button>        <button type="button" class="btn btn-primary" onclick="saveTaskModal()">儲存變更</button>      </div>    </div>  </div>
-
-  <!-- 工種清單管理彈窗 -->  <div class="modal-overlay" id="tradeMgrModal">    <div class="modal-card">      <div class="modal-header">        <h3>自訂工種管理</h3>        <button class="btn btn-icon" onclick="closeTradeMgrModal()">✕</button>      </div>      <div id="tradeMgrList" style="display:flex; flex-direction:column; gap:6px; max-height:40vh; overflow-y:auto; margin-bottom:10px;"></div>      <div style="display:flex; gap:6px;">        <input type="text" id="newTradeInput" class="form-control" placeholder="輸入新工種名稱">        <button type="button" class="btn btn-success" onclick="addNewTrade()">＋新增</button>      </div>      <div class="modal-footer">        <button type="button" class="btn btn-sub" onclick="closeTradeMgrModal()">關閉</button>      </div>    </div>  </div>
-
-  <script>    
-    // 🔴 請在此處填入你在 Google Apps Script 部署拿到的 Web App 網址 🔴
+<script>    
+    // 🔴 你的專屬 Apps Script 網址
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-iWf06xY8M_cqj4bjpxZQJaC4EOHlT-PB04wjcXXFwoFfxOMIpDCNJ22jv2fsvhgJ/exec";
 
-    const STORAGE_KEY = 'site_active_tasks';    
+    const STORAGE_KEY = 'site_active_tasks';        
     const TRADES_KEY = 'site_active_trades';
 
-    const defaultTrades = [      
-      "給排水", "消防", "弱電", "雨水", "空調排氣", "發電機簽證", "筏基人孔",      
-      "防火門", "格柵", "玻璃", "鐵件", "鋁窗", "樓梯扶手",      
-      "泥作", "木作", "粗工", "油漆", "瓦斯", "衛浴", "廚具", "車梯", "電梯"    
+    const defaultTrades = [            
+      "給排水", "消防", "弱電", "雨水", "空調排氣", "發電機簽證", "筏基人孔",            
+      "防火門", "格柵", "玻璃", "鐵件", "鋁窗", "樓梯扶手",            
+      "泥作", "木作", "粗工", "油漆", "瓦斯", "衛浴", "廚具", "車梯", "電梯"        
     ];
 
-    let customTrades = JSON.parse(localStorage.getItem(TRADES_KEY)) || defaultTrades;    
+    let customTrades = JSON.parse(localStorage.getItem(TRADES_KEY)) || defaultTrades;        
     let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-    let currentFloorFilter = 'all';    
+    let currentFloorFilter = 'all';        
     let currentTradeFilter = 'all';
 
-    // 📥 雲端下載功能
+    // 📥 雲端下載功能（智慧容錯版：自動對應任何標題名稱）
     async function pullFromCloud() {
       if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycby...")) {
         alert("⚠️ 尚未設定 Apps Script 網址！");
@@ -46,24 +26,36 @@
       try {
         const res = await fetch(APPS_SCRIPT_URL);
         const data = await res.json();
+        
         if (Array.isArray(data) && data.length > 0) {
-          tasks = data.map(row => ({
-            id: row['工項編號'] || row.id,
-            floor: row['樓層/區域'] || row['樓層'] || row.floor,
-            name: row['施工項目詳細內容'] || row.name,
-            trade: row['責任工種'] || row.trade,
-            dep: row['前置依賴項'] || row.dep || '無',
-            check: row['關鍵查驗/要徑節點'] || row['關鍵查驗要徑'] || row.check || '確認施工品質合格',
-            status: row['狀態'] || row.status || '未開始',
-            reason: row['卡關原因/備註'] || row['卡關原因'] || row.reason || ''
-          }));
+          tasks = data.map(row => {
+            const keys = Object.keys(row);
+            const findVal = (keywords) => {
+              for (let k of keys) {
+                if (keywords.some(kw => k.includes(kw))) return row[k];
+              }
+              return '';
+            };
+
+            return {
+              id: findVal(['工項編號', 'id']) || `T-${Math.random().toString().slice(-4)}`,
+              floor: findVal(['樓層', '區域', 'floor']) || '7F',
+              name: findVal(['施工項目', '內容', 'name']) || '未命名工項',
+              trade: findVal(['責任工種', '工種', 'trade']) || '給排水',
+              dep: findVal(['前置', '依賴', 'dep']) || '無',
+              check: findVal(['關鍵查驗', '查驗', 'check']) || '確認施工品質合格',
+              status: findVal(['狀態', 'status']) || '未開始',
+              reason: findVal(['卡關', '原因', '備註', 'reason']) || ''
+            };
+          });
+
           saveData();
           alert(`✅ 成功下載雲端最新進度！共 ${tasks.length} 筆`);
         } else {
           alert("⚠️ 雲端試算表目前沒有資料！");
         }
       } catch (err) {
-        alert("❌ 下載失敗，請檢查網路或 Apps Script 部署權限。");
+        alert("❌ 下載失敗，請檢查網路連線。");
         console.error(err);
       }
     }
@@ -94,344 +86,381 @@
       }
     }
 
-    function saveData() {      
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));      
-      renderFloorFilterBar();      
+    function saveData() {            
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));            
+      renderFloorFilterBar();            
+      renderApp();        
+    }
+
+    function saveTrades() {            
+      localStorage.setItem(TRADES_KEY, JSON.stringify(customTrades));            
+      renderTradeFilterBar();            
+      renderApp();        
+    }
+
+    function updateStatus(id, newStatus) {            
+      const t = tasks.find(item => item.id === id);            
+      if (t) {                
+        t.status = newStatus;                
+        saveData();            
+      }    
+    }
+
+    function updateReason(id, text) {            
+      const t = tasks.find(item => item.id === id);            
+      if (t) {                
+        t.reason = text;                
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));            
+      }    
+    }
+
+    function setFloorFilter(floor, el) {            
+      currentFloorFilter = floor;            
+      document.querySelectorAll('.floor-pill').forEach(btn => btn.classList.remove('active'));            
+      el.classList.add('active');            
       renderApp();    
     }
 
-    function saveTrades() {      
-      localStorage.setItem(TRADES_KEY, JSON.stringify(customTrades));      
-      renderTradeFilterBar();      
+    function setTradeFilter(trade, el) {            
+      currentTradeFilter = trade;            
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));            
+      el.classList.add('active');            
       renderApp();    
     }
 
-    function updateStatus(id, newStatus) {      
-      const t = tasks.find(item => item.id === id);      
-      if (t) {        
-        t.status = newStatus;        
+    function openCreateModal(defaultFloor) {            
+      document.getElementById('modalTitle').innerText = '新增施工工項';            
+      document.getElementById('editTaskId').value = '';            
+      document.getElementById('inputId').disabled = false;            
+      const targetFloor = defaultFloor || (currentFloorFilter !== 'all' ? currentFloorFilter : '7F');            
+      document.getElementById('inputFloor').value = targetFloor;            
+      document.getElementById('inputId').value = `${targetFloor}-${Date.now().toString().slice(-4)}`;            
+      document.getElementById('inputName').value = '';            
+      populateTradeSelect('給排水');            
+      document.getElementById('inputDep').value = '無';            
+      document.getElementById('inputCheck').value = '確認施工品質合格';            
+      document.getElementById('inputStatus').value = '未開始';            
+      document.getElementById('inputReason').value = '';            
+      document.getElementById('btnDeleteTask').style.display = 'none';            
+      document.getElementById('taskModal').classList.add('open');    
+    }
+
+    function openEditModal(id) {            
+      const t = tasks.find(item => item.id === id);            
+      if (!t) return;            
+      document.getElementById('modalTitle').innerText = `編輯工項 [${t.id}]`;            
+      document.getElementById('editTaskId').value = t.id;            
+      document.getElementById('inputId').value = t.id;            
+      document.getElementById('inputId').disabled = true;            
+      document.getElementById('inputFloor').value = t.floor;            
+      document.getElementById('inputName').value = t.name;            
+      populateTradeSelect(t.trade);            
+      document.getElementById('inputDep').value = t.dep;            
+      document.getElementById('inputCheck').value = t.check;            
+      document.getElementById('inputStatus').value = t.status;            
+      document.getElementById('inputReason').value = t.reason || '';            
+      document.getElementById('btnDeleteTask').style.display = 'block';            
+      document.getElementById('taskModal').classList.add('open');    
+    }
+
+    function closeModal() {            
+      document.getElementById('taskModal').classList.remove('open');    
+    }
+
+    function populateTradeSelect(selected) {            
+      const sel = document.getElementById('inputTrade');            
+      sel.innerHTML = '';            
+      customTrades.forEach(tr => {                
+        const opt = document.createElement('option');                
+        opt.value = tr;                
+        opt.innerText = tr;                
+        if (tr === selected) opt.selected = true;                
+        sel.appendChild(opt);      
+      });            
+      if (selected && !customTrades.includes(selected)) {                
+        const opt = document.createElement('option');                
+        opt.value = selected;                
+        opt.innerText = selected;                
+        opt.selected = true;                
+        sel.appendChild(opt);      
+      }    
+    }
+
+    function saveTaskModal() {            
+      const editId = document.getElementById('editTaskId').value;            
+      const idVal = document.getElementById('inputId').value.trim();            
+      const nameVal = document.getElementById('inputName').value.trim();            
+      const floorVal = document.getElementById('inputFloor').value.trim();            
+      if (!idVal || !nameVal || !floorVal) {                
+        alert('請填寫樓層、工項編號與施工項目！');                
+        return;      
+      }
+
+      if (editId) {                
+        const t = tasks.find(item => item.id === editId);                
+        if (t) {                    
+          t.floor = floorVal;                    
+          t.name = nameVal;                    
+          t.trade = document.getElementById('inputTrade').value;                    
+          t.dep = document.getElementById('inputDep').value;                    
+          t.check = document.getElementById('inputCheck').value;                    
+          t.status = document.getElementById('inputStatus').value;                    
+          t.reason = document.getElementById('inputReason').value;                
+        }      
+      } else {                
+        if (tasks.some(item => item.id === idVal)) {                    
+          alert('工項編號已存在！');                    
+          return;        
+        }                
+        tasks.push({                    
+          id: idVal,                    
+          floor: floorVal,                    
+          name: nameVal,                    
+          trade: document.getElementById('inputTrade').value,                    
+          dep: document.getElementById('inputDep').value,                    
+          check: document.getElementById('inputCheck').value,                    
+          status: document.getElementById('inputStatus').value,                    
+          reason: document.getElementById('inputReason').value        
+        });      
+      }            
+      closeModal();            
+      saveData();    
+    }
+
+    function deleteTask() {            
+      const editId = document.getElementById('editTaskId').value;            
+      if (!editId) return;            
+      if (confirm(`確定要刪除 [${editId}] 嗎？`)) {                
+        tasks = tasks.filter(item => item.id !== editId);                
+        closeModal();                
         saveData();      
-      }    }
+      }    
+    }
 
-    function updateReason(id, text) {      
-      const t = tasks.find(item => item.id === id);      
-      if (t) {        
-        t.reason = text;        
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));      
-      }    }
+    // 工種管理        
+    function openTradeMgrModal() {            
+      renderTradeMgrList();            
+      document.getElementById('tradeMgrModal').classList.add('open');    
+    }
 
-    function setFloorFilter(floor, el) {      
-      currentFloorFilter = floor;      
-      document.querySelectorAll('.floor-pill').forEach(btn => btn.classList.remove('active'));      
-      el.classList.add('active');      
-      renderApp();    }
+    function closeTradeMgrModal() {            
+      document.getElementById('tradeMgrModal').classList.remove('open');    
+    }
 
-    function setTradeFilter(trade, el) {      
-      currentTradeFilter = trade;      
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));      
-      el.classList.add('active');      
-      renderApp();    }
+    function renderTradeMgrList() {            
+      const el = document.getElementById('tradeMgrList');            
+      el.innerHTML = '';            
+      customTrades.forEach(tr => {                
+        const row = document.createElement('div');                
+        row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:6px 10px; border-radius:6px; border:1px solid #e2e8f0; font-size:0.85rem;';                
+        row.innerHTML = `                    
+          <span>${tr}</span>                    
+          <button class="btn btn-modal-del" style="margin:0; padding:2px 8px; font-size:0.7rem;" onclick="deleteTrade('${tr}')">刪除</button>                
+        `;                
+        el.appendChild(row);      
+      });    
+    }
 
-    function openCreateModal(defaultFloor) {      
-      document.getElementById('modalTitle').innerText = '新增施工工項';      
-      document.getElementById('editTaskId').value = '';      
-      document.getElementById('inputId').disabled = false;      
-      const targetFloor = defaultFloor || (currentFloorFilter !== 'all' ? currentFloorFilter : '7F');      
-      document.getElementById('inputFloor').value = targetFloor;      
-      document.getElementById('inputId').value = `${targetFloor}-${Date.now().toString().slice(-4)}`;      
-      document.getElementById('inputName').value = '';      
-      populateTradeSelect('給排水');      
-      document.getElementById('inputDep').value = '無';      
-      document.getElementById('inputCheck').value = '確認施工品質合格';      
-      document.getElementById('inputStatus').value = '未開始';      
-      document.getElementById('inputReason').value = '';      
-      document.getElementById('btnDeleteTask').style.display = 'none';      
-      document.getElementById('taskModal').classList.add('open');    }
+    function addNewTrade() {            
+      const val = document.getElementById('newTradeInput').value.trim();            
+      if (!val || customTrades.includes(val)) return;            
+      customTrades.push(val);            
+      document.getElementById('newTradeInput').value = '';            
+      saveTrades();            
+      renderTradeMgrList();    
+    }
 
-    function openEditModal(id) {      
-      const t = tasks.find(item => item.id === id);      
-      if (!t) return;      
-      document.getElementById('modalTitle').innerText = `編輯工項 [${t.id}]`;      
-      document.getElementById('editTaskId').value = t.id;      
-      document.getElementById('inputId').value = t.id;      
-      document.getElementById('inputId').disabled = true;      
-      document.getElementById('inputFloor').value = t.floor;      
-      document.getElementById('inputName').value = t.name;      
-      populateTradeSelect(t.trade);      
-      document.getElementById('inputDep').value = t.dep;      
-      document.getElementById('inputCheck').value = t.check;      
-      document.getElementById('inputStatus').value = t.status;      
-      document.getElementById('inputReason').value = t.reason || '';      
-      document.getElementById('btnDeleteTask').style.display = 'block';      
-      document.getElementById('taskModal').classList.add('open');    }
+    function deleteTrade(tr) {            
+      if (confirm(`刪除工種「${tr}」？`)) {                
+        customTrades = customTrades.filter(t => t !== tr);                
+        saveTrades();                
+        renderTradeMgrList();      
+      }    
+    }
 
-    function closeModal() {      
-      document.getElementById('taskModal').classList.remove('open');    }
-
-    function populateTradeSelect(selected) {      
-      const sel = document.getElementById('inputTrade');      
-      sel.innerHTML = '';      
-      customTrades.forEach(tr => {        
-        const opt = document.createElement('option');        
-        opt.value = tr;        
-        opt.innerText = tr;        
-        if (tr === selected) opt.selected = true;        
-        sel.appendChild(opt);      });      
-      if (selected && !customTrades.includes(selected)) {        
-        const opt = document.createElement('option');        
-        opt.value = selected;        
-        opt.innerText = selected;        
-        opt.selected = true;        
-        sel.appendChild(opt);      }    }
-
-    function saveTaskModal() {      
-      const editId = document.getElementById('editTaskId').value;      
-      const idVal = document.getElementById('inputId').value.trim();      
-      const nameVal = document.getElementById('inputName').value.trim();      
-      const floorVal = document.getElementById('inputFloor').value.trim();      
-      if (!idVal || !nameVal || !floorVal) {        
-        alert('請填寫樓層、工項編號與施工項目！');        
-        return;      }
-
-      if (editId) {        
-        const t = tasks.find(item => item.id === editId);        
-        if (t) {          
-          t.floor = floorVal;          
-          t.name = nameVal;          
-          t.trade = document.getElementById('inputTrade').value;          
-          t.dep = document.getElementById('inputDep').value;          
-          t.check = document.getElementById('inputCheck').value;          
-          t.status = document.getElementById('inputStatus').value;          
-          t.reason = document.getElementById('inputReason').value;        
-        }      } else {        
-        if (tasks.some(item => item.id === idVal)) {          
-          alert('工項編號已存在！');          
-          return;        }        
-        tasks.push({          
-          id: idVal,          
-          floor: floorVal,          
-          name: nameVal,          
-          trade: document.getElementById('inputTrade').value,          
-          dep: document.getElementById('inputDep').value,          
-          check: document.getElementById('inputCheck').value,          
-          status: document.getElementById('inputStatus').value,          
-          reason: document.getElementById('inputReason').value        });      }      
-      closeModal();      
-      saveData();    }
-
-    function deleteTask() {      
-      const editId = document.getElementById('editTaskId').value;      
-      if (!editId) return;      
-      if (confirm(`確定要刪除 [${editId}] 嗎？`)) {        
-        tasks = tasks.filter(item => item.id !== editId);        
-        closeModal();        
-        saveData();      }    }
-
-    // 工種管理    
-    function openTradeMgrModal() {      
-      renderTradeMgrList();      
-      document.getElementById('tradeMgrModal').classList.add('open');    }
-
-    function closeTradeMgrModal() {      
-      document.getElementById('tradeMgrModal').classList.remove('open');    }
-
-    function renderTradeMgrList() {      
-      const el = document.getElementById('tradeMgrList');      
-      el.innerHTML = '';      
-      customTrades.forEach(tr => {        
-        const row = document.createElement('div');        
-        row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:6px 10px; border-radius:6px; border:1px solid #e2e8f0; font-size:0.85rem;';        
-        row.innerHTML = `          
-          <span>${tr}</span>          
-          <button class="btn btn-modal-del" style="margin:0; padding:2px 8px; font-size:0.7rem;" onclick="deleteTrade('${tr}')">刪除</button>        
-        `;        
-        el.appendChild(row);      });    }
-
-    function addNewTrade() {      
-      const val = document.getElementById('newTradeInput').value.trim();      
-      if (!val || customTrades.includes(val)) return;      
-      customTrades.push(val);      
-      document.getElementById('newTradeInput').value = '';      
-      saveTrades();      
-      renderTradeMgrList();    }
-
-    function deleteTrade(tr) {      
-      if (confirm(`刪除工種「${tr}」？`)) {        
-        customTrades = customTrades.filter(t => t !== tr);        
-        saveTrades();        
-        renderTradeMgrList();      }    }
-
-    function renderFloorFilterBar() {      
-      const bar = document.getElementById('floorFilterContainer');      
-      const uniqueFloors = Array.from(new Set(tasks.map(t => t.floor)));      const preferred = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];      
+    function renderFloorFilterBar() {            
+      const bar = document.getElementById('floorFilterContainer');            
+      const uniqueFloors = Array.from(new Set(tasks.map(t => t.floor)));      
+      const preferred = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];            
       const sortedFloors = preferred.filter(f => uniqueFloors.includes(f)).concat(uniqueFloors.filter(f => !preferred.includes(f)));
 
-      bar.innerHTML = `<button class="floor-pill ${currentFloorFilter === 'all' ? 'active' : ''}" onclick="setFloorFilter('all', this)">全部樓層</button>`;      
-      sortedFloors.forEach(f => {        
-        const btn = document.createElement('button');        
-        btn.className = `floor-pill ${currentFloorFilter === f ? 'active' : ''}`;        
-        btn.innerText = f;        
-        btn.onclick = function() { setFloorFilter(f, this); };        
-        bar.appendChild(btn);      });    }
+      bar.innerHTML = `<button class="floor-pill ${currentFloorFilter === 'all' ? 'active' : ''}" onclick="setFloorFilter('all', this)">全部樓層</button>`;            
+      sortedFloors.forEach(f => {                
+        const btn = document.createElement('button');                
+        btn.className = `floor-pill ${currentFloorFilter === f ? 'active' : ''}`;                
+        btn.innerText = f;                
+        btn.onclick = function() { setFloorFilter(f, this); };                
+        bar.appendChild(btn);      
+      });    
+    }
 
-    function renderTradeFilterBar() {      
-      const bar = document.getElementById('tradeFilterContainer');      
-      bar.innerHTML = `        
-        <button class="filter-btn ${currentTradeFilter === 'all' ? 'active' : ''}" onclick="setTradeFilter('all', this)">全部</button>        
-        <button class="filter-btn danger-filter ${currentTradeFilter === 'blocked' ? 'active' : ''}" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>      
-      `;      
-      customTrades.forEach(tr => {        
-        const btn = document.createElement('button');        
-        btn.className = `filter-btn ${currentTradeFilter === tr ? 'active' : ''}`;        
-        btn.innerText = tr;        
-        btn.onclick = function() { setTradeFilter(tr, this); };        
-        bar.appendChild(btn);      });    }
+    function renderTradeFilterBar() {            
+      const bar = document.getElementById('tradeFilterContainer');            
+      bar.innerHTML = `                
+        <button class="filter-btn ${currentTradeFilter === 'all' ? 'active' : ''}" onclick="setTradeFilter('all', this)">全部</button>                
+        <button class="filter-btn danger-filter ${currentTradeFilter === 'blocked' ? 'active' : ''}" onclick="setTradeFilter('blocked', this)">🚨 僅看卡關</button>            
+      `;            
+      customTrades.forEach(tr => {                
+        const btn = document.createElement('button');                
+        btn.className = `filter-btn ${currentTradeFilter === tr ? 'active' : ''}`;                
+        btn.innerText = tr;                
+        btn.onclick = function() { setTradeFilter(tr, this); };                
+        bar.appendChild(btn);      
+      });    
+    }
 
-    function renderApp() {      
-      const container = document.getElementById('app');      
+    function renderApp() {            
+      const container = document.getElementById('app');            
       container.innerHTML = '';
 
-      const completedCount = tasks.filter(t => t.status === '已完成').length;      
-      const ongoingCount = tasks.filter(t => t.status === '進行中').length;      
-      const blockedCount = tasks.filter(t => t.status === '卡關').length;      
-      const totalCount = tasks.length;      
+      const completedCount = tasks.filter(t => t.status === '已完成').length;            
+      const ongoingCount = tasks.filter(t => t.status === '進行中').length;            
+      const blockedCount = tasks.filter(t => t.status === '卡關').length;            
+      const totalCount = tasks.length;            
       const percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
-      document.getElementById('total-percent').innerText = `${percent}% (${completedCount}/${totalCount})`;      
-      document.getElementById('total-bar').style.width = `${percent}%`;      
-      document.getElementById('stat-completed').innerText = `✅ 完成: ${completedCount}`;      
-      document.getElementById('stat-ongoing').innerText = `🔄 進行: ${ongoingCount}`;      
+      document.getElementById('total-percent').innerText = `${percent}% (${completedCount}/${totalCount})`;            
+      document.getElementById('total-bar').style.width = `${percent}%`;            
+      document.getElementById('stat-completed').innerText = `✅ 完成: ${completedCount}`;            
+      document.getElementById('stat-ongoing').innerText = `🔄 進行: ${ongoingCount}`;            
       document.getElementById('stat-blocked').innerText = `🚨 卡關: ${blockedCount}`;
 
-      const uniqueFloors = Array.from(new Set(tasks.map(t => t.floor)));      
-      const preferred = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];      
+      const uniqueFloors = Array.from(new Set(tasks.map(t => t.floor)));            
+      const preferred = ['屋突3', '屋突2', '屋突1', '7F', '6F', '5F', '4F', '3F', '2F', '1F', 'B1', 'B2'];            
       const floorsToRender = preferred.filter(f => uniqueFloors.includes(f)).concat(uniqueFloors.filter(f => !preferred.includes(f)));
 
-      floorsToRender.forEach(floor => {        
+      floorsToRender.forEach(floor => {                
         if (currentFloorFilter !== 'all' && currentFloorFilter !== floor) return;
 
-        let floorTasks = tasks.filter(t => t.floor === floor);        
-        let visibleTasks = floorTasks.filter(t => {          
-          if (currentTradeFilter === 'all') return true;          
-          if (currentTradeFilter === 'blocked') return t.status === '卡關';          
-          return t.trade === currentTradeFilter;        });
+        let floorTasks = tasks.filter(t => t.floor === floor);                
+        let visibleTasks = floorTasks.filter(t => {                    
+          if (currentTradeFilter === 'all') return true;                    
+          if (currentTradeFilter === 'blocked') return t.status === '卡關';                    
+          return t.trade === currentTradeFilter;        
+        });
 
-        if (visibleTasks.length === 0 && currentFloorFilter === 'all') return;
-        
-        const floorCompleted = floorTasks.filter(t => t.status === '已完成').length;        
+        if (visibleTasks.length === 0 && currentFloorFilter === 'all') return;                
+        const floorCompleted = floorTasks.filter(t => t.status === '已完成').length;                
         const floorPercent = floorTasks.length > 0 ? Math.round((floorCompleted / floorTasks.length) * 100) : 0;
 
-        const floorEl = document.createElement('div');        
-        floorEl.className = 'floor-section';        
-        floorEl.innerHTML = `          
-          <div class="floor-header">            
-            <div class="floor-left">              
-              <span class="floor-name">${floor}</span>              
-              <button class="btn-floor-add" onclick="openCreateModal('${floor}')">＋此層加項</button>            
-            </div>            
-            <div class="floor-bar-container">              
-              <div class="floor-bar-meta">                
-                <span>樓層進度</span>                
-                <span>${floorPercent}% (${floorCompleted}/${floorTasks.length})</span>              
-              </div>              
-              <div class="floor-bar-bg">                
-                <div class="floor-bar-fill" style="width: ${floorPercent}%"></div>              
-              </div>            
-            </div>          
-          </div>          
-          <div class="task-list"></div>        
+        const floorEl = document.createElement('div');                
+        floorEl.className = 'floor-section';                
+        floorEl.innerHTML = `                    
+          <div class="floor-header">                        
+            <div class="floor-left">                            
+              <span class="floor-name">${floor}</span>                            
+              <button class="btn-floor-add" onclick="openCreateModal('${floor}')">＋此層加項</button>                        
+            </div>                        
+            <div class="floor-bar-container">                            
+              <div class="floor-bar-meta">                                
+                <span>樓層進度</span>                                
+                <span>${floorPercent}% (${floorCompleted}/${floorTasks.length})</span>                            
+              </div>                            
+              <div class="floor-bar-bg">                                
+                <div class="floor-bar-fill" style="width: ${floorPercent}%"></div>                            
+              </div>                        
+            </div>                    
+          </div>                    
+          <div class="task-list"></div>                
         `;
 
-        const listEl = floorEl.querySelector('.task-list');
-        visibleTasks.forEach(t => {          
-          const item = document.createElement('div');          
-          item.className = `task-item status-${t.status}`;          
-          item.innerHTML = `            
-            <div class="task-top">              
-              <div class="task-title">                
-                <span class="task-id">${t.id}</span>${t.name}              
-              </div>              
-              <div class="task-actions">                
-                <span class="badge-contractor">${t.trade}</span>                
-                <button class="btn-icon" onclick="openEditModal('${t.id}')">✏️</button>              
-              </div>            
-            </div>            
-            <div class="task-meta">              
-              <div class="task-check-node">⚠️ 查驗：${t.check}</div>              
-              <div class="task-dep">依賴：${t.dep}</div>            </div>            
-            <div class="task-controls">              
-              <select class="status-select ${t.status}" onchange="updateStatus('${t.id}', this.value)">                
-                <option value="未開始" ${t.status === '未開始' ? 'selected' : ''}>⏳ 未開始</option>                
-                <option value="進行中" ${t.status === '進行中' ? 'selected' : ''}>🔄 進行中</option>                
-                <option value="卡關" ${t.status === '卡關' ? 'selected' : ''}>🚨 卡關</option>                
-                <option value="已完成" ${t.status === '已完成' ? 'selected' : ''}>✅ 已完成</option>              
-              </select>              
-              ${t.status === '卡關' ? `                
-                <input type="text" class="block-reason-input" placeholder="填寫卡關原因"                        
-                       value="${t.reason \vert{}\vert{} ''}" onchange="updateReason('${t.id}', this.value)">              
-              ` : ''}            
-            </div>          
-          `;          
-          listEl.appendChild(item);        });
+        const listEl = floorEl.querySelector('.task-list');        
+        visibleTasks.forEach(t => {                    
+          const item = document.createElement('div');                    
+          item.className = `task-item status-${t.status}`;                    
+          item.innerHTML = `                        
+            <div class="task-top">                            
+              <div class="task-title">                                
+                <span class="task-id">${t.id}</span>${t.name}                            
+              </div>                            
+              <div class="task-actions">                                
+                <span class="badge-contractor">${t.trade}</span>                                
+                <button class="btn-icon" onclick="openEditModal('${t.id}')">✏️</button>                            
+              </div>                        
+            </div>                        
+            <div class="task-meta">                            
+              <div class="task-check-node">⚠️ 查驗：${t.check}</div>                            
+              <div class="task-dep">依賴：${t.dep}</div>            
+            </div>                        
+            <div class="task-controls">                            
+              <select class="status-select ${t.status}" onchange="updateStatus('${t.id}', this.value)">                                
+                <option value="未開始" ${t.status === '未開始' ? 'selected' : ''}>⏳ 未開始</option>                                
+                <option value="進行中" ${t.status === '進行中' ? 'selected' : ''}>🔄 進行中</option>                                
+                <option value="卡關" ${t.status === '卡關' ? 'selected' : ''}>🚨 卡關</option>                                
+                <option value="已完成" ${t.status === '已完成' ? 'selected' : ''}>✅ 已完成</option>                            
+              </select>                            
+              ${t.status === '卡關' ? `                                
+                <input type="text" class="block-reason-input" placeholder="填寫卡關原因"                                               
+                       value="${t.reason \vert{}\vert{} ''}" onchange="updateReason('${t.id}', this.value)">                            
+              ` : ''}                        
+            </div>                    
+          `;                    
+          listEl.appendChild(item);        
+        });
 
-        container.appendChild(floorEl);      });    }
+        container.appendChild(floorEl);      
+      });    
+    }
 
-    function exportCSV() {      
-      let csv = "\uFEFF工項編號,樓層/區域,施工項目詳細內容,責任工種,前置依賴項,關鍵查驗/要徑節點,狀態,卡關原因/備註\n";      
-      tasks.forEach(t => {        
-        csv += `"${t.id}","${t.floor}","${t.name}","${t.trade}","${t.dep}","${t.check}","${t.status}","${t.reason || ''}"\n`;      });      
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });      
-      const a = document.createElement("a");      
-      a.href = URL.createObjectURL(blob);      
-      a.download = `工進表_${new Date().toISOString().slice(0,10)}.csv`;      
-      a.click();    }
+    function exportCSV() {            
+      let csv = "\uFEFF工項編號,樓層/區域,施工項目詳細內容,責任工種,前置依賴項,關鍵查驗/要徑節點,狀態,卡關原因/備註\n";            
+      tasks.forEach(t => {                
+        csv += `"${t.id}","${t.floor}","${t.name}","${t.trade}","${t.dep}","${t.check}","${t.status}","${t.reason || ''}"\n`;      
+      });            
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });            
+      const a = document.createElement("a");            
+      a.href = URL.createObjectURL(blob);            
+      a.download = `工進表_${new Date().toISOString().slice(0,10)}.csv`;            
+      a.click();    
+    }
 
-    function handleFileImport(inputEl) {      
-      const file = inputEl.files[0];      
+    function handleFileImport(inputEl) {            
+      const file = inputEl.files[0];            
       if (!file) return;
 
-      const reader = new FileReader();      
-      reader.onload = function(e) {        
-        try {          
-          const content = e.target.result;          
-          if (file.name.endsWith('.json')) {            
-            const parsed = JSON.parse(content);            
-            if (Array.isArray(parsed)) {              
-              tasks = parsed;              
-              saveData();              
-              alert(`成功匯入 ${tasks.length} 筆工項資料！`);            
-            }          } else if (file.name.endsWith('.csv')) {            
-              const lines = content.split('\n').filter(line => line.trim().length > 0);            
-              const imported = [];            
-              for (let i = 1; i < lines.length; i++) {              
-                const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());              
-                if (cols.length >= 7) {                
-                  imported.push({                  
-                    id: cols[0],                  
-                    floor: cols[1],                  
-                    name: cols[2],                  
-                    trade: cols[3],                  
-                    dep: cols[4],                  
-                    check: cols[5],                  
-                    status: cols[6],                  
-                    reason: cols[7] || ''                
-                  });              
-                }            
-              }            
-              if (imported.length > 0) {              
-                tasks = imported;              
-                saveData();              
-                alert(`成功從 CSV 匯入 ${imported.length} 筆工項資料！`);            
-              }          }        
-        } catch(err) {          
-          alert('檔案讀取失敗，請確認檔案格式是否正確！');        
-        }      };      
-      reader.readAsText(file);      
-      inputEl.value = '';    }
+      const reader = new FileReader();            
+      reader.onload = function(e) {                
+        try {                    
+          const content = e.target.result;                    
+          if (file.name.endsWith('.json')) {                        
+            const parsed = JSON.parse(content);                        
+            if (Array.isArray(parsed)) {                            
+              tasks = parsed;                            
+              saveData();                            
+              alert(`成功匯入 ${tasks.length} 筆工項資料！`);                        
+            }          
+          } else if (file.name.endsWith('.csv')) {                          
+            const lines = content.split('\n').filter(line => line.trim().length > 0);                          
+            const imported = [];                          
+            for (let i = 1; i < lines.length; i++) {                              
+              const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());                              
+              if (cols.length >= 7) {                                  
+                imported.push({                                      
+                  id: cols[0],                                      
+                  floor: cols[1],                                      
+                  name: cols[2],                                      
+                  trade: cols[3],                                      
+                  dep: cols[4],                                      
+                  check: cols[5],                                      
+                  status: cols[6],                                      
+                  reason: cols[7] || ''                                  
+                });                              
+              }                          
+            }                          
+            if (imported.length > 0) {                              
+              tasks = imported;                              
+              saveData();                              
+              alert(`成功從 CSV 匯入 ${imported.length} 筆工項資料！`);                          
+            }          
+          }                
+        } catch(err) {                    
+          alert('檔案讀取失敗，請確認檔案格式是否正確！');                
+        }      };            
+      reader.readAsText(file);            
+      inputEl.value = '';    
+    }
 
-    renderFloorFilterBar();    
+    renderFloorFilterBar();        
     renderTradeFilterBar();    
-    renderApp();  
+    // 自動嘗試從雲端抓取一次資料    pullFromCloud();  
   </script>
-</body>
-</html>
