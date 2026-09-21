@@ -23,18 +23,19 @@
     header { background: var(--navy); color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     .header-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .header-title h1 { font-size: 1.05rem; font-weight: 700; }
-    .sync-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; background: #334155; color: #cbd5e1; white-space: nowrap; font-weight: 600; }
+    .sync-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; background: #334155; color: #cbd5e1; white-space: nowrap; font-weight: 600; cursor: pointer; }
     .sync-badge.online { background: #065f46; color: #34d399; }
     .sync-badge.syncing { background: #854d0e; color: #fde047; }
     .sync-badge.local { background: #475569; color: #cbd5e1; }
-    .sync-badge.error { background: #991b1b; color: #fca5a5; }
 
     .header-actions { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
     .btn { border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
-    .btn-export { background: var(--primary); color: #fff; }
+    .btn-push { background: #0284c7; color: #fff; }
+    .btn-pull { background: #16a34a; color: #fff; }
     .btn-add { background: #059669; color: #fff; }
     .btn-trade-mgr { background: #7c3aed; color: #fff; }
-    .btn-reset { background: #475569; color: #fff; }
+    .btn-export { background: #475569; color: #fff; }
+    .btn-reset { background: #64748b; color: #fff; }
 
     .overall-dashboard { margin-top: 10px; background: #1e293b; border-radius: 8px; padding: 10px 12px; }
     .progress-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; }
@@ -150,9 +151,11 @@
   <header>
     <div class="header-title">
       <h1>集合住宅工進與請款看板</h1>
-      <span class="sync-badge" id="syncStatus">● 本地運行中</span>
+      <span class="sync-badge" id="syncStatus" onclick="pullFromCloud(true)">🔄 點擊重新整理</span>
     </div>
     <div class="header-actions">
+      <button class="btn btn-push" onclick="pushAllToCloud()">☁️ 傳上雲端</button>
+      <button class="btn btn-pull" onclick="pullFromCloud(true)">📥 下載覆蓋</button>
       <button class="btn btn-trade-mgr" onclick="openTradeMgrModal()">🛠️ 工種</button>
       <button class="btn btn-add" onclick="openCreateModal()">＋新增工項</button>
       <button class="btn btn-export" onclick="exportCSV()">匯出</button>
@@ -409,7 +412,7 @@
 
       {"id":"B2-01","floor":"B2","name":"筏基人孔蓋密閉檢查、筏基內部積泥雜物清運","trade":"筏基人孔","dep":"結構完成","check":"人孔氣密防臭、筏基乾燥","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
       {"id":"B2-02","floor":"B2","name":"雨水滯留池、B2水塔內部雜物清掃徹底","trade":"粗工","dep":"結構完成","check":"槽內無砂石防止卡死葉輪","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
-      {"id":"B2-03","floor":"B2","name":"雨水滯留池、筏基水箱防水層塗布補強","trade":"泥作","dep":"雜物清掃","check":"槽壁無冷汗滲水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
+      {"id":"B2-03","floor":"B2","name":"雨水滯留池、筏基水箱防水層塗布補強","trade":"泥作","dep":"雜物清掃","check":"槽壁冷汗滲水","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
       {"id":"B2-04","floor":"B2","name":"滯留池與水箱 48hr 滿水試漏與耐壓測試","trade":"雨水","dep":"水箱防水","check":"水位無下降、外壁完全乾燥","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
       {"id":"B2-05","floor":"B2","name":"滯留池沉水泵浦 (PUMP) 安裝與雙泵浮球連動","trade":"雨水","dep":"滿水試漏","check":"液位警報與強制抽排運作正常","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
       {"id":"B2-06","floor":"B2","name":"消防主泵浦、撒水泵浦定位與消防管閥接通","trade":"消防","dep":"水箱試漏","check":"啟動打壓無洩漏、聯動訊號正確","status":"未開始","plannedDate":"","completedDate":"","assistantDate":"","assistantNote":"","reason":"","photos":[]},
@@ -423,21 +426,43 @@
     let currentTradeFilter = 'all';
     let currentViewingPhoto = { taskId: '', photoIndex: -1 };
 
-    async function syncCloudData(isBackground = false) {
+    // 核心：全量整包上傳到 Google 雲端試算表
+    async function pushAllToCloud() {
       const badge = document.getElementById('syncStatus');
-      if (!GOOGLE_API_URL) return;
+      badge.className = "sync-badge syncing";
+      badge.innerText = "⏳ 正在傳上雲端...";
 
-      if (!isBackground) {
-        badge.className = "sync-badge syncing";
-        badge.innerText = "🔄 同步中...";
-      }
+      localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const payload = JSON.stringify({
+        mode: "FULL_SYNC",
+        tasks: tasks
+      });
 
       try {
-        const response = await fetch(GOOGLE_API_URL, { signal: controller.signal });
-        clearTimeout(timeoutId);
+        await fetch(GOOGLE_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: payload
+        });
+        badge.className = "sync-badge online";
+        badge.innerText = "● 雲端已同步最新";
+        alert("🎉 成功！已將全案所有樓層與工項資料完整推播至 Google 試算表！\n\n現在請拿起手機點擊「📥 下載覆蓋」，手機就會立刻變更！");
+      } catch (e) {
+        badge.className = "sync-badge local";
+        badge.innerText = "● 儲存於本機";
+        alert("傳送失敗，請確認網路連線！");
+      }
+    }
+
+    // 核心：從 Google 雲端強制拉回並完全覆蓋本機
+    async function pullFromCloud(isManual = false) {
+      const badge = document.getElementById('syncStatus');
+      badge.className = "sync-badge syncing";
+      badge.innerText = "🔄 下載雲端中...";
+
+      try {
+        const response = await fetch(GOOGLE_API_URL + "?t=" + Date.now());
         const cloudData = await response.json();
 
         if (Array.isArray(cloudData) && cloudData.length > 0) {
@@ -460,10 +485,16 @@
           badge.className = "sync-badge online";
           badge.innerText = "● 雲端已連線";
           renderApp();
+          if (isManual) {
+            alert("✅ 成功！已從 Google 試算表同步回最新施工狀態！");
+          }
+        } else {
+          badge.className = "sync-badge local";
+          badge.innerText = "● 本機模式 (雲端暫無資料)";
         }
       } catch (err) {
         badge.className = "sync-badge local";
-        badge.innerText = "● 本地模式";
+        badge.innerText = "● 離線/本機模式";
       }
     }
 
@@ -473,12 +504,6 @@
       badge.innerText = "🔄 寫入中...";
 
       localStorage.setItem('site_tracker_data_v6', JSON.stringify(tasks));
-
-      if (!GOOGLE_API_URL) {
-        badge.className = "sync-badge local";
-        badge.innerText = "● 已存本機";
-        return;
-      }
 
       try {
         const payload = JSON.stringify({
@@ -649,11 +674,11 @@
           reason: '',
           photos: []
         });
-        pushStatusToCloud(newId, '未開始', '', '', '', src.assistantDate || '', src.assistantNote || '');
       });
 
       closeCopyModal();
       saveData();
+      pushAllToCloud();
       alert("✅ 已成功將此工序複製發佈至：" + checkedFloors.join('、') + "！");
     }
 
@@ -874,6 +899,7 @@
         tasks = tasks.filter(item => item.id !== editId);
         closeModal();
         saveData();
+        pushAllToCloud();
       }
     }
 
@@ -1085,14 +1111,9 @@
       a.click();
     }
 
-    // 先啟動渲染本地介面（確保0秒開出畫面），再背景嘗試連線
     renderTradeFilterBar();
     renderApp();
-    syncCloudData();
-
-    setInterval(() => {
-      syncCloudData(true);
-    }, 12000);
+    pullFromCloud(false);
   </script>
 </body>
 </html>
